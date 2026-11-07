@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "id": "griffe-2026-11-05",
+  "submitted_at": "2026-11-05T18:00:00Z",
+  "structure": {
+    "name": "Groupe de Recherche en Informatique Féline et Expérimentale",
+    "acronym": "GRIFFE",
+    "institution": "Université Grenoble Alpes",
+    "department": "UFR IM2AG",
+    "city": "Grenoble",
+    "country": "France",
+    "topic": "Informatique"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-05",
+    "pour": 62,
+    "contre": 2,
+    "abstention": 4
+  },
+  "permanents": {
+    "supported": false,
+    "pour": 0,
+    "contre": 0,
+    "abstention": 0
+  },
+  "motion": {
+    "base_version": "2026-11-07-fr",
+    "edits": []
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "id": "lpps-2026-11-04",
+  "submitted_at": "2026-11-04T18:00:00Z",
+  "structure": {
+    "name": "Laboratoire de Physique des Pelotes et des Siestes",
+    "acronym": "LPPS",
+    "institution": "Université Paris-Saclay",
+    "department": "Faculté des sciences",
+    "city": "Orsay",
+    "country": "France",
+    "topic": "Physique"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-04",
+    "pour": 33,
+    "contre": 5,
+    "abstention": 6
+  },
+  "permanents": {
+    "supported": true,
+    "pour": 15,
+    "contre": 2,
+    "abstention": 3
+  },
+  "motion": {
+    "base_version": "2026-11-07-fr",
+    "edits": []
+  }
+}

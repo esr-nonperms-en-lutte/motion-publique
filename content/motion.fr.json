@@ -1,0 +1,123 @@
+{
+  "version": "2026-11-07-fr",
+  "lang": "fr",
+  "title": "Modèle de motion à l’initiative des doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es, à faire voter dans les AG d’UMR et d’UFR",
+  "placeholders": {
+    "structure": "[insérer le nom de l’UMR]",
+    "date": "[insérer la date]",
+    "pour": "[nombre]",
+    "contre": "[nombre]",
+    "abst": "[nombre]",
+    "perm_pour": "[nombre]",
+    "perm_contre": "[nombre]",
+    "perm_abst": "[nombre]"
+  },
+  "paragraphs": [
+    {
+      "id": "solidarite",
+      "label": "Solidarité",
+      "kind": "body",
+      "text": "Nous, doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es de {{structure}}, nous déclarons solidaires du mouvement social lycéen, désormais élargi à l’enseignement supérieur et à la recherche. Nous soutenons les revendications en faveur d'un accès à des conditions d’étude et de travail dignes et équitables à travers l’ensemble du pays. Les lycéen·nes d’aujourd’hui sont les étudiant·es de demain : le droit à l’éducation ne peut ni s’arrêter aux portes de l’université, ni être conditionné par le milieu économique et social, ni par l’établissement d’origine, ni par la nationalité. Ainsi, nous soutenons entre autres, les « 10 mesures d’urgence pour la jeunesse » portées par l’Union syndicale lycéenne, l’Union étudiante, l’UNEF, Solidaires étudiant·es et la FAGE."
+    },
+    {
+      "id": "international",
+      "label": "International",
+      "kind": "body",
+      "text": "Nous affirmons notre soutien au mouvement social étendu à l'échelle internationale, rappelant la nécessité d'une solidarité mondiale face à la montée de l'extrême-droite, de la course à l'armement, de la captation des fonds publics par les entreprises privées[^1], au détriment de l'éducation. L'université doit se placer au cœur de la lutte contre les politiques discriminatoires et la préférence nationale. Pour remplir sa fonction sociale et son devoir de service public, elle se doit d'être un lieu ouvert, inclusif et accessible à tous·tes. Nous nous opposons à toutes les mesures qui précarisent et empêchent l'accueil des étudiant·es étranger·es, à commencer par la mise en place raciste et xénophobe de frais d'inscription différenciés via le dispositif \"Bienvenue en France\"."
+    },
+    {
+      "id": "repression",
+      "label": "Répression",
+      "kind": "body",
+      "text": "Nous dénonçons l’usage de la violence ainsi que la répression policière, judiciaire et administrative qui s'est abattue sur les lycéen·nes, les étudiant·es et leurs enseignant·es, tous·tes mobilisé·es pour demander des tables, des chaises, des sanitaires fonctionnels et de l’eau potable. Nous dénonçons le caractère raciste et classiste de cette répression, s’étant tout d'abord exercée contre les jeunes ultra-marin·es et de banlieue avant de se généraliser à l’ensemble de la mobilisation. Nous dénonçons l’ampleur de cette répression : plus de 10 000 interpellations estimées en l’espace de trois semaines[^2], dont la majorité concerne des mineur·es. Enfin, nous dénonçons l'escalade de la violence dans cette même répression : les interdictions de manifester[^3], l'instauration de couvre-feux[^4], et l'utilisation d'armes de guerre qui mutilent[^5] et tuent[^6]. Cet usage décomplexé de la violence, justifié par les chaînes d'info en continu[^7], intimide celles et ceux qui voudraient s’engager dans la lutte, et révèle la logique autoritariste du gouvernement qui abîme chaque jour davantage notre démocratie."
+    },
+    {
+      "id": "universites",
+      "label": "Présidences d’université",
+      "kind": "body",
+      "text": "Nous condamnons la dérive répressive de certaines présidences d'université qui privilégient la violence au dialogue. Nous nous alarmons des fermetures administratives des campus universitaires, qui sont et doivent demeurer des lieux d’échanges et de débat, afin de lutter contre l’isolement des étudiant·es. Nous demandons le respect et le soutien matériel des universités aux mobilisations étudiantes, ainsi que de leur permettre l'accès aux infrastructures essentielles telles que les restaurants universitaires, crèches, services de santé ou bibliothèques universitaires. Il est inadmissible que les présidences d'université permettent ou sollicitent l'intervention des forces de l'ordre sur les campus comme cela a été le cas à la Sorbonne Nouvelle, Sorbonne Université, Nantes Université, Sciences Po Paris et Toulouse - Jean Jaurès."
+    },
+    {
+      "id": "financement",
+      "label": "Sous-financement et précarité",
+      "kind": "body",
+      "text": "Ce mouvement révèle au grand jour le sous-financement chronique des services publics, de l’enseignement secondaire et de l’enseignement supérieur. Les coupes budgétaires structurelles dégradent considérablement nos conditions d’enseignement et de recherche : groupes de TD surchargés, recours croissant aux vacataires pour assurer les charges d’enseignement, concurrence croissante pour les contrats doctoraux, post-doctoraux et d'ATER, manque de postes de titulaires, manque de personnel administratif, etc. Nos conditions de travail sont les conditions de création du savoir scientifique : un laboratoire qui perd régulièrement ses personnels contractuels perd des compétences, de la mémoire collective et des capacités d'encadrement. Nos conditions de travail sont les conditions d’étude des étudiant·es : un·e vacataire qui ne sait pas si son contrat sera renouvelé ne peut pas toujours s'investir dans la continuité pédagogique d'une formation. La précarisation des personnels et la dégradation des conditions d'études ne sont donc pas deux problèmes indépendants. Elles sont deux conséquences d’un même sous-financement structurel de l’université publique. Nous refusons une université qui sélectionne et discrimine faute de places, qui dégrade ses enseignements et les conditions de travail de ses chercheur·euses faute de personnels et qui compense son manque de moyens par la précarité de celles et ceux qui y travaillent. La création de 250 000 places pour les étudiant·es à l'université implique un effort massif de titularisation des non-permanent·es et un plan pluri-annuel de création de postes permanents."
+    },
+    {
+      "id": "vote",
+      "label": "Vote",
+      "kind": "vote",
+      "text": "Cette motion a été votée à la majorité en Assemblée Générale du personnel non-permanent réunie le {{date}} ({{pour}} Pour, {{contre}} Contre, {{abst}} Abstention)."
+    },
+    {
+      "id": "consigne",
+      "label": "Consigne",
+      "kind": "instruction",
+      "text": "Nous vous suggérons de faire voter une motion de soutien par les membres permanents de votre structure. Ce n'est ni obligatoire ni nécessaire, mais cela peut être l'occasion de lancer des discussions politiques sur le mouvement en cours avec elles·eux. Si vous décidez de le faire, nous vous suggérons de leur présenter la motion telle que vous l'avez votée, sans qu'iels puissent l’amender. Vous pouvez renseigner leurs votes ci-dessous."
+    },
+    {
+      "id": "permanents",
+      "label": "Soutien des permanent·es",
+      "kind": "permvote",
+      "text": "Les membres permanents de {{structure}} ont voté à la majorité pour appuyer cette motion ({{perm_pour}} Pour, {{perm_contre}} Contre, {{perm_abst}} Abstention)."
+    }
+  ],
+  "sources": [
+    {
+      "n": 1,
+      "publisher": "Le Monde",
+      "date": "2025-01-09",
+      "title": "La face sombre du crédit d’impôt recherche",
+      "about": "Captation des fonds publics par les entreprises privées",
+      "url": "https://www.lemonde.fr/economie/article/2025/01/09/la-face-sombre-du-credit-d-impot-recherche_6488932_3234.html"
+    },
+    {
+      "n": 2,
+      "publisher": "Amnesty International France",
+      "date": "",
+      "title": "France : mouvement lycéen, blocus des lycées, point sur la situation",
+      "about": "Plus de 10 000 interpellations estimées en trois semaines",
+      "url": "https://www.amnesty.fr/actualites/france-mouvement-lyceens-blocus-lycees-point-sur-la-situation/"
+    },
+    {
+      "n": 3,
+      "publisher": "Le Monde",
+      "date": "2026-10-23",
+      "title": "Les interdictions de manifester pleuvent sur toute la France, au risque de malmener l’État de droit",
+      "about": "Interdictions de manifester",
+      "url": "https://www.lemonde.fr/politique/article/2026/10/23/les-interdictions-de-manifester-pleuvent-sur-toute-la-france-au-risque-de-malmener-l-etat-de-droit_6798944_823448.html"
+    },
+    {
+      "n": 4,
+      "publisher": "Le Monde",
+      "date": "2026-10-28",
+      "title": "À Paris, la justice suspend le couvre-feu pour les mineurs non accompagnés",
+      "about": "Instauration de couvre-feux",
+      "url": "https://www.lemonde.fr/societe/article/2026/10/28/paris-la-justice-suspend-le-couvre-feu-pour-les-mineurs-non-accompagnes_6801677_3224.html"
+    },
+    {
+      "n": 5,
+      "publisher": "Amnesty International France",
+      "date": "",
+      "title": "Maintien de l’ordre : ces armes dangereuses utilisées en manifestation",
+      "about": "Armes qui mutilent",
+      "url": "https://www.amnesty.fr/actualites/maintien-de-l-ordre-ces-armes-dangereuses-utilisees-en-manifestation/"
+    },
+    {
+      "n": 6,
+      "publisher": "Le Monde",
+      "date": "2026-10-27",
+      "title": "Mort d’un manifestant le 17 octobre à Paris : l’autopsie conclut à une défaillance cardiorespiratoire aiguë, la famille dénonce l’usage de gaz lacrymogène",
+      "about": "Armes qui tuent",
+      "url": "https://www.lemonde.fr/societe/article/2026/10/27/mort-d-un-manifestant-le-17-octobre-a-paris-l-autopsie-conclut-a-une-defaillance-cardiorespiratoire-aigue-la-famille-denonce-l-usage-de-gaz-lacrymogene_6801348_3224.html"
+    },
+    {
+      "n": 7,
+      "publisher": "Bon Pote",
+      "date": "",
+      "title": "« Vous condamnez les violences ? » Comment le journalisme de préfecture asphyxie le mouvement lycéen",
+      "about": "Violence justifiée par les chaînes d’info en continu",
+      "url": "https://bonpote.com/vous-condamnez-les-violences-comment-le-journalisme-de-prefecture-asphyxie-le-mouvement-lyceen/"
+    }
+  ]
+}

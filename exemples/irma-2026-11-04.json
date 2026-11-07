@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "id": "irma-2026-11-04",
+  "submitted_at": "2026-11-04T18:00:00Z",
+  "structure": {
+    "name": "Institut de Recherche sur le Miaou Appliqué",
+    "acronym": "IRMA",
+    "institution": "Sorbonne Université",
+    "department": "UFR d’Ingénierie",
+    "city": "Paris",
+    "country": "France",
+    "topic": "Informatique"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-04",
+    "pour": 58,
+    "contre": 4,
+    "abstention": 9
+  },
+  "permanents": {
+    "supported": false,
+    "pour": 0,
+    "contre": 0,
+    "abstention": 0
+  },
+  "motion": {
+    "base_version": "2026-11-07-fr",
+    "edits": [
+      {
+        "id": "universites",
+        "status": "modified",
+        "text": "Nous condamnons la dérive répressive de certaines présidences d'université, dont la nôtre, qui privilégient la violence au dialogue. Nous nous alarmons des fermetures administratives des campus universitaires, qui sont et doivent demeurer des lieux d’échanges et de débat, afin de lutter contre l’isolement des étudiant·es. Nous demandons le respect et le soutien matériel des universités aux mobilisations étudiantes, ainsi que de leur permettre l'accès aux infrastructures essentielles telles que les restaurants universitaires, crèches, services de santé ou bibliothèques universitaires. Il est inadmissible que les présidences d'université permettent ou sollicitent l'intervention des forces de l'ordre sur les campus comme cela a été le cas à la Sorbonne Nouvelle, Sorbonne Université, Nantes Université, Sciences Po Paris et Toulouse - Jean Jaurès."
+      }
+    ]
+  }
+}

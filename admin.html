@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vérifier une motion</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=9">
+<style>
+  .drop { border: 2px dashed var(--line); border-radius: 18px; padding: 40px 20px; text-align: center; background: var(--surface); cursor: pointer; }
+  .drop.over { border-color: var(--bleu); background: var(--bleu-soft); }
+  .ok { color: var(--ok); font-weight: 600; }
+  .steps-admin { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); }
+  code { font-size: 13px; background: var(--bleu-soft); padding: 1px 6px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="tricolore" aria-hidden="true"></div>
+<main class="wrap" style="padding-block:48px 64px;display:grid;gap:22px;max-width:900px">
+  <div class="eyebrow">Réservé aux organisateur·ices</div>
+  <h1>Vérifier une motion reçue</h1>
+  <ol class="steps-admin">
+    <li>Déposez ici le fichier <code>soutien-motion-….txt</code> reçu par courriel. Rien n’est envoyé : la vérification se fait dans votre navigateur.</li>
+    <li>Relisez la structure, le vote et les modifications, puis comparez au PDF reçu.</li>
+    <li>Si tout est correct, téléchargez le fichier JSON proposé et ajoutez-le dans le dossier <code>labs/</code> du dépôt GitHub. Le site se met à jour en une à deux minutes.</li>
+  </ol>
+  <label class="drop" id="drop" for="file">Glissez ici le fichier .txt (ou .json) reçu, ou cliquez pour le choisir<input type="file" id="file" accept="application/json,.json,text/plain,.txt" hidden></label>
+  <div id="out"></div>
+</main>
+<script src="assets/core.js?v=9"></script>
+<script src="assets/admin.js?v=9"></script>
+</body>
+</html>

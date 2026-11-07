@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Motion des non-permanent·es</title>
+<meta name="description" content="Modèle de motion à l’initiative des doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es, à faire voter dans les AG d’UMR et d’UFR.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/spectral-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+<div class="tricolore" aria-hidden="true"></div>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#motion" data-i18n="brand">Motion des non-permanent·es de l’ESR</a>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#motion" data-tab="motion" data-i18n="tab.motion">La motion</a>
+      <a href="#origine" data-tab="origine" data-i18n="tab.origin">D’où vient ce texte</a>
+      <a href="#mode-emploi" data-tab="mode-emploi" data-i18n="tab.howto">Mode d’emploi</a>
+      <a href="#soutenir" data-tab="soutenir" class="tab-cta" data-i18n="tab.support">Soutenir</a>
+    </nav>
+    <div class="langs" role="group" aria-label="Langue">
+      <button type="button" data-lang="fr">FR</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="lang-note" id="langNote" hidden></p>
+
+  <!-- ===================== LA MOTION ===================== -->
+  <section class="view" id="view-motion" data-view="motion">
+    <div class="hero">
+      <div class="eyebrow" data-i18n="hero.eyebrow">Modèle de motion · AG d’UMR et d’UFR</div>
+      <h1 id="motionTitle">Modèle de motion à l’initiative des doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es</h1>
+      <p class="lede" data-i18n="hero.lede"></p>
+      <div class="hero-actions">
+        <a class="btn" href="#mode-emploi" data-i18n="hero.cta">Faire voter cette motion</a>
+        <a class="btn ghost" href="#soutenir" data-i18n="hero.cta2">Soutenir publiquement</a>
+        <span class="stat"><b id="statLabs">0</b> <span data-i18n="stat.structures"></span></span>
+        <span class="stat"><b id="statVoters">0</b> <span data-i18n="stat.voters"></span></span>
+      </div>
+    </div>
+
+    <div class="motion-layout">
+      <article class="paper" id="paper">
+        <div class="viewing" id="viewing" hidden></div>
+        <div id="motionBody" class="motion-text"></div>
+        <p class="ph-note" data-i18n="motion.placeholderNote"></p>
+        <div class="sources">
+          <h2 class="small-h" data-i18n="motion.sources">Sources</h2>
+          <ol id="sourceList"></ol>
+        </div>
+      </article>
+
+      <aside class="labs" aria-labelledby="labsTitle">
+        <div class="labs-in">
+          <h2 class="small-h" id="labsTitle" data-i18n="labs.title">Structures qui soutiennent cette motion</h2>
+          <p class="muted small" data-i18n="labs.hint"></p>
+          <label class="group-by" for="groupBy"><span data-i18n="labs.groupBy">Regrouper par</span>
+            <select id="groupBy">
+              <option value="none" data-i18n="labs.group.none"></option>
+              <option value="institution" data-i18n="labs.group.institution"></option>
+              <option value="topic" data-i18n="labs.group.topic"></option>
+              <option value="country" data-i18n="labs.group.country"></option>
+              <option value="city" data-i18n="labs.group.city"></option>
+              <option value="department" data-i18n="labs.group.department"></option>
+            </select>
+          </label>
+          <div class="legend small">
+            <span><i class="sw same"></i><span data-i18n="labs.legend.same"></span></span>
+            <span><i class="sw edited"></i><span data-i18n="labs.legend.edited"></span></span>
+          </div>
+          <div id="labWall" class="lab-wall" aria-live="polite"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== ORIGINE ===================== -->
+  <section class="view prose-view" id="view-origine" data-view="origine" hidden>
+    <div class="eyebrow">Sorbonne Université · Paris-Saclay</div>
+    <h1 data-i18n="origin.title">D’où vient ce texte</h1>
+    <div id="originText" class="prose"></div>
+  </section>
+
+  <!-- ===================== MODE D'EMPLOI ===================== -->
+  <section class="view prose-view" id="view-mode-emploi" data-view="mode-emploi" hidden>
+    <h1 data-i18n="howto.title">Mode d’emploi</h1>
+    <h2 class="small-h" data-i18n="howto.short">En bref</h2>
+    <ol class="steps">
+      <li class="step">
+        <h3 data-i18n="step1.title"></h3>
+        <p data-i18n="step1.body"></p>
+        <div class="mail-fields">
+          <label for="mName"><span data-i18n="step1.name"></span><input id="mName" autocomplete="given-name" placeholder="Camille"></label>
+          <label for="mTeam"><span data-i18n="step1.team"></span><input id="mTeam" placeholder="l’équipe"></label>
+          <label for="mDeadline"><span data-i18n="step1.deadline"></span><input id="mDeadline" type="date"></label>
+        </div>
+        <div class="mail-preview">
+          <div class="mail-subject" id="mailSubject"></div>
+          <pre id="mailBody"></pre>
+        </div>
+        <div class="row">
+          <button class="btn" type="button" id="mailMake" data-i18n="step1.make"></button>
+          <button class="btn ghost" type="button" id="mailShare" data-i18n="step1.share" hidden></button>
+          <button class="btn ghost" type="button" id="mailCopy" data-i18n="step1.copy"></button>
+          <span class="toast" id="mailToast" role="status"></span>
+        </div>
+        <p class="muted small" data-i18n="step1.attach"></p>
+        <div class="files">
+          <span class="small-h" data-i18n="step1.files"></span>
+          <a class="file" href="downloads/motion-fr.pdf" download><b>PDF</b><span>motion-fr.pdf</span></a>
+          <a class="file" href="downloads/motion-fr.docx" download><b>Word</b><span>motion-fr.docx</span></a>
+          <a class="file" href="downloads/motion-fr.txt" download><b>Texte</b><span>motion-fr.txt</span></a>
+        </div>
+      </li>
+      <li class="step">
+        <h3 data-i18n="step2.title"></h3>
+        <p data-i18n="step2.body"></p>
+      </li>
+      <li class="step">
+        <h3 data-i18n="step3.title"></h3>
+        <p data-i18n="step3.body"></p>
+        <div class="row"><a class="btn" href="#soutenir" data-i18n="step3.go"></a></div>
+      </li>
+    </ol>
+    <h2 class="small-h" data-i18n="howto.long">La version complète</h2>
+    <div id="howtoText" class="prose"></div>
+  </section>
+
+  <!-- ===================== SOUTENIR ===================== -->
+  <section class="view" id="view-soutenir" data-view="soutenir" hidden>
+    <div class="form-head">
+      <h1 data-i18n="support.title">Soutenir publiquement la motion</h1>
+      <p class="lede" data-i18n="support.lede"></p>
+    </div>
+
+    <form id="labForm" novalidate>
+      <fieldset class="block">
+        <legend><span class="num">1</span><span data-i18n="s.edit">La motion votée</span></legend>
+        <p class="muted" data-i18n="s.edit.body"></p>
+        <div class="seg" role="radiogroup" aria-label="Mode">
+          <button type="button" class="seg-btn" data-mode="same" data-i18n="s.edit.voted"></button>
+          <button type="button" class="seg-btn" data-mode="edit" data-i18n="s.edit.edit"></button>
+          <button type="button" class="seg-btn" data-mode="paste" data-i18n="s.edit.paste"></button>
+        </div>
+        <div id="pastePanel" class="paste" hidden>
+          <h3 data-i18n="paste.title"></h3>
+          <p class="muted small" data-i18n="paste.body"></p>
+          <textarea id="pasteBox" rows="10" maxlength="60000"></textarea>
+          <p class="err" id="pasteErr" role="alert"></p>
+          <div class="row">
+            <button type="button" class="btn" id="pasteCompare" data-i18n="paste.compare"></button>
+            <button type="button" class="btn ghost" id="pasteCancel" data-i18n="paste.cancel"></button>
+          </div>
+          <div id="pasteResult" hidden></div>
+        </div>
+        <div class="editor-meta"><span id="editCount"></span></div>
+        <div id="editor" class="editor motion-text"></div>
+      </fieldset>
+
+      <fieldset class="block">
+        <legend><span class="num">2</span><span data-i18n="s.structure">Votre structure</span></legend>
+        <div class="grid2">
+          <label for="fName"><span><span data-i18n="f.name"></span> <em class="req" data-i18n="f.required"></em></span><input id="fName" maxlength="160" required></label>
+          <label for="fAcronym"><span data-i18n="f.acronym"></span><input id="fAcronym" maxlength="30"></label>
+          <label for="fInstitution"><span><span data-i18n="f.institution"></span> <em class="req" data-i18n="f.required"></em></span><input id="fInstitution" maxlength="160" required></label>
+          <label for="fDepartment"><span data-i18n="f.department"></span><input id="fDepartment" maxlength="160"></label>
+          <label for="fCity"><span><span data-i18n="f.city"></span> <em class="req" data-i18n="f.required"></em></span><input id="fCity" maxlength="80" required></label>
+          <label for="fCountry"><span><span data-i18n="f.country"></span> <em class="req" data-i18n="f.required"></em></span><input id="fCountry" maxlength="80" value="France" required></label>
+          <label for="fTopic"><span><span data-i18n="f.topic"></span> <em class="req" data-i18n="f.required"></em></span><select id="fTopic" required></select></label>
+          <div class="logo-field">
+            <span class="lbl" data-i18n="f.logo"></span>
+            <div class="logo-row">
+              <span class="logo-prev" id="logoPrev"></span>
+              <div>
+                <label class="btn ghost file-btn" for="fLogo"><span data-i18n="f.logo.button"></span><input id="fLogo" type="file" accept="image/jpeg,image/png"></label>
+                <button type="button" class="linkish" id="logoRemove" hidden data-i18n="f.logo.remove"></button>
+                <p class="muted small" data-i18n="f.logo.hint"></p>
+                <p class="err" id="logoErr" role="alert"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="block">
+        <legend><span class="num">3</span><span data-i18n="s.vote">Le vote des non-permanent·es</span></legend>
+        <div class="grid4">
+          <label for="fDate"><span><span data-i18n="f.date"></span> <em class="req" data-i18n="f.required"></em></span><input id="fDate" type="date" required></label>
+          <label for="fPour"><span data-i18n="f.for"></span><input id="fPour" type="number" min="0" inputmode="numeric"></label>
+          <label for="fContre"><span data-i18n="f.against"></span><input id="fContre" type="number" min="0" inputmode="numeric"></label>
+          <label for="fAbst"><span data-i18n="f.abst"></span><input id="fAbst" type="number" min="0" inputmode="numeric"></label>
+        </div>
+        <div class="votebar" id="voteBar"><i class="v-pour"></i><i class="v-abs"></i><i class="v-contre"></i></div>
+        <div class="vote-legend" id="voteLegend"></div>
+      </fieldset>
+
+      <fieldset class="block">
+        <legend><span class="num">4</span><span data-i18n="s.perm">Le soutien des permanent·es</span></legend>
+        <label class="check" for="fPerm"><input id="fPerm" type="checkbox"><span data-i18n="f.perm"></span></label>
+        <div id="permFields" hidden>
+          <div class="grid4">
+            <label for="fPermPour"><span data-i18n="f.for"></span><input id="fPermPour" type="number" min="0" inputmode="numeric"></label>
+            <label for="fPermContre"><span data-i18n="f.against"></span><input id="fPermContre" type="number" min="0" inputmode="numeric"></label>
+            <label for="fPermAbst"><span data-i18n="f.abst"></span><input id="fPermAbst" type="number" min="0" inputmode="numeric"></label>
+          </div>
+          <div class="votebar" id="permBar"><i class="v-pour"></i><i class="v-abs"></i><i class="v-contre"></i></div>
+          <div class="vote-legend" id="permLegend"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="block">
+        <legend><span class="num">5</span><span data-i18n="s.contact">Pour vous recontacter</span></legend>
+        <label for="fContact" class="narrow"><span data-i18n="f.contact"></span><input id="fContact" type="email" maxlength="160" autocomplete="email"></label>
+        <p class="muted small" data-i18n="f.contact.hint"></p>
+      </fieldset>
+
+      <div class="row"><button class="btn big" type="submit" data-i18n="submit.review">Vérifier avant l’envoi</button></div>
+    </form>
+
+    <div id="review" class="review" hidden tabindex="-1"></div>
+    <div id="sent" class="sent" hidden tabindex="-1"></div>
+  </section>
+</main>
+
+<footer class="wrap foot"><span data-i18n="footer"></span> · <a href="mailto:" id="footMail"></a></footer>
+
+<div class="tip" id="tip" hidden></div>
+
+<script src="assets/config.js?v=9"></script>
+<script src="assets/i18n.js?v=9"></script>
+<script src="assets/core.js?v=9"></script>
+<script src="assets/app.js?v=9"></script>
+</body>
+</html>

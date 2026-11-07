@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "id": "lcq-2026-11-03",
+  "submitted_at": "2026-11-03T18:00:00Z",
+  "structure": {
+    "name": "Laboratoire des Chats Quantiques",
+    "acronym": "LCQ",
+    "institution": "Sorbonne Université",
+    "department": "UFR de Physique",
+    "city": "Paris",
+    "country": "France",
+    "topic": "Physique"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-03",
+    "pour": 41,
+    "contre": 1,
+    "abstention": 3
+  },
+  "permanents": {
+    "supported": true,
+    "pour": 22,
+    "contre": 4,
+    "abstention": 6
+  },
+  "motion": {
+    "base_version": "2026-11-07-fr",
+    "edits": []
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "id": "moust-2026-11-06",
+  "submitted_at": "2026-11-06T18:00:00Z",
+  "structure": {
+    "name": "Unité de Mathématiques des Moustaches",
+    "acronym": "MOUST",
+    "institution": "Université de Strasbourg",
+    "department": "UFR de mathématique et d’informatique",
+    "city": "Strasbourg",
+    "country": "France",
+    "topic": "Mathématiques"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-06",
+    "pour": 36,
+    "contre": 2,
+    "abstention": 7
+  },
+  "permanents": {
+    "supported": false,
+    "pour": 0,
+    "contre": 0,
+    "abstention": 0
+  },
+  "motion": {
+    "base_version": "2026-11-07-fr",
+    "edits": [
+      {
+        "id": "international",
+        "status": "modified",
+        "text": "Nous affirmons notre soutien au mouvement social étendu à l'échelle internationale, rappelant la nécessité d'une solidarité mondiale face à la montée de l'extrême-droite, de la course à l'armement, de la captation des fonds publics par les entreprises privées[^1], au détriment de l'éducation. L'université doit se placer au cœur de la lutte contre les politiques discriminatoires et la préférence nationale. Pour remplir sa fonction sociale et son devoir de service public, elle se doit d'être un lieu ouvert, inclusif et accessible à tous·tes. Nous nous opposons à toutes les mesures qui précarisent et empêchent l'accueil des étudiant·es étranger·es, à commencer par la mise en place de frais d'inscription différenciés via le dispositif \"Bienvenue en France\"."
+      }
+    ]
+  }
+}
