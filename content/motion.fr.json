@@ -69,7 +69,8 @@
       "date": "2025-01-09",
       "title": "La face sombre du crédit d’impôt recherche",
       "about": "Captation des fonds publics par les entreprises privées",
-      "url": "https://www.lemonde.fr/economie/article/2025/01/09/la-face-sombre-du-credit-d-impot-recherche_6488932_3234.html"
+      "url": "https://www.lemonde.fr/economie/article/2025/01/09/la-face-sombre-du-credit-d-impot-recherche_6488932_3234.html",
+      "anchor": "captation des fonds publics par les entreprises privées"
     },
     {
       "n": 2,
@@ -77,7 +78,8 @@
       "date": "",
       "title": "France : mouvement lycéen, blocus des lycées, point sur la situation",
       "about": "Plus de 10 000 interpellations estimées en trois semaines",
-      "url": "https://www.amnesty.fr/actualites/france-mouvement-lyceens-blocus-lycees-point-sur-la-situation/"
+      "url": "https://www.amnesty.fr/actualites/france-mouvement-lyceens-blocus-lycees-point-sur-la-situation/",
+      "anchor": "plus de 10 000 interpellations estimées en l’espace de trois semaines"
     },
     {
       "n": 3,
@@ -85,7 +87,8 @@
       "date": "2026-10-23",
       "title": "Les interdictions de manifester pleuvent sur toute la France, au risque de malmener l’État de droit",
       "about": "Interdictions de manifester",
-      "url": "https://www.lemonde.fr/politique/article/2026/10/23/les-interdictions-de-manifester-pleuvent-sur-toute-la-france-au-risque-de-malmener-l-etat-de-droit_6798944_823448.html"
+      "url": "https://www.lemonde.fr/politique/article/2026/10/23/les-interdictions-de-manifester-pleuvent-sur-toute-la-france-au-risque-de-malmener-l-etat-de-droit_6798944_823448.html",
+      "anchor": "les interdictions de manifester"
     },
     {
       "n": 4,
@@ -93,7 +96,8 @@
       "date": "2026-10-28",
       "title": "À Paris, la justice suspend le couvre-feu pour les mineurs non accompagnés",
       "about": "Instauration de couvre-feux",
-      "url": "https://www.lemonde.fr/societe/article/2026/10/28/paris-la-justice-suspend-le-couvre-feu-pour-les-mineurs-non-accompagnes_6801677_3224.html"
+      "url": "https://www.lemonde.fr/societe/article/2026/10/28/paris-la-justice-suspend-le-couvre-feu-pour-les-mineurs-non-accompagnes_6801677_3224.html",
+      "anchor": "l'instauration de couvre-feux"
     },
     {
       "n": 5,
@@ -101,7 +105,8 @@
       "date": "",
       "title": "Maintien de l’ordre : ces armes dangereuses utilisées en manifestation",
       "about": "Armes qui mutilent",
-      "url": "https://www.amnesty.fr/actualites/maintien-de-l-ordre-ces-armes-dangereuses-utilisees-en-manifestation/"
+      "url": "https://www.amnesty.fr/actualites/maintien-de-l-ordre-ces-armes-dangereuses-utilisees-en-manifestation/",
+      "anchor": "armes de guerre qui mutilent"
     },
     {
       "n": 6,
@@ -109,7 +114,8 @@
       "date": "2026-10-27",
       "title": "Mort d’un manifestant le 17 octobre à Paris : l’autopsie conclut à une défaillance cardiorespiratoire aiguë, la famille dénonce l’usage de gaz lacrymogène",
       "about": "Armes qui tuent",
-      "url": "https://www.lemonde.fr/societe/article/2026/10/27/mort-d-un-manifestant-le-17-octobre-a-paris-l-autopsie-conclut-a-une-defaillance-cardiorespiratoire-aigue-la-famille-denonce-l-usage-de-gaz-lacrymogene_6801348_3224.html"
+      "url": "https://www.lemonde.fr/societe/article/2026/10/27/mort-d-un-manifestant-le-17-octobre-a-paris-l-autopsie-conclut-a-une-defaillance-cardiorespiratoire-aigue-la-famille-denonce-l-usage-de-gaz-lacrymogene_6801348_3224.html",
+      "anchor": "tuent"
     },
     {
       "n": 7,
@@ -117,7 +123,8 @@
       "date": "",
       "title": "« Vous condamnez les violences ? » Comment le journalisme de préfecture asphyxie le mouvement lycéen",
       "about": "Violence justifiée par les chaînes d’info en continu",
-      "url": "https://bonpote.com/vous-condamnez-les-violences-comment-le-journalisme-de-prefecture-asphyxie-le-mouvement-lyceen/"
+      "url": "https://bonpote.com/vous-condamnez-les-violences-comment-le-journalisme-de-prefecture-asphyxie-le-mouvement-lyceen/",
+      "anchor": "justifié par les chaînes d'info en continu"
     }
   ]
 }

@@ -72,17 +72,18 @@
       else if (p.status === "added") body = C.renderText(p.text, cx);
       else if (p.status === "modified") body = C.renderDiff(p.orig, p.text, cx);
       else body = C.renderText(p.text, cx);
+      if (opts.cite) body = C.decorateSources(body, S.motion.sources);
       const cls = ["para", p.kind === "added" ? "body" : p.kind, p.status].join(" ");
-      return `<div class="${cls}">${label}<div class="para-body">${body}</div></div>`;
+      return `<div class="${cls}"${opts.ids ? ` id="p-${esc(p.id)}"` : ""}>${label}<div class="para-body">${body}</div></div>`;
     }).join("");
   }
 
   function renderMotion() {
     const lab = S.viewLab;
     const paras = lab ? C.applyEdits(S.motion, lab.motion.edits) : C.baseParagraphs(S.motion);
-    $("motionBody").innerHTML = parasHTML(paras, ctx(lab ? labValues(lab) : {}), { hideInstruction: !!lab, hidePerm: lab && !lab.permanents.supported });
+    $("motionBody").innerHTML = parasHTML(paras, ctx(lab ? labValues(lab) : {}), { hideInstruction: !!lab, hidePerm: lab && !lab.permanents.supported, cite: true, ids: true });
     renderViewing();
-    document.querySelectorAll(".lab").forEach((b) => b.classList.toggle("on", !!lab && b.dataset.id === lab.id));
+    document.querySelectorAll(".lab").forEach((b) => { const on = !!lab && b.dataset.id === lab.id; b.classList.toggle("on", on); b.parentElement.classList.toggle("on", on); });
   }
   function renderViewing() {
     const el = $("viewing"), lab = S.viewLab;
@@ -92,7 +93,12 @@
     el.innerHTML = `<span class="vlogo">${logoHTML(lab)}</span><span>${esc(t("motion.viewing"))} <b>${esc(lab.structure.name)}</b> · ${n ? `${n} ${esc(t("motion.edits"))}` : esc(t("motion.noEdits"))}</span><button type="button" class="linkish" id="viewBack">${esc(t("motion.back"))}</button>`;
     $("viewBack").onclick = () => { S.pinned = null; S.viewLab = null; renderMotion(); };
   }
+  function renderToc() {
+    $("toc").innerHTML = S.motion.paragraphs.filter((p) => p.kind === "body").map((p) => `<a href="#p-${esc(p.id)}" data-para="${esc(p.id)}">${esc(p.label)}</a>`).join("");
+  }
+  $("toc").addEventListener("click", (e) => { const a = e.target.closest("a[data-para]"); if (!a) return; e.preventDefault(); const el = $("p-" + a.dataset.para); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); });
   function renderSources() {
+    $("sourceCount").textContent = `(${S.motion.sources.length})`;
     $("sourceList").innerHTML = S.motion.sources.map((s) => `<li id="src-${s.n}"><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><div class="src-meta">${esc(s.publisher)}${s.date ? " · " + esc(fmtDate(s.date)) : ""}</div></li>`).join("");
   }
 
@@ -115,21 +121,25 @@
   }
   document.addEventListener("mouseover", (e) => {
     if (tipPinned) return;
-    const fn = e.target.closest(".fn"); if (fn) return showTip(fn, sourceTip(fn.dataset.fn));
-    const lab = e.target.closest(".lab"); if (lab) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) { showTip(lab, labTip(L)); if (!S.pinned) { S.viewLab = L; renderMotion(); } } }
+    const fn = e.target.closest(".fn, .cite"); if (fn) return showTip(fn, sourceTip(fn.dataset.fn));
+    const lab = e.target.closest(".lab"); if (lab) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); }
   });
   document.addEventListener("mouseout", (e) => {
-    const el = e.target.closest(".fn, .lab"); if (!el || el.contains(e.relatedTarget)) return;
+    const el = e.target.closest(".fn, .cite, .lab"); if (!el || el.contains(e.relatedTarget)) return;
     hideTip();
-    if (el.classList.contains("lab") && S.viewLab !== S.pinned) { S.viewLab = S.pinned; renderMotion(); }
   });
-  document.addEventListener("focusin", (e) => { const fn = e.target.closest(".fn"); if (fn && !tipPinned) showTip(fn, sourceTip(fn.dataset.fn)); const lab = e.target.closest(".lab"); if (lab && !tipPinned) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); } });
-  document.addEventListener("focusout", (e) => { if (e.target.closest(".fn, .lab")) hideTip(); });
+  document.addEventListener("focusin", (e) => { const fn = e.target.closest(".fn, .cite"); if (fn && !tipPinned) showTip(fn, sourceTip(fn.dataset.fn)); const lab = e.target.closest(".lab"); if (lab && !tipPinned) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); } });
+  document.addEventListener("focusout", (e) => { if (e.target.closest(".fn, .cite, .lab")) hideTip(); });
   document.addEventListener("click", (e) => {
-    const fn = e.target.closest(".fn");
+    const fn = e.target.closest(".fn, .cite");
     if (fn) { e.preventDefault(); const was = tipPinned && tipAnchor === fn; hideTip(true); if (!was) { fn.classList.add("on"); showTip(fn, sourceTip(fn.dataset.fn), true); const li = $("src-" + fn.dataset.fn); if (li) { li.classList.add("flash"); setTimeout(() => li.classList.remove("flash"), 1600); } } return; }
     const lab = e.target.closest(".lab");
-    if (lab) { const L = S.labs.find((x) => x.id === lab.dataset.id); S.pinned = S.pinned === L ? null : L; S.viewLab = S.pinned || null; renderMotion(); if (S.pinned) showTip(lab, labTip(L)); else hideTip(true); return; }
+    if (lab) {
+      const L = S.labs.find((x) => x.id === lab.dataset.id);
+      S.pinned = S.pinned === L ? null : L; S.viewLab = S.pinned || null; hideTip(true); renderMotion();
+      if (S.pinned) $("paper").scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     if (!e.target.closest(".tip")) hideTip(true);
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") hideTip(true); });
@@ -142,11 +152,11 @@
     const [p, a, c] = C.pct(L.ag.pour, L.ag.abstention, L.ag.contre), s = L.structure;
     const where = [s.department, s.institution].filter(Boolean).join(" · "), place = [s.city, s.country].filter(Boolean).join(", ");
     const perm = L.permanents.supported ? (() => { const q = C.pct(L.permanents.pour, L.permanents.abstention, L.permanents.contre); return `${esc(t("labs.perm.yes"))}${L.permanents.pour ? ` (${q[0]} % ${esc(t("labs.for").toLowerCase())})` : ""}`; })() : esc(t("labs.perm.no"));
-    return `<b>${esc(s.acronym ? s.acronym + " · " : "")}${esc(s.name)}</b>${where ? `<span class="t-sub">${esc(where)}</span>` : ""}<span class="t-sub">${esc(place)}${s.topic ? " · " + esc(topicLabel(s.topic)) : ""}</span>
+    return `${L.example ? `<span class="t-pub">${esc(t("labs.example"))}</span>` : ""}<b>${esc(s.acronym ? s.acronym + " · " : "")}${esc(s.name)}</b>${where ? `<span class="t-sub">${esc(where)}</span>` : ""}<span class="t-sub">${esc(place)}${s.topic ? " · " + esc(topicLabel(s.topic)) : ""}</span>
       <span>${esc(t("labs.agOn"))} ${esc(fmtDate(L.ag.date))}</span>
       <div class="votebar"><i class="v-pour" style="width:${p}%"></i><i class="v-abs" style="width:${a}%"></i><i class="v-contre" style="width:${c}%"></i></div>
       <div class="t-nums"><span>${esc(t("labs.for"))} ${p} %</span><span>${esc(t("labs.abst"))} ${a} %</span><span>${esc(t("labs.against"))} ${c} %</span></div>
-      <span class="t-sub">${perm}</span>${L._edits ? `<span class="t-edit">${L._edits} ${esc(t("labs.changes"))}</span>` : ""}`;
+      <span class="t-sub">${perm}</span>${L._edits ? `<span class="t-edit">${L._edits} ${esc(t("labs.changes"))}</span>` : ""}<span class="t-sub">${esc(t("labs.clickToRead"))}</span>`;
   }
   function renderLabs() {
     const wall = $("labWall"); if (!wall) return;
@@ -157,10 +167,14 @@
     const groups = new Map();
     for (const L of S.labs) { const g = key === "none" ? "" : (L.structure[key] || t("labs.unknown")); if (!groups.has(g)) groups.set(g, []); groups.get(g).push(L); }
     const sorted = [...groups.entries()].sort((x, y) => y[1].length - x[1].length || x[0].localeCompare(y[0]));
-    wall.innerHTML = sorted.map(([g, list]) => `<div class="lab-group">${key !== "none" ? `<h4>${esc(key === "topic" ? topicLabel(g) : g)}<span>${list.length}</span></h4>` : ""}<div class="logos">${list.map((L) =>
-      `<button type="button" class="lab${L._edits ? " edited" : ""}${S.viewLab === L ? " on" : ""}" data-id="${esc(L.id)}" aria-label="${esc(L.structure.name)}">${logoHTML(L)}</button>`).join("")}</div></div>`).join("");
-    $("statLabs").textContent = S.labs.length;
-    $("statVoters").textContent = S.labs.reduce((n, L) => n + L.ag.pour, 0).toLocaleString("fr-FR");
+    wall.innerHTML = sorted.map(([g, list]) => `<div class="lab-group">${key !== "none" ? `<h4>${esc(key === "topic" ? topicLabel(g) : g)}<span>${list.length}</span></h4>` : ""}<div class="logos">${list.map((L) => {
+      const on = S.viewLab === L;
+      return `<div class="lab-item${on ? " on" : ""}"><button type="button" class="lab${L._edits ? " edited" : ""}${L.permanents.supported ? "" : " octo"}${on ? " on" : ""}" data-id="${esc(L.id)}" aria-label="${esc(L.structure.name)}"><span class="inner">${logoHTML(L)}</span></button><span class="name">${esc(L.structure.acronym || L.structure.name)}</span>${L.example ? `<span class="ex">${esc(t("labs.exampleShort"))}</span>` : ""}</div>`;
+    }).join("")}</div></div>`).join("");
+    const real = S.labs.filter((L) => !L.example);
+    $("statLabs").textContent = real.length;
+    $("statVoters").textContent = real.reduce((n, L) => n + L.ag.pour, 0).toLocaleString("fr-FR");
+    document.querySelectorAll("[data-stat]").forEach((el) => (el.hidden = !real.length));
   }
   $("groupBy").addEventListener("change", () => { store.set("motion-group", $("groupBy").value); renderLabs(); });
 
@@ -590,7 +604,7 @@
     $("motionTitle").textContent = S.motion.title;
     S.paras = C.baseParagraphs(S.motion); S.mode = "same";
     loadDraft();
-    renderSources(); renderMotion(); renderLogo(); renderEditor(); renderVotes();
+    renderToc(); renderSources(); renderMotion(); renderLogo(); renderEditor(); renderVotes();
     applyLang(); route();
     loadLabs();
   }

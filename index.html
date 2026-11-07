@@ -8,9 +8,8 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/syne-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/spectral-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=9">
+<link rel="preload" href="assets/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css?v=12">
 </head>
 <body>
 <div class="tricolore" aria-hidden="true"></div>
@@ -41,44 +40,48 @@
       <div class="hero-actions">
         <a class="btn" href="#mode-emploi" data-i18n="hero.cta">Faire voter cette motion</a>
         <a class="btn ghost" href="#soutenir" data-i18n="hero.cta2">Soutenir publiquement</a>
-        <span class="stat"><b id="statLabs">0</b> <span data-i18n="stat.structures"></span></span>
-        <span class="stat"><b id="statVoters">0</b> <span data-i18n="stat.voters"></span></span>
+        <span class="stat" data-stat><b id="statLabs">0</b> <span data-i18n="stat.structures"></span></span>
+        <span class="stat" data-stat><b id="statVoters">0</b> <span data-i18n="stat.voters"></span></span>
       </div>
     </div>
 
-    <div class="motion-layout">
-      <article class="paper" id="paper">
-        <div class="viewing" id="viewing" hidden></div>
-        <div id="motionBody" class="motion-text"></div>
-        <p class="ph-note" data-i18n="motion.placeholderNote"></p>
-        <div class="sources">
-          <h2 class="small-h" data-i18n="motion.sources">Sources</h2>
-          <ol id="sourceList"></ol>
-        </div>
-      </article>
+    <nav class="toc" id="toc" aria-label="Paragraphes de la motion"></nav>
 
-      <aside class="labs" aria-labelledby="labsTitle">
-        <div class="labs-in">
-          <h2 class="small-h" id="labsTitle" data-i18n="labs.title">Structures qui soutiennent cette motion</h2>
-          <p class="muted small" data-i18n="labs.hint"></p>
-          <label class="group-by" for="groupBy"><span data-i18n="labs.groupBy">Regrouper par</span>
-            <select id="groupBy">
-              <option value="none" data-i18n="labs.group.none"></option>
-              <option value="institution" data-i18n="labs.group.institution"></option>
-              <option value="topic" data-i18n="labs.group.topic"></option>
-              <option value="country" data-i18n="labs.group.country"></option>
-              <option value="city" data-i18n="labs.group.city"></option>
-              <option value="department" data-i18n="labs.group.department"></option>
-            </select>
-          </label>
-          <div class="legend small">
-            <span><i class="sw same"></i><span data-i18n="labs.legend.same"></span></span>
-            <span><i class="sw edited"></i><span data-i18n="labs.legend.edited"></span></span>
-          </div>
-          <div id="labWall" class="lab-wall" aria-live="polite"></div>
+    <article class="paper" id="paper">
+      <div class="viewing" id="viewing" hidden></div>
+      <div id="motionBody" class="motion-text"></div>
+      <p class="ph-note" data-i18n="motion.placeholderNote"></p>
+      <details class="sources">
+        <summary><span data-i18n="motion.allSources">Toutes les sources</span> <span class="muted" id="sourceCount"></span></summary>
+        <ol id="sourceList"></ol>
+      </details>
+    </article>
+
+    <section class="labs" aria-labelledby="labsTitle">
+      <div class="labs-head">
+        <div>
+          <h2 id="labsTitle" data-i18n="labs.title">Structures qui soutiennent cette motion</h2>
+          <p class="muted" data-i18n="labs.hint"></p>
         </div>
-      </aside>
-    </div>
+        <label class="group-by" for="groupBy"><span data-i18n="labs.groupBy">Regrouper par</span>
+          <select id="groupBy">
+            <option value="none" data-i18n="labs.group.none"></option>
+            <option value="institution" data-i18n="labs.group.institution"></option>
+            <option value="topic" data-i18n="labs.group.topic"></option>
+            <option value="country" data-i18n="labs.group.country"></option>
+            <option value="city" data-i18n="labs.group.city"></option>
+            <option value="department" data-i18n="labs.group.department"></option>
+          </select>
+        </label>
+      </div>
+      <div class="legend">
+        <span><i class="shape round"></i><span data-i18n="labs.legend.perm"></span></span>
+        <span><i class="shape octo"></i><span data-i18n="labs.legend.noperm"></span></span>
+        <span><i class="shape round edge-same"></i><span data-i18n="labs.legend.same"></span></span>
+        <span><i class="shape round edge-edited"></i><span data-i18n="labs.legend.edited"></span></span>
+      </div>
+      <div id="labWall" class="lab-wall" aria-live="polite"></div>
+    </section>
   </section>
 
   <!-- ===================== ORIGINE ===================== -->
@@ -233,9 +236,9 @@
 
 <div class="tip" id="tip" hidden></div>
 
-<script src="assets/config.js?v=9"></script>
-<script src="assets/i18n.js?v=9"></script>
-<script src="assets/core.js?v=9"></script>
-<script src="assets/app.js?v=9"></script>
+<script src="assets/config.js?v=12"></script>
+<script src="assets/i18n.js?v=12"></script>
+<script src="assets/core.js?v=12"></script>
+<script src="assets/app.js?v=12"></script>
 </body>
 </html>

@@ -80,6 +80,17 @@
     if (isFn(t)) { const n = t.slice(2, -1); return `<button type="button" class="fn" data-fn="${n}" aria-label="Source ${n}">${n}</button>`; }
     return Core.esc(t);
   }).join("");
+  /* Sources dans le texte : le passage appuyé par une source est souligné et ouvre sa fiche au survol.
+     Si le passage a été modifié par une structure, l'appel de note reste seul. */
+  Core.decorateSources = (html, sources) => {
+    for (const s of sources || []) {
+      if (!s.anchor) continue;
+      const a = Core.esc(s.anchor).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const re = new RegExp(`(${a})(<button type="button" class="fn" data-fn="${s.n}"[^>]*>)${s.n}</button>`);
+      html = html.replace(re, `<span class="cite" data-fn="${s.n}" tabindex="0">$1</span><button type="button" class="fn mini" data-fn="${s.n}" aria-label="Source ${s.n}">${s.n}</button>`);
+    }
+    return html;
+  };
   Core.renderText = (text, ctx) => Core.renderTokens(Core.tokenize(text), ctx);
   Core.renderDiff = (origText, newText, ctx) => Core.diff(origText, newText).map((s) =>
     s.type === "eq" ? Core.renderTokens(s.toks, ctx)
@@ -243,6 +254,7 @@
     const s = raw.structure || {}, ag = raw.ag || {}, pm = raw.permanents || {};
     const lab = {
       schema: 1,
+      example: raw.example === true,
       id: Core.slug(raw.id || s.name || ""),
       submitted_at: Core.cleanLine(raw.submitted_at, 40),
       structure: {
