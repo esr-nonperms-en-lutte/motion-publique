@@ -1,0 +1,130 @@
+{
+  "version": "2026-11-09-en",
+  "lang": "en",
+  "title": "Model motion initiated by PhD students, postdoctoral researchers, ATERs and other non-permanent staff, to be voted in the general assemblies of research units and faculties",
+  "placeholders": {
+    "structure": "[insert name of unit]",
+    "date": "[insert date]",
+    "pour": "[number]",
+    "contre": "[number]",
+    "abst": "[number]",
+    "perm_pour": "[number]",
+    "perm_contre": "[number]",
+    "perm_abst": "[number]"
+  },
+  "paragraphs": [
+    {
+      "id": "solidarite",
+      "label": "Support for young people",
+      "kind": "body",
+      "text": "We, PhD students, postdoctoral researchers, ATERs, and other non-permanent staff of {{structure}}, declare our solidarity with the high school students' protest movement, which has now spread to higher education and research. We support the demands for access to decent and equitable learning and working conditions throughout the country. Today's high school students are tomorrow's university students: the right to education must not end at the university gates, nor should it depend on socioeconomic background, school of origin, or nationality. We therefore support, among other demands, the «10 Emergency Measures for Young People » put forward by the Union syndicale lycéenne, Union étudiante, UNEF, Solidaires étudiant·es, and FAGE."
+    },
+    {
+      "id": "international",
+      "label": "Rise of fascism",
+      "kind": "body",
+      "text": "We affirm our support to the protest movement extending internationally, emphasizing the need for global solidarity against the rise of the far right, the arms race, and the diversion of public funds towards private corporations[^1] at the expense of education. Universities must stand at the forefront of the struggle against discriminatory policies and national preference. To fulfil their social role and public service mission, they must remain open, inclusive, and accessible to all. We oppose all measures that increase the insecurity of international students and hinder their access to higher education, starting with the racist and xenophobic introduction of differentiated tuition fees under the \"Bienvenue en France\" (\"Welcome to France\") program."
+    },
+    {
+      "id": "repression",
+      "label": "Police violence and repression in France",
+      "kind": "body",
+      "text": "We denounce the use of violence as well as the police, judicial, and administrative repression directed against high school students, university students, and their teachers, all mobilizing to demand desks, chairs, functioning sanitary facilities, and access to drinking water. We denounce the racist and classist nature of this repression, which initially targeted young people from France's overseas territories and working-class suburbs before spreading to the entire movement. We denounce the sheer scale of this repression: more than 10,000 arrests estimated over a period of three weeks[^2], the majority involving minors. Finally, we denounce the escalation of violence in this repression: bans on demonstrations[^3], the imposition of curfews[^4], and the use of military-grade weapons that maim[^5] and kill[^6]. This unrestrained use of violence, legitimized by round-the-clock news channels[^7], intimidates those who might otherwise join the struggle, and exposes the government's authoritarian approach which further undermines our democracy with each passing day."
+    },
+    {
+      "id": "universites",
+      "label": "Repression within the university",
+      "kind": "body",
+      "text": "We condemn the repressive policies of certain university administrations that choose violence over dialogue. We are alarmed by the administrative closures of university campuses, which are, and must remain, places for exchange and debate, essential to combating student isolation. We demand that universities respect and materially support student mobilizations, and that they ensure continued access to essential facilities and services such as university cafeterias, childcare facilities, healthcare services and university libraries. It is unacceptable for university administrations to authorize or request police interventions on campus, as has been the case at Sorbonne Nouvelle, Sorbonne University, Nantes University, Sciences Po Paris, and Toulouse - Jean Jaurès University."
+    },
+    {
+      "id": "financement",
+      "label": "Underfunding and precarity",
+      "kind": "body",
+      "text": "This movement lays bare the chronic underfunding of public services, secondary education and higher education. Structural budget cuts are severely undermining our teaching and research conditions: overcrowded tutorial classes, increasing reliance on precariously employed lecturers to fulfill teaching duties, growing competition for PhD, postdoctoral and ATER positions, a shortage of permanent academic staff, insufficient administrative personnel, and more. Our working conditions directly determine the conditions under which scientific knowledge is produced: a laboratory that regularly loses its fixed-term staff also loses expertise, institutional memory and mentoring capacity. Our working conditions directly determine students' learning conditions: an adjunct lecturer who does not know whether their contract will be renewed cannot always commit to ensuring continuity in teaching. The growing precarity of academic staff and the deterioration of students' learning conditions are therefore not two independent problems. They are two consequences of the same structural underfunding of public universities. We reject a university system that resorts to selective admissions and discrimination because it lacks sufficient places, that undermines the quality of education and researchers' working conditions because it lacks staff, and that compensates for its lack of resources by imposing precarious employment on those who work within it. Creating 250,000 additional university places for students requires a massive effort to transition non-permanent staff into permanent positions, together with a multi-year plan to create new permanent academic and administrative posts."
+    },
+    {
+      "id": "vote",
+      "label": "Vote",
+      "kind": "vote",
+      "text": "This motion was adopted by a majority vote at the General Assembly of non-permanent staff held on {{date}} ({{pour}} in favour, {{contre}} against, {{abst}} abstentions)."
+    },
+    {
+      "id": "consigne",
+      "label": "Instruction",
+      "kind": "instruction",
+      "text": "We suggest asking the permanent staff of your institution to vote on a motion of support. This is neither mandatory nor necessary, but it may provide an opportunity to initiate political discussions with them about the ongoing movement. If you decide to do so, we recommend presenting the motion exactly as adopted by the non-permanent staff, without allowing permanent staff to amend it. You may record their votes below."
+    },
+    {
+      "id": "permanents",
+      "label": "Support from permanent staff",
+      "kind": "permvote",
+      "text": "The permanent staff of {{structure}} voted by a majority to endorse this motion ({{perm_pour}} in favour, {{perm_contre}} against, {{perm_abst}} abstentions)."
+    }
+  ],
+  "sources": [
+    {
+      "n": 1,
+      "publisher": "Le Monde",
+      "date": "2025-01-09",
+      "title": "La face sombre du crédit d’impôt recherche",
+      "about": "Diversion of public funds towards private corporations",
+      "anchor": "diversion of public funds towards private corporations",
+      "url": "https://www.lemonde.fr/economie/article/2025/01/09/la-face-sombre-du-credit-d-impot-recherche_6488932_3234.html"
+    },
+    {
+      "n": 2,
+      "publisher": "Amnesty International France",
+      "date": "",
+      "title": "France : mouvement lycéen, blocus des lycées, point sur la situation",
+      "about": "More than 10,000 arrests in three weeks",
+      "anchor": "more than 10,000 arrests estimated over a period of three weeks",
+      "url": "https://www.amnesty.fr/actualites/france-mouvement-lyceens-blocus-lycees-point-sur-la-situation/"
+    },
+    {
+      "n": 3,
+      "publisher": "Le Monde",
+      "date": "2026-10-23",
+      "title": "Les interdictions de manifester pleuvent sur toute la France, au risque de malmener l’État de droit",
+      "about": "Bans on demonstrations",
+      "anchor": "bans on demonstrations",
+      "url": "https://www.lemonde.fr/politique/article/2026/10/23/les-interdictions-de-manifester-pleuvent-sur-toute-la-france-au-risque-de-malmener-l-etat-de-droit_6798944_823448.html"
+    },
+    {
+      "n": 4,
+      "publisher": "Le Monde",
+      "date": "2026-10-28",
+      "title": "À Paris, la justice suspend le couvre-feu pour les mineurs non accompagnés",
+      "about": "Curfews",
+      "anchor": "the imposition of curfews",
+      "url": "https://www.lemonde.fr/societe/article/2026/10/28/paris-la-justice-suspend-le-couvre-feu-pour-les-mineurs-non-accompagnes_6801677_3224.html"
+    },
+    {
+      "n": 5,
+      "publisher": "Amnesty International France",
+      "date": "",
+      "title": "Maintien de l’ordre : ces armes dangereuses utilisées en manifestation",
+      "about": "Weapons that maim",
+      "anchor": "military-grade weapons that maim",
+      "url": "https://www.amnesty.fr/actualites/maintien-de-l-ordre-ces-armes-dangereuses-utilisees-en-manifestation/"
+    },
+    {
+      "n": 6,
+      "publisher": "Le Monde",
+      "date": "2026-10-27",
+      "title": "Mort d’un manifestant le 17 octobre à Paris : l’autopsie conclut à une défaillance cardiorespiratoire aiguë, la famille dénonce l’usage de gaz lacrymogène",
+      "about": "Weapons that kill",
+      "anchor": "kill",
+      "url": "https://www.lemonde.fr/societe/article/2026/10/27/mort-d-un-manifestant-le-17-octobre-a-paris-l-autopsie-conclut-a-une-defaillance-cardiorespiratoire-aigue-la-famille-denonce-l-usage-de-gaz-lacrymogene_6801348_3224.html"
+    },
+    {
+      "n": 7,
+      "publisher": "Bon Pote",
+      "date": "",
+      "title": "« Vous condamnez les violences ? » Comment le journalisme de préfecture asphyxie le mouvement lycéen",
+      "about": "Violence legitimized by round-the-clock news channels",
+      "anchor": "legitimized by round-the-clock news channels",
+      "url": "https://bonpote.com/vous-condamnez-les-violences-comment-le-journalisme-de-prefecture-asphyxie-le-mouvement-lyceen/"
+    }
+  ]
+}

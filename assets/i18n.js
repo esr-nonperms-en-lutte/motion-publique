@@ -258,7 +258,7 @@ window.I18N = {
     "sent.step3": "Also attach the PDF of the motion as voted, then send.", "sent.reopen": "Reopen the email", "sent.redownload": "Download the file again", "sent.share": "Prepare the email with the file attached",
     "sent.to": "To:", "sent.subject": "Subject:", "sent.noMail": "Your mail app does not open? Here is the email to copy.", "sent.copyMail": "Copy the email",
     "copied": "Copied.", "copyFail": "Could not copy: the text is selected, press Cmd/Ctrl + C.", "sending": "Sending…",
-    "langNote": "Translation coming soon: texts are shown in the original French.",
+    "langNote": "Translation in progress: some texts are still shown in the original French.",
     "footer": "Website of non-permanent higher-education and research staff. Structures are added by hand after checking.",
     "topics": ["Mathematics", "Computer science", "Physics", "Chemistry", "Earth and space sciences", "Biology", "Health and medicine", "Ecology and environment", "Engineering", "Economics and management", "Law and political science", "Sociology and anthropology", "History and geography", "Literature and languages", "Philosophy", "Arts", "Psychology and education", "Interdisciplinary", "Other"]
   },

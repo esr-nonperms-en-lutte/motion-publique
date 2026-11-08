@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-07-fr",
+  "version": "2026-11-09-fr",
   "lang": "fr",
   "title": "Modèle de motion à l’initiative des doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es, à faire voter dans les AG d’UMR et d’UFR",
   "placeholders": {
@@ -29,7 +29,7 @@
       "id": "repression",
       "label": "Violence policière et répression en France",
       "kind": "body",
-      "text": "Nous dénonçons l’usage de la violence ainsi que la répression policière, judiciaire et administrative qui s'est abattue sur les lycéen·nes, les étudiant·es et leurs enseignant·es, tous·tes mobilisé·es pour demander des tables, des chaises, des sanitaires fonctionnels et de l’eau potable. Nous dénonçons le caractère raciste et classiste de cette répression, s’étant tout d'abord exercée contre les jeunes ultra-marin·es et de banlieue avant de se généraliser à l’ensemble de la mobilisation. Nous dénonçons l’ampleur de cette répression : plus de 10 000 interpellations estimées en l’espace de trois semaines[^2], dont la majorité concerne des mineur·es. Enfin, nous dénonçons l'escalade de la violence dans cette même répression : les interdictions de manifester[^3], l'instauration de couvre-feux[^4], et l'utilisation d'armes de guerre qui mutilent[^5] et tuent[^6]. Cet usage décomplexé de la violence, justifié par les chaînes d'info en continu[^7], intimide celles et ceux qui voudraient s’engager dans la lutte, et révèle la logique autoritariste du gouvernement qui abîme chaque jour davantage notre démocratie."
+      "text": "Nous dénonçons l’usage de la violence ainsi que la répression policière, judiciaire et administrative qui s'est abattue sur les lycéen·nes, les étudiant·es et leurs enseignant·es, tous·tes mobilisé·es pour demander des tables, des chaises, des sanitaires fonctionnels et de l’eau potable. Nous dénonçons le caractère raciste et classiste de cette répression, s’étant tout d'abord exercée contre les jeunes ultra-marin·es et de banlieue avant de se généraliser à l’ensemble de la mobilisation. Nous dénonçons l’ampleur de cette répression : plus de 8 000 interpellations estimées en trois semaines[^2], dont la majorité concerne des mineur·es. Enfin, nous dénonçons l'escalade de la violence dans cette même répression : les interdictions de manifester[^3], l'instauration de couvre-feux[^4], et l'utilisation d'armes de guerre qui mutilent[^5] et tuent[^6]. Cet usage décomplexé de la violence, justifiée par les chaines d'infos en continues[^7], intimide celles et ceux qui voudraient s’engager dans la lutte, et révèle la logique autoritariste du gouvernement qui abîme chaque jour davantage notre démocratie."
     },
     {
       "id": "universites",
@@ -41,7 +41,7 @@
       "id": "financement",
       "label": "Sous-financement et précarité",
       "kind": "body",
-      "text": "Ce mouvement révèle au grand jour le sous-financement chronique des services publics, de l’enseignement secondaire et de l’enseignement supérieur. Les coupes budgétaires structurelles dégradent considérablement nos conditions d’enseignement et de recherche : groupes de TD surchargés, recours croissant aux vacataires pour assurer les charges d’enseignement, concurrence croissante pour les contrats doctoraux, post-doctoraux et d'ATER, manque de postes de titulaires, manque de personnel administratif, etc. Nos conditions de travail sont les conditions de création du savoir scientifique : un laboratoire qui perd régulièrement ses personnels contractuels perd des compétences, de la mémoire collective et des capacités d'encadrement. Nos conditions de travail sont les conditions d’étude des étudiant·es : un·e vacataire qui ne sait pas si son contrat sera renouvelé ne peut pas toujours s'investir dans la continuité pédagogique d'une formation. La précarisation des personnels et la dégradation des conditions d'études ne sont donc pas deux problèmes indépendants. Elles sont deux conséquences d’un même sous-financement structurel de l’université publique. Nous refusons une université qui sélectionne et discrimine faute de places, qui dégrade ses enseignements et les conditions de travail de ses chercheur·euses faute de personnels et qui compense son manque de moyens par la précarité de celles et ceux qui y travaillent. La création de 250 000 places pour les étudiant·es à l'université implique un effort massif de titularisation des non-permanent·es et un plan pluri-annuel de création de postes permanents."
+      "text": "Ce mouvement révèle au grand jour le sous-financement chronique des services publics, de l’enseignement secondaire et de l’enseignement supérieur. Les coupes budgétaires structurelles dégradent considérablement nos conditions d’enseignement et de recherche : groupes de TD surchargés, recours croissant aux vacataires pour assurer les charges d’enseignement, concurrence croissante pour les contrats doctoraux, post-doctoraux et d'ATER, manque de postes de titulaires, manque de personnel administratif, etc. Nos conditions de travail sont les conditions de création du savoir scientifique : un laboratoire qui perd régulièrement ses personnels contractuels perd des compétences, de la mémoire collective et des capacités d'encadrement. Nos conditions de travail sont les conditions d’étude des étudiant·es : un·e vacataire qui ne sait pas si son contrat sera renouvelé ne peut pas toujours s'investir dans la continuité pédagogique d'une formation. La précarisation des personnels et la dégradation des conditions d'études ne sont donc pas deux problèmes indépendants. Elles sont deux conséquences d’un même sous-financement structurel de l’université publique. Nous refusons une université qui sélectionne et discrimine faute de places, qui dégrade ses enseignements et les conditions de travail de ses chercheur·euses faute de personnels et qui compense son manque de moyens par la précarité de celles et ceux qui y travaillent. La création de 250 000 places pour les étudiant·es à l'université implique un effort massif de titularisation des non-permanentes et un plan pluri-annuel de création de postes permanents."
     },
     {
       "id": "vote",
@@ -53,7 +53,7 @@
       "id": "consigne",
       "label": "Consigne",
       "kind": "instruction",
-      "text": "Nous vous suggérons de faire voter une motion de soutien par les membres permanents de votre structure. Ce n'est ni obligatoire ni nécessaire, mais cela peut être l'occasion de lancer des discussions politiques sur le mouvement en cours avec elles·eux. Si vous décidez de le faire, nous vous suggérons de leur présenter la motion telle que vous l'avez votée, sans qu'iels puissent l’amender. Vous pouvez renseigner leurs votes ci-dessous."
+      "text": "Nous vous suggérons de faire voter une motion de soutien par les membres permanents de votre structure. Ce n'est ni obligatoire ni nécessaire, mais cela peut être l'occasion de lancer des discussions politiques sur le mouvement en cours avec elles·eux. Si vous décidez de le faire, nous vous suggérons de leurs présenter la motion telle que vous l'avez votée, sans qu'iels puissent l’amender. Vous pouvez renseigner leurs votes ci-dessous."
     },
     {
       "id": "permanents",
@@ -74,12 +74,12 @@
     },
     {
       "n": 2,
-      "publisher": "Amnesty International France",
-      "date": "",
-      "title": "France : mouvement lycéen, blocus des lycées, point sur la situation",
-      "about": "Plus de 10 000 interpellations estimées en trois semaines",
-      "url": "https://www.amnesty.fr/actualites/france-mouvement-lyceens-blocus-lycees-point-sur-la-situation/",
-      "anchor": "plus de 10 000 interpellations estimées en l’espace de trois semaines"
+      "publisher": "Le Parisien",
+      "date": "2026-10-14",
+      "title": "Colère lycéenne : près de 8 000 personnes interpellées et 2 735 poursuivies",
+      "about": "Plus de 8 000 interpellations en trois semaines",
+      "url": "https://www.leparisien.fr/societe/colere-lyceenne-pres-de-8-000-personnes-interpellees-et-2-735-poursuivies-14-10-2026-BKNBWCOSAJBZHANHXLFK6BJY4M.php",
+      "anchor": "plus de 8 000 interpellations estimées en trois semaines"
     },
     {
       "n": 3,
@@ -124,7 +124,7 @@
       "title": "« Vous condamnez les violences ? » Comment le journalisme de préfecture asphyxie le mouvement lycéen",
       "about": "Violence justifiée par les chaînes d’info en continu",
       "url": "https://bonpote.com/vous-condamnez-les-violences-comment-le-journalisme-de-prefecture-asphyxie-le-mouvement-lyceen/",
-      "anchor": "justifié par les chaînes d'info en continu"
+      "anchor": "justifiée par les chaines d'infos en continues"
     }
   ]
 }

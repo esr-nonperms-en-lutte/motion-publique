@@ -23,9 +23,15 @@
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
     document.querySelectorAll(".lang-note").forEach((el) => (el.hidden = !t("langNote")));
     const sel = $("fTopic"), cur = sel.value;
-    sel.innerHTML = `<option value="">${esc(t("f.topic.choose"))}</option>` + window.I18N.fr.topics.map((fr, i) => `<option value="${esc(fr)}">${esc(t("topics")[i] || fr)}</option>`).join("");
+    /* Thématiques triées par ordre alphabétique dans la langue affichée ; « Autre » reste en dernier.
+       Les listes de i18n.js gardent le même ordre d'une langue à l'autre : c'est ce qui les relie. */
+    const frTopics = window.I18N.fr.topics, other = frTopics.length - 1;
+    const opts = frTopics.map((fr, i) => ({ fr, label: t("topics")[i] || fr, last: i === other }))
+      .sort((x, y) => (x.last - y.last) || x.label.localeCompare(y.label, S.lang, { sensitivity: "base" }));
+    sel.innerHTML = `<option value="">${esc(t("f.topic.choose"))}</option>` + opts.map((o) => `<option value="${esc(o.fr)}">${esc(o.label)}</option>`).join("");
     sel.value = cur;
-    renderLong(); renderMail(); renderLabs(); renderViewing(); renderVotes(); updateEditCount();
+    renderLong(); renderMail(); renderLabs(); renderVotes(); updateEditCount();
+    if (S.motion) { renderMotion(); renderSources(); renderFileNames(); }
     if (!$("review").hidden) review();
   }
   document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => { S.lang = b.dataset.lang; store.set("motion-lang", S.lang); applyLang(); }));
@@ -58,7 +64,11 @@
       perm_pour: lab.permanents.pour, perm_contre: lab.permanents.contre, perm_abst: lab.permanents.abstention
     };
   }
-  function ctx(values) { return { values: values || {}, placeholders: S.motion.placeholders, sources: S.motion.sources }; }
+  function ctx(values, m = S.motion) { return { values: values || {}, placeholders: m.placeholders, sources: m.sources }; }
+  /* Motion affichée : celle de la langue choisie si elle existe (content/motion.<langue>.json),
+     sinon le français. Les amendements des structures restent rédigés sur le texte français. */
+  function dm() { return (S.motions && S.motions[S.lang]) || S.motion; }
+  function fileLang() { return S.motions && S.motions[S.lang] ? S.lang : "fr"; }
 
   /* Rendu d'une liste de paragraphes (texte commun, version d'une structure, ou éditeur en lecture). */
   function parasHTML(paras, cx, opts = {}) {
@@ -71,7 +81,7 @@
       else if (p.status === "added") body = C.renderText(p.text, cx);
       else if (p.status === "modified") body = C.renderDiff(p.orig, p.text, cx);
       else body = C.renderText(p.text, cx);
-      if (opts.cite) body = C.decorateSources(body, S.motion.sources);
+      if (opts.cite) body = C.decorateSources(body, (opts.motion || S.motion).sources);
       const cls = ["para", p.kind === "added" ? "body" : p.kind, p.status].join(" ");
       return `<div class="${cls}"${opts.ids ? ` id="p-${esc(p.id)}"` : ""}>${label}<div class="para-body">${body}</div></div>`;
     }).join("");
@@ -79,8 +89,10 @@
 
   function renderMotion() {
     const lab = S.viewLab;
-    const paras = lab ? C.applyEdits(S.motion, lab.motion.edits) : C.baseParagraphs(S.motion);
-    $("motionBody").innerHTML = parasHTML(paras, ctx(lab ? labValues(lab) : {}), { hideInstruction: !!lab, hidePerm: lab && !lab.permanents.supported, cite: true, ids: true });
+    const m = lab ? S.motion : dm();
+    const paras = lab ? C.applyEdits(S.motion, lab.motion.edits) : C.baseParagraphs(m);
+    $("motionBody").innerHTML = parasHTML(paras, ctx(lab ? labValues(lab) : {}, m), { hideInstruction: !!lab, hidePerm: lab && !lab.permanents.supported, cite: true, ids: true, motion: m });
+    $("motionTitle").textContent = m.title;
     renderViewing();
     document.querySelectorAll(".lab").forEach((b) => { const on = !!lab && b.dataset.id === lab.id; b.classList.toggle("on", on); b.parentElement.classList.toggle("on", on); });
   }
@@ -93,8 +105,8 @@
     $("viewBack").onclick = () => { S.pinned = null; S.viewLab = null; renderMotion(); };
   }
   function renderSources() {
-    $("sourceCount").textContent = `(${S.motion.sources.length})`;
-    $("sourceList").innerHTML = S.motion.sources.map((s) => `<li id="src-${s.n}"><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><div class="src-meta">${esc(s.publisher)}${s.date ? " · " + esc(fmtDate(s.date)) : ""}</div></li>`).join("");
+    $("sourceCount").textContent = `(${dm().sources.length})`;
+    $("sourceList").innerHTML = dm().sources.map((s) => `<li id="src-${s.n}"><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><div class="src-meta">${esc(s.publisher)}${s.date ? " · " + esc(fmtDate(s.date)) : ""}</div></li>`).join("");
   }
 
   /* ================= Info-bulles ================= */
@@ -111,7 +123,7 @@
   }
   function hideTip(force) { if (tipPinned && !force) return; tip.hidden = true; tipAnchor = null; tipPinned = false; document.querySelectorAll(".fn.on").forEach((f) => f.classList.remove("on")); }
   function sourceTip(n) {
-    const s = S.motion.sources.find((x) => String(x.n) === String(n)); if (!s) return "";
+    const s = dm().sources.find((x) => String(x.n) === String(n)); if (!s) return "";
     let host = ""; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch (e) { /* url invalide */ }
     return `<span class="t-pub">${esc(s.publisher)}${s.date ? " · " + esc(fmtDate(s.date)) : ""}</span><span class="t-title">${esc(s.title)}</span><span class="t-sub">${esc(t("motion.citedFor"))} : ${esc(s.about)}</span><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(t("motion.readSource"))} · ${esc(host)} ↗</a>`;
   }
@@ -241,13 +253,20 @@
   ["mName", "mTeam", "mDeadline", "attPdf", "attDocx", "attTxt"].forEach((id) => $(id).addEventListener("input", renderMail));
   /* Pièces jointes : préchargées pour que le partage (Mail sur Apple, etc.) les joigne directement. */
   const ATT = {
-    pdf: { url: "downloads/motion-fr.pdf", type: "application/pdf", label: "PDF" },
-    docx: { url: "downloads/motion-fr.docx", type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", label: "Word" },
-    txt: { url: "downloads/motion-fr.txt", type: "text/plain", label: "texte brut" }
+    pdf: { ext: "pdf", type: "application/pdf", label: "PDF" },
+    docx: { ext: "docx", type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", label: "Word" },
+    txt: { ext: "txt", type: "text/plain", label: "texte brut" }
   };
+  const attUrl = (k, lang = fileLang()) => `downloads/motion-${lang}.${ATT[k].ext}`;
   const attBlobs = {};
-  Object.entries(ATT).forEach(([k, a]) => fetch(a.url).then((r) => (r.ok ? r.blob() : null)).then((b) => { if (b) attBlobs[k] = b; }).catch(() => {}));
-  function chosenFiles() { return [...document.querySelectorAll("[data-att]")].filter((c) => c.checked).map((c) => ({ key: c.dataset.att, ...ATT[c.dataset.att] })); }
+  function prefetchFiles() {
+    Object.keys(ATT).forEach((k) => { const u = attUrl(k); if (!(u in attBlobs)) { attBlobs[u] = null; fetch(u).then((r) => (r.ok ? r.blob() : null)).then((b) => { if (b) attBlobs[u] = b; }).catch(() => {}); } });
+  }
+  function renderFileNames() {
+    document.querySelectorAll("[data-att]").forEach((c) => { const sp = c.parentElement.querySelector("span"); if (sp) sp.textContent = attUrl(c.dataset.att).split("/").pop(); });
+    prefetchFiles();
+  }
+  function chosenFiles() { return [...document.querySelectorAll("[data-att]")].filter((c) => c.checked).map((c) => ({ key: c.dataset.att, url: attUrl(c.dataset.att), ...ATT[c.dataset.att] })); }
   let canShareFiles = false;
   try { canShareFiles = !!(navigator.canShare && navigator.canShare({ files: [new File(["x"], "x.txt", { type: "text/plain" })] })); } catch (e) { /* partage indisponible */ }
   /* Deux façons d'ouvrir le courriel :
@@ -260,7 +279,7 @@
   $("mailMake").addEventListener("click", mailHint);
   $("mailShare").addEventListener("click", async () => {
     const m = mailText(), chosen = chosenFiles();
-    const files = chosen.filter((f) => attBlobs[f.key]).map((f) => new File([attBlobs[f.key]], f.url.split("/").pop(), { type: f.type }));
+    const files = chosen.filter((f) => attBlobs[f.url]).map((f) => new File([attBlobs[f.url]], f.url.split("/").pop(), { type: f.type }));
     try { await navigator.share(files.length ? { title: m.subject, text: m.body, files } : { title: m.subject, text: m.body }); }
     catch (e) { if (!e || e.name !== "AbortError") { mailHint(); location.href = $("mailMake").href; } }
   });
@@ -679,7 +698,8 @@
     const g = store.get("motion-group"); if (g) $("groupBy").value = g;
     try { S.motion = await (await fetch("content/motion.fr.json")).json(); }
     catch (e) { $("motionBody").innerHTML = `<p class="err">Le texte de la motion n’a pas pu être chargé (content/motion.fr.json).</p>`; return; }
-    $("motionTitle").textContent = S.motion.title;
+    S.motions = { fr: S.motion };
+    await Promise.all(["en", "es"].map(async (l) => { try { const r = await fetch(`content/motion.${l}.json`); if (r.ok) S.motions[l] = await r.json(); } catch (e) { /* pas encore traduite */ } }));
     S.paras = C.baseParagraphs(S.motion); S.mode = "same";
     loadDraft();
     renderSources(); renderMotion(); renderLogo(); renderEditor(); renderVotes();
