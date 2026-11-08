@@ -21,7 +21,7 @@
     document.documentElement.lang = S.lang;
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
-    $("langNote").hidden = !t("langNote"); $("langNote").textContent = t("langNote");
+    document.querySelectorAll(".lang-note").forEach((el) => (el.hidden = !t("langNote")));
     const sel = $("fTopic"), cur = sel.value;
     sel.innerHTML = `<option value="">${esc(t("f.topic.choose"))}</option>` + window.I18N.fr.topics.map((fr, i) => `<option value="${esc(fr)}">${esc(t("topics")[i] || fr)}</option>`).join("");
     sel.value = cur;
@@ -36,7 +36,6 @@
     const fill = (s) => esc(s).replace(/\{\{email\}\}/g, `<span class="addr">${esc(CFG.contactEmail)}</span>`)
       .replace(/\s?\{\{site\}\}/g, site ? ` <a href="${esc(site)}">${esc(site.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a>` : "");
     $("originText").innerHTML = L.origin.map((p) => `<p>${fill(p)}</p>`).join("");
-    $("howtoText").innerHTML = L.howto.map((p) => `<p>${fill(p)}</p>`).join("");
     $("footMail").textContent = CFG.contactEmail; $("footMail").href = "mailto:" + CFG.contactEmail;
   }
 
@@ -93,10 +92,6 @@
     el.innerHTML = `<span class="vlogo">${logoHTML(lab)}</span><span>${esc(t("motion.viewing"))} <b>${esc(lab.structure.name)}</b> · ${n ? `${n} ${esc(t("motion.edits"))}` : esc(t("motion.noEdits"))}</span><button type="button" class="linkish" id="viewBack">${esc(t("motion.back"))}</button>`;
     $("viewBack").onclick = () => { S.pinned = null; S.viewLab = null; renderMotion(); };
   }
-  function renderToc() {
-    $("toc").innerHTML = S.motion.paragraphs.filter((p) => p.kind === "body").map((p) => `<a href="#p-${esc(p.id)}" data-para="${esc(p.id)}">${esc(p.label)}</a>`).join("");
-  }
-  $("toc").addEventListener("click", (e) => { const a = e.target.closest("a[data-para]"); if (!a) return; e.preventDefault(); const el = $("p-" + a.dataset.para); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); });
   function renderSources() {
     $("sourceCount").textContent = `(${S.motion.sources.length})`;
     $("sourceList").innerHTML = S.motion.sources.map((s) => `<li id="src-${s.n}"><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a><div class="src-meta">${esc(s.publisher)}${s.date ? " · " + esc(fmtDate(s.date)) : ""}</div></li>`).join("");
@@ -108,6 +103,7 @@
     const r = anchor.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
     const x = Math.min(Math.max(12, r.left + r.width / 2 - tw / 2), window.innerWidth - tw - 12);
     let y = r.top - th - 10; if (y < 70) y = r.bottom + 10;
+    if (y + th > window.innerHeight - 8) y = Math.max(8, window.innerHeight - th - 8);
     tip.style.left = x + "px"; tip.style.top = y + "px";
   }
   function showTip(anchor, html, pinned = false) {
@@ -119,13 +115,23 @@
     let host = ""; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch (e) { /* url invalide */ }
     return `<span class="t-pub">${esc(s.publisher)}${s.date ? " · " + esc(fmtDate(s.date)) : ""}</span><span class="t-title">${esc(s.title)}</span><span class="t-sub">${esc(t("motion.citedFor"))} : ${esc(s.about)}</span><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(t("motion.readSource"))} · ${esc(host)} ↗</a>`;
   }
+  /* Fiche d'une structure : s'ouvre au survol, reste ouverte tant que la souris est sur le logo ou
+     sur la fiche (pour pouvoir cliquer « Voir les modifications »), se fixe au clic. */
+  let hideTimer = null;
+  const labOf = (el) => S.labs.find((x) => x.id === el.dataset.id);
+  function openLabTip(btn, pinned) { clearTimeout(hideTimer); const L = labOf(btn); if (!L) return; showTip(btn, labTip(L), pinned); tip.classList.add("interactive"); }
   document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(".tip")) { clearTimeout(hideTimer); return; }
     if (tipPinned) return;
     const fn = e.target.closest(".fn, .cite"); if (fn) return showTip(fn, sourceTip(fn.dataset.fn));
-    const lab = e.target.closest(".lab"); if (lab) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); }
+    const lab = e.target.closest(".lab"); if (lab && tipAnchor !== lab) openLabTip(lab, false); else if (lab) clearTimeout(hideTimer);
   });
   document.addEventListener("mouseout", (e) => {
-    const el = e.target.closest(".fn, .cite, .lab"); if (!el || el.contains(e.relatedTarget)) return;
+    const el = e.target.closest(".fn, .cite, .lab, .tip"); if (!el || el.contains(e.relatedTarget)) return;
+    if (el.matches(".lab, .tip")) {
+      if (e.relatedTarget && (e.relatedTarget.closest(".tip") || e.relatedTarget === tipAnchor || (tipAnchor && tipAnchor.contains(e.relatedTarget)))) return;
+      clearTimeout(hideTimer); hideTimer = setTimeout(() => hideTip(), 250); return;
+    }
     hideTip();
   });
   document.addEventListener("focusin", (e) => { const fn = e.target.closest(".fn, .cite"); if (fn && !tipPinned) showTip(fn, sourceTip(fn.dataset.fn)); const lab = e.target.closest(".lab"); if (lab && !tipPinned) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); } });
@@ -133,13 +139,15 @@
   document.addEventListener("click", (e) => {
     const fn = e.target.closest(".fn, .cite");
     if (fn) { e.preventDefault(); const was = tipPinned && tipAnchor === fn; hideTip(true); if (!was) { fn.classList.add("on"); showTip(fn, sourceTip(fn.dataset.fn), true); const li = $("src-" + fn.dataset.fn); if (li) { li.classList.add("flash"); setTimeout(() => li.classList.remove("flash"), 1600); } } return; }
-    const lab = e.target.closest(".lab");
-    if (lab) {
-      const L = S.labs.find((x) => x.id === lab.dataset.id);
-      S.pinned = S.pinned === L ? null : L; S.viewLab = S.pinned || null; hideTip(true); renderMotion();
-      if (S.pinned) $("paper").scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
+    const more = e.target.closest("[data-show-edits]");
+    if (more) {
+      const box = tip.querySelector(".t-edits"), open = box.hidden;
+      box.hidden = !open; more.setAttribute("aria-expanded", String(open));
+      more.textContent = open ? t("labs.hideEdits") : more.dataset.label;
+      tip.classList.toggle("wide", open); tipPinned = true; placeTip(tipAnchor); return;
     }
+    const lab = e.target.closest(".lab");
+    if (lab) { const was = tipPinned && tipAnchor === lab; hideTip(true); if (!was) openLabTip(lab, true); return; }
     if (!e.target.closest(".tip")) hideTip(true);
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") hideTip(true); });
@@ -156,7 +164,18 @@
       <span>${esc(t("labs.agOn"))} ${esc(fmtDate(L.ag.date))}</span>
       <div class="votebar"><i class="v-pour" style="width:${p}%"></i><i class="v-abs" style="width:${a}%"></i><i class="v-contre" style="width:${c}%"></i></div>
       <div class="t-nums"><span>${esc(t("labs.for"))} ${p} %</span><span>${esc(t("labs.abst"))} ${a} %</span><span>${esc(t("labs.against"))} ${c} %</span></div>
-      <span class="t-sub">${perm}</span>${L._edits ? `<span class="t-edit">${L._edits} ${esc(t("labs.changes"))}</span>` : ""}<span class="t-sub">${esc(t("labs.clickToRead"))}</span>`;
+      <span class="t-sub">${perm}</span>${L._edits ? editsBlock(L) : `<span class="t-sub">${esc(t("motion.noEdits"))}</span>`}`;
+  }
+  /* Liste dépliable de toutes les modifications, au plus court. */
+  function editsBlock(L) {
+    const cx = ctx(labValues(L)), label = `${t("labs.showEdits")} (${L._edits})`;
+    const items = C.applyEdits(S.motion, L.motion.edits).filter((p) => p.kind !== "instruction" && p.status !== "same").map((p) => {
+      const head = `<span class="t-elabel">${esc(p.status === "added" ? t("paste.added") : p.label)}</span>${p.status === "deleted" ? `<span class="del-tag">${esc(t("paste.deleted"))}</span>` : ""}`;
+      const body = p.status === "added" ? `<ins class="rev">${C.renderText(p.text.replace(/\[\^\d+\]/g, ""), cx)}</ins>`
+        : p.status === "deleted" ? "" : C.diffSnippets(p.orig, p.text, cx);
+      return `<li>${head}${body ? `<span class="t-ebody">${body}</span>` : ""}</li>`;
+    }).join("");
+    return `<button type="button" class="t-more" data-show-edits data-label="${esc(label)}" aria-expanded="false">${esc(label)}</button><ul class="t-edits" hidden>${items}</ul>`;
   }
   function renderLabs() {
     const wall = $("labWall"); if (!wall) return;
@@ -169,7 +188,7 @@
     const sorted = [...groups.entries()].sort((x, y) => y[1].length - x[1].length || x[0].localeCompare(y[0]));
     wall.innerHTML = sorted.map(([g, list]) => `<div class="lab-group">${key !== "none" ? `<h4>${esc(key === "topic" ? topicLabel(g) : g)}<span>${list.length}</span></h4>` : ""}<div class="logos">${list.map((L) => {
       const on = S.viewLab === L;
-      return `<div class="lab-item${on ? " on" : ""}"><button type="button" class="lab${L._edits ? " edited" : ""}${L.permanents.supported ? "" : " octo"}${on ? " on" : ""}" data-id="${esc(L.id)}" aria-label="${esc(L.structure.name)}"><span class="inner">${logoHTML(L)}</span></button><span class="name">${esc(L.structure.acronym || L.structure.name)}</span>${L.example ? `<span class="ex">${esc(t("labs.exampleShort"))}</span>` : ""}</div>`;
+      return `<div class="lab-item${on ? " on" : ""}"><button type="button" class="lab${L.permanents.supported ? "" : " octo"}${on ? " on" : ""}" data-id="${esc(L.id)}" aria-label="${esc(L.structure.name)}"><span class="inner">${logoHTML(L)}</span></button><span class="name">${esc(L.structure.acronym || L.structure.name)}</span>${L.example ? `<span class="ex">${esc(t("labs.exampleShort"))}</span>` : ""}</div>`;
     }).join("")}</div></div>`).join("");
     const real = S.labs.filter((L) => !L.example);
     $("statLabs").textContent = real.length;
@@ -209,23 +228,46 @@
     const deadline = $("mDeadline").value ? "le " + frDate($("mDeadline").value) : "la fin de la semaine";
     const name = C.cleanLine($("mName").value, 60) || "[Votre prénom]";
     const site = siteUrl();
-    let body = L.mail.replace("{{team}}", team).replace("{{deadline}}", deadline).replace("{{name}}", name);
+    const fmts = chosenFiles().map((f) => "en " + f.label);
+    const joins = fmts.length ? ` Je vous le joins ${fmts.length > 1 ? fmts.slice(0, -1).join(", ") + " et " + fmts[fmts.length - 1] : fmts[0]}.` : "";
+    let body = L.mail.replace("{{team}}", team).replace("{{deadline}}", deadline).replace("{{name}}", name).replace(/ ?\{\{joins\}\}/, joins);
     body = site ? body.replace("{{site}}", site) : body.replace(/[^\n]*\{\{site\}\}[^\n]*\n\n/, "");
     return { subject: L.mailSubject, body };
   }
-  function renderMail() { const m = mailText(); $("mailSubject").textContent = m.subject; $("mailBody").textContent = m.body; }
-  ["mName", "mTeam", "mDeadline"].forEach((id) => $(id).addEventListener("input", renderMail));
-  $("mailMake").addEventListener("click", () => { const m = mailText(); location.href = `mailto:?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`; });
-  $("mailCopy").addEventListener("click", () => { const m = mailText(); copy(`${m.subject}\n\n${m.body}`, $("mailToast"), $("mailBody")); });
-  const FILES = [["downloads/motion-fr.pdf", "application/pdf"], ["downloads/motion-fr.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"], ["downloads/motion-fr.txt", "text/plain"]];
-  try { if (navigator.canShare && navigator.canShare({ files: [new File(["x"], "x.txt", { type: "text/plain" })] })) $("mailShare").hidden = false; } catch (e) { /* partage indisponible */ }
+  function renderMail() {
+    const m = mailText(); $("mailSubject").textContent = m.subject; $("mailBody").textContent = m.body;
+    $("mailMake").href = `mailto:?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`;
+  }
+  ["mName", "mTeam", "mDeadline", "attPdf", "attDocx", "attTxt"].forEach((id) => $(id).addEventListener("input", renderMail));
+  /* Pièces jointes : préchargées pour que le partage (Mail sur Apple, etc.) les joigne directement. */
+  const ATT = {
+    pdf: { url: "downloads/motion-fr.pdf", type: "application/pdf", label: "PDF" },
+    docx: { url: "downloads/motion-fr.docx", type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", label: "Word" },
+    txt: { url: "downloads/motion-fr.txt", type: "text/plain", label: "texte brut" }
+  };
+  const attBlobs = {};
+  Object.entries(ATT).forEach(([k, a]) => fetch(a.url).then((r) => (r.ok ? r.blob() : null)).then((b) => { if (b) attBlobs[k] = b; }).catch(() => {}));
+  function chosenFiles() { return [...document.querySelectorAll("[data-att]")].filter((c) => c.checked).map((c) => ({ key: c.dataset.att, ...ATT[c.dataset.att] })); }
+  let canShareFiles = false;
+  try { canShareFiles = !!(navigator.canShare && navigator.canShare({ files: [new File(["x"], "x.txt", { type: "text/plain" })] })); } catch (e) { /* partage indisponible */ }
+  /* Deux façons d'ouvrir le courriel :
+     - « Préparer le courriel avec les pièces jointes » (menu de partage, joint les documents ; Apple, Android…),
+       affiché seulement si l'appareil le permet ;
+     - « Ouvrir ma messagerie » : un vrai lien mailto, avec le texte seulement.
+     Après chaque clic, un message dit quoi faire si rien ne s'est ouvert. */
+  if (canShareFiles) { $("mailShare").hidden = false; $("mailMake").classList.add("ghost"); }
+  const mailHint = () => { $("mailToast").textContent = t("step1.nothing"); setTimeout(() => ($("mailToast").textContent = ""), 9000); };
+  $("mailMake").addEventListener("click", mailHint);
   $("mailShare").addEventListener("click", async () => {
-    try {
-      const files = await Promise.all(FILES.map(async ([u, type]) => new File([await (await fetch(u)).blob()], u.split("/").pop(), { type })));
-      const m = mailText();
-      await navigator.share({ title: m.subject, text: m.body, files });
-    } catch (e) { if (e && e.name !== "AbortError") { $("mailToast").textContent = e.message || ""; } }
+    const m = mailText(), chosen = chosenFiles();
+    const files = chosen.filter((f) => attBlobs[f.key]).map((f) => new File([attBlobs[f.key]], f.url.split("/").pop(), { type: f.type }));
+    try { await navigator.share(files.length ? { title: m.subject, text: m.body, files } : { title: m.subject, text: m.body }); }
+    catch (e) { if (!e || e.name !== "AbortError") { mailHint(); location.href = $("mailMake").href; } }
   });
+  $("mailFiles").addEventListener("click", () => {
+    chosenFiles().forEach((f, i) => setTimeout(() => { const a = document.createElement("a"); a.href = f.url; a.download = f.url.split("/").pop(); document.body.appendChild(a); a.click(); a.remove(); }, i * 400));
+  });
+  $("mailCopy").addEventListener("click", () => { const m = mailText(); copy(`${m.subject}\n\n${m.body}`, $("mailToast"), $("mailBody")); });
 
   async function copy(text, toastEl, fallbackEl) {
     try { await navigator.clipboard.writeText(text); toastEl.textContent = t("copied"); }
@@ -350,7 +392,7 @@
     $("pasteResult").innerHTML = `<div class="paste-result">
       <h4>${esc(changed.length ? t("paste.question") : t("paste.none"))}</h4>
       ${det ? `<div><span class="small-h">${esc(t("paste.detected"))}</span><div class="detected">${det}</div></div>` : ""}
-      ${changed.map((p) => `<div class="paste-item"><span class="para-label">${esc(p.status === "added" ? t("paste.added") : p.status === "deleted" ? `${p.label} · ${t("paste.deleted")}` : p.label)}</span>${p.status === "added" ? `<ins class="rev">${C.renderText(p.text, cx)}</ins>` : p.status === "deleted" ? `<del class="rev">${C.renderText(p.orig, cx)}</del>` : C.renderDiff(p.orig, p.text, cx)}</div>`).join("")}
+      ${changed.map((p) => `<div class="paste-item"><span class="para-label">${esc(p.status === "added" ? t("paste.added") : p.label)}</span>${p.status === "deleted" ? `<span class="del-tag">${esc(t("paste.deleted"))}</span>` : ""}${p.status === "added" ? `<ins class="rev">${C.renderText(p.text, cx)}</ins>` : p.status === "deleted" ? `<del class="rev">${C.renderText(p.orig, cx)}</del>` : C.renderDiff(p.orig, p.text, cx)}</div>`).join("")}
       <div class="row"><button type="button" class="btn" id="pasteYes">${esc(t("paste.confirm"))}</button>${changed.length ? `<button type="button" class="btn ghost" id="pasteFix">${esc(t("paste.fix"))}</button>` : ""}</div></div>`;
     $("pasteYes").onclick = () => applyPaste(false, instr);
     if ($("pasteFix")) $("pasteFix").onclick = () => applyPaste(true, instr);
@@ -399,7 +441,12 @@
     bar(["fPour", "fContre", "fAbst"], "voteBar", "voteLegend");
     bar(["fPermPour", "fPermContre", "fPermAbst"], "permBar", "permLegend");
   }
-  const FIELDS = ["fName", "fAcronym", "fInstitution", "fDepartment", "fCity", "fCountry", "fTopic", "fDate", "fPour", "fContre", "fAbst", "fPermPour", "fPermContre", "fPermAbst", "fContact"];
+  /* Thématique « Autre » : un champ libre apparaît pour la préciser. */
+  const OTHER_TOPIC = window.I18N.fr.topics[window.I18N.fr.topics.length - 1];
+  function isOtherTopic() { return $("fTopic").value === OTHER_TOPIC; }
+  function syncTopicOther() { $("topicOtherWrap").hidden = !isOtherTopic(); }
+  $("fTopic").addEventListener("change", () => { syncTopicOther(); if (isOtherTopic()) $("fTopicOther").focus(); refreshReview(); });
+  const FIELDS = ["fName", "fAcronym", "fInstitution", "fDepartment", "fCity", "fCountry", "fTopic", "fTopicOther", "fDate", "fPour", "fContre", "fAbst", "fPermPour", "fPermContre", "fPermAbst"];
   $("labForm").addEventListener("input", (e) => {
     if (e.target.closest("#editor") || e.target.id === "pasteBox") return;
     if (e.target.id === "fPerm") $("permFields").hidden = !e.target.checked;
@@ -407,8 +454,12 @@
     if (["fName", "fDate", "fPour", "fContre", "fAbst", "fPerm", "fPermPour", "fPermContre", "fPermAbst"].includes(e.target.id)) renderEditor();
     if (e.target.id === "fName" || e.target.id === "fAcronym") renderLogo();
     saveDraft();
+    refreshReview();
   });
-  $("fPerm").addEventListener("change", () => { $("permFields").hidden = !$("fPerm").checked; renderEditor(); saveDraft(); });
+  /* Si la vérification est affichée, elle se met à jour dès qu'un champ change :
+     « Valider » se débloque sans avoir à cliquer de nouveau sur « Vérifier avant l'envoi ». */
+  function refreshReview() { if (!$("review").hidden) review(false); }
+  $("fPerm").addEventListener("change", () => { $("permFields").hidden = !$("fPerm").checked; renderEditor(); saveDraft(); refreshReview(); });
 
   /* Logo : ré-encodé en JPEG 256 px par le navigateur, ce qui neutralise tout contenu caché. */
   function renderLogo() {
@@ -449,6 +500,7 @@
     if (!d || d.v !== S.motion.version) return;
     FIELDS.forEach((id) => { if (d.f && typeof d.f[id] === "string") $(id).value = d.f[id]; });
     $("fPerm").checked = !!(d.f && d.f.fPerm); $("permFields").hidden = !$("fPerm").checked;
+    syncTopicOther();
     if (typeof d.logo === "string" && /^data:image\/jpeg;base64,/.test(d.logo)) S.logo = d.logo;
     const v = C.validateLab({ structure: { name: "x" }, ag: { pour: 1 }, motion: { edits: d.edits || [] } }, S.motion).lab;
     if (v) { S.paras = C.applyEdits(S.motion, v.motion.edits); }
@@ -462,7 +514,7 @@
       schema: 1,
       id: `${C.slug(v("fAcronym", 30) || v("fName", 160))}-${$("fDate").value || "sans-date"}`,
       submitted_at: new Date().toISOString(),
-      structure: { name: v("fName", 160), acronym: v("fAcronym", 30), institution: v("fInstitution", 160), department: v("fDepartment", 160), city: v("fCity", 80), country: v("fCountry", 80), topic: v("fTopic", 80) },
+      structure: { name: v("fName", 160), acronym: v("fAcronym", 30), institution: v("fInstitution", 160), department: v("fDepartment", 160), city: v("fCity", 80), country: v("fCountry", 80), topic: isOtherTopic() ? (v("fTopicOther", 80) || v("fTopic", 80)) : v("fTopic", 80) },
       logo: S.logo,
       ag: { date: /^\d{4}-\d{2}-\d{2}$/.test($("fDate").value) ? $("fDate").value : "", pour: C.int($("fPour").value), contre: C.int($("fContre").value), abstention: C.int($("fAbst").value) },
       permanents: { supported: $("fPerm").checked, pour: $("fPerm").checked ? C.int($("fPermPour").value) : 0, contre: $("fPerm").checked ? C.int($("fPermContre").value) : 0, abstention: $("fPerm").checked ? C.int($("fPermAbst").value) : 0 },
@@ -470,11 +522,12 @@
     };
   }
   $("labForm").addEventListener("submit", (e) => { e.preventDefault(); review(); });
-  function review() {
-    S.editingId = null; renderEditor();
+  function review(scroll = true) {
+    if (scroll || S.editingId === null) { S.editingId = null; renderEditor(); }
     const d = collect();
     const missing = [];
     const need = [["fName", "f.name"], ["fInstitution", "f.institution"], ["fCity", "f.city"], ["fCountry", "f.country"], ["fTopic", "f.topic"], ["fDate", "f.date"]];
+    if (isOtherTopic()) need.push(["fTopicOther", "f.topicOther"]);
     need.forEach(([id, k]) => { if (!$(id).value.trim()) missing.push({ id, text: t(k) }); });
     if (!d.ag.pour) missing.push({ id: "fPour", text: t("warn.noFor") });
     const warns = [];
@@ -493,8 +546,9 @@
       <div class="summary-card"><span class="logo-prev">${S.logo ? `<img src="${esc(S.logo)}" alt="">` : C.catSVG(d.structure.acronym || d.structure.name || "?")}</span>
         <div class="meta"><b>${esc(d.structure.name || "—")}</b>${esc([d.structure.institution, d.structure.city, d.structure.country].filter(Boolean).join(" · "))}<br>${esc(t("labs.agOn"))} ${esc(fmtDate(d.ag.date) || "—")} · ${esc(t("labs.for"))} ${p} % · ${esc(t("labs.abst"))} ${a} % · ${esc(t("labs.against"))} ${c} %</div></div>
       <div><span class="small-h">${esc(t("summary.edits"))}</span>
-        ${edited.length ? edited.map((q) => `<div class="paste-item" style="margin-top:10px"><span class="para-label">${esc(q.label || t("paste.added"))}</span>${q.status === "added" ? `<ins class="rev">${C.renderText(q.text, cx)}</ins>` : q.status === "deleted" ? `<del class="rev">${C.renderText(q.orig, cx)}</del>` : C.renderDiff(q.orig, q.text, cx)}</div>`).join("") : `<p class="muted" style="margin:6px 0 0">${esc(t("summary.noEdits"))}</p>`}</div>
-      <div class="row"><button type="button" class="btn big" id="sendBtn" ${blocked ? "disabled" : ""}>${esc(t("submit.send"))}</button><button type="button" class="btn ghost" id="backBtn">${esc(t("submit.back"))}</button></div>`;
+        ${edited.length ? edited.map((q) => `<div class="paste-item" style="margin-top:10px"><span class="para-label">${esc(q.label || t("paste.added"))}</span>${q.status === "deleted" ? `<span class="del-tag">${esc(t("paste.deleted"))}</span>` : ""}${q.status === "added" ? `<ins class="rev">${C.renderText(q.text, cx)}</ins>` : q.status === "deleted" ? `<del class="rev">${C.renderText(q.orig, cx)}</del>` : C.renderDiff(q.orig, q.text, cx)}</div>`).join("") : `<p class="muted" style="margin:6px 0 0">${esc(t("summary.noEdits"))}</p>`}</div>
+      <div class="row"><button type="button" class="btn big" id="sendBtn" ${blocked ? "disabled" : ""}>${esc(t("submit.send"))}</button><button type="button" class="btn ghost big" id="backBtn">${esc(t("submit.back"))}</button></div>
+      <p class="muted small" style="margin:0">${esc(t(blocked ? "submit.whatBlocked" : "submit.what"))}</p>`;
     el.querySelectorAll("[data-goto]").forEach((b) => (b.onclick = () => { $(b.dataset.goto).focus(); $(b.dataset.goto).scrollIntoView({ block: "center", behavior: "smooth" }); }));
     el.querySelectorAll("[data-fix]").forEach((b) => (b.onclick = () => {
       if (b.dataset.fix === "instr") { instr.status = "deleted"; renderEditor(); saveDraft(); review(); }
@@ -502,12 +556,11 @@
     }));
     $("backBtn").onclick = () => { el.hidden = true; $("labForm").scrollIntoView({ behavior: "smooth" }); };
     $("sendBtn").onclick = () => send(d);
-    el.scrollIntoView({ behavior: "smooth", block: "start" }); el.focus({ preventScroll: true });
+    if (scroll) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.focus({ preventScroll: true }); }
   }
 
   function plainText(d) {
     const s = d.structure, [p, a, c] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
-    const contact = C.cleanLine($("fContact").value, 160);
     const paras = C.applyEdits(S.motion, d.motion.edits);
     const vals = labValues(d);
     const fillPh = (txt) => txt.replace(/\{\{(\w+)\}\}/g, (m, k) => (vals[k] !== undefined && vals[k] !== "" ? String(vals[k]) : S.motion.placeholders[k] || m)).replace(/\[\^(\d+)\]/g, "[$1]");
@@ -522,7 +575,6 @@
       `AG des non-permanent·es du ${frDate(d.ag.date)} : ${d.ag.pour} pour (${p} %), ${d.ag.contre} contre (${c} %), ${d.ag.abstention} abstention(s) (${a} %)`,
       `Permanent·es : ${d.permanents.supported ? `soutien voté (${d.permanents.pour} pour, ${d.permanents.contre} contre, ${d.permanents.abstention} abstention(s))` : "pas de vote"}`,
       `Logo : ${d.logo ? "fourni (dans le JSON)" : "non fourni"}`,
-      `Contact (non publié) : ${contact || "non renseigné"}`,
       "",
       `=== Modifications (${changes.length}) — [-supprimé-] {+ajouté+} ===`,
       changes.length ? changes.join("\n\n") : "Aucune : texte commun.",
@@ -546,7 +598,7 @@
   }
   function submissionMail(d, fileName) {
     const s = d.structure, [p] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
-    const subject = `Soumission de notre soutien pour la motion – ${s.acronym || s.name}`;
+    const subject = `Ajout de soutien – ${s.name}`;
     const body = [
       "Bonjour,", "",
       `Les non-permanent·es de ${s.name}${s.acronym && s.acronym !== s.name ? " (" + s.acronym + ")" : ""} ont voté la motion en AG le ${frDate(d.ag.date)} (${d.ag.pour} pour, ${d.ag.contre} contre, ${d.ag.abstention} abstention(s), soit ${p} % pour) et souhaitent la soutenir publiquement sur le site.`, "",
@@ -558,39 +610,65 @@
     return { subject, body, href: `mailto:${CFG.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` };
   }
 
+  /* Après « Valider et passer à l'envoi » : rien ne se déclenche tout seul. La page affiche trois
+     étapes numérotées, chacune lancée par un bouton, qui se cochent au fur et à mesure. */
   function send(d) {
     const fileName = `soutien-motion-${d.id}.txt`;
     const file = submissionFile(d), mail = submissionMail(d, fileName);
-    download(fileName, file, "text/plain;charset=utf-8");
-    setTimeout(() => { location.href = mail.href; }, 600);
     let canShare = false;
     try { canShare = !!(navigator.canShare && navigator.canShare({ files: [new File([file], fileName, { type: "text/plain" })] })); } catch (e) { /* partage indisponible */ }
+    const addr = `<span class="addr">${esc(CFG.contactEmail)}</span>`;
     const el = $("sent"); $("review").hidden = true; el.hidden = false;
-    el.innerHTML = `<h2>${esc(t("sent.title"))}</h2><p class="thanks">${esc(t("sent.body"))}</p>
-      <h3>${esc(t("sent.lede"))}</h3>
+    el.innerHTML = `<h2>${esc(t("sent.readyTitle"))}</h2>
+      <p class="muted" style="margin:0">${esc(t("sent.readyLede"))}</p>
       <ol class="send-steps">
-        <li>${esc(t("sent.step1"))} <span class="addr">${esc(CFG.contactEmail)}</span>.</li>
-        <li>${esc(t("sent.step2"))} <b>${esc(fileName)}</b>${esc(t("sent.step2b"))}</li>
-        <li>${esc(t("sent.step3"))}</li>
+        <li id="sendStep1" class="active">
+          <span class="step-num">1</span>
+          <div><h3>${esc(t("sent.s1Title"))}</h3>
+            <div class="row"><button type="button" class="btn" id="dlFile">${esc(t("sent.s1Btn"))} ${esc(fileName)}</button></div>
+            <p class="muted small">${esc(t("sent.s1Note"))}</p></div>
+        </li>
+        <li id="sendStep2">
+          <span class="step-num">2</span>
+          <div><h3>${esc(t("sent.s2Title"))}</h3>
+            <div class="row"><a class="btn ghost" id="openMail" href="${esc(mail.href)}">${esc(t("sent.s2Btn"))}</a></div>
+            <p class="muted small">${esc(t("sent.s2Note"))} ${addr}.</p></div>
+        </li>
+        <li id="sendStep3">
+          <span class="step-num">3</span>
+          <div><h3>${esc(t("sent.s3Title"))}</h3>
+            <p class="small" style="margin:0">${esc(t("sent.s3Text"))}</p></div>
+        </li>
       </ol>
-      <div class="row">
-        <a class="btn" id="reopenMail" href="${esc(mail.href)}">${esc(t("sent.reopen"))}</a>
-        <button type="button" class="btn ghost" id="redownload">${esc(t("sent.redownload"))}</button>
-        ${canShare ? `<button type="button" class="btn ghost" id="shareFile">${esc(t("sent.share"))}</button>` : ""}
-      </div>
-      <div class="mail-preview">
-        <div class="mail-subject"><span class="muted">${esc(t("sent.to"))}</span> <span class="addr">${esc(CFG.contactEmail)}</span><br><span class="muted">${esc(t("sent.subject"))}</span> ${esc(mail.subject)}</div>
-        <pre id="sentMailBody">${esc(mail.body)}</pre>
-      </div>
-      <p class="muted small" style="margin:0">${esc(t("sent.noMail"))}</p>
-      <div class="row"><button type="button" class="btn ghost" id="copyMail2">${esc(t("sent.copyMail"))}</button><span class="toast" id="sentToast" role="status"></span></div>
-      <div class="row"><button type="button" class="linkish" id="again">${esc(t("sent.again"))}</button></div>`;
-    $("redownload").onclick = () => download(fileName, file, "text/plain;charset=utf-8");
-    $("copyMail2").onclick = () => copy(`${CFG.contactEmail}\n${mail.subject}\n\n${mail.body}`, $("sentToast"), $("sentMailBody"));
-    if (canShare) $("shareFile").onclick = async () => {
-      try { await navigator.share({ title: mail.subject, text: mail.body, files: [new File([file], fileName, { type: "text/plain" })] }); }
-      catch (e) { /* partage annulé */ }
+      ${canShare ? `<div class="shortcut"><b>${esc(t("sent.shortcutTitle"))}</b>
+        <span class="muted small">${esc(t("sent.shortcutNote"))} ${addr}</span>
+        <div class="row"><button type="button" class="btn ghost" id="shareFile">${esc(t("sent.share"))}</button><button type="button" class="linkish" id="copyAddr">${esc(t("sent.copyAddr"))}</button></div></div>` : ""}
+      <details class="mail-fallback">
+        <summary>${esc(t("sent.noMail"))}</summary>
+        <div class="mail-preview">
+          <div class="mail-subject"><span class="muted">${esc(t("sent.to"))}</span> ${addr}<br><span class="muted">${esc(t("sent.subject"))}</span> ${esc(mail.subject)}</div>
+          <pre id="sentMailBody">${esc(mail.body)}</pre>
+        </div>
+        <div class="row"><button type="button" class="btn ghost" id="copyMail2">${esc(t("sent.copyMail"))}</button></div>
+      </details>
+      <span class="toast" id="sentToast" role="status"></span>
+      <div class="thanks-box"><h3>${esc(t("sent.title"))}</h3><p class="thanks">${esc(t("sent.body"))}</p></div>
+      <div class="row"><a class="btn ghost" href="#mode-emploi">${esc(t("sent.howto"))}</a><button type="button" class="linkish" id="again">${esc(t("sent.again"))}</button></div>`;
+    const done = (n) => {
+      $("sendStep" + n).classList.add("done"); $("sendStep" + n).classList.remove("active");
+      const next = $("sendStep" + (n + 1)); if (next && !next.classList.contains("done")) next.classList.add("active");
+      if (n === 1) { $("openMail").classList.remove("ghost"); $("dlFile").classList.add("ghost"); }
     };
+    $("dlFile").onclick = () => { download(fileName, file, "text/plain;charset=utf-8"); done(1); };
+    $("openMail").addEventListener("click", () => { done(2); });
+    $("copyMail2").onclick = () => copy(`${CFG.contactEmail}\n${mail.subject}\n\n${mail.body}`, $("sentToast"), $("sentMailBody"));
+    if (canShare) {
+      $("shareFile").onclick = async () => {
+        try { await navigator.share({ title: mail.subject, text: mail.body, files: [new File([file], fileName, { type: "text/plain" })] }); done(1); done(2); }
+        catch (e) { /* partage annulé */ }
+      };
+      $("copyAddr").onclick = () => copy(CFG.contactEmail, $("sentToast"), null);
+    }
     $("again").onclick = () => { try { localStorage.removeItem("motion-draft"); } catch (e) { /* rien */ } location.reload(); };
     el.scrollIntoView({ behavior: "smooth", block: "start" }); el.focus({ preventScroll: true });
   }
@@ -604,7 +682,7 @@
     $("motionTitle").textContent = S.motion.title;
     S.paras = C.baseParagraphs(S.motion); S.mode = "same";
     loadDraft();
-    renderToc(); renderSources(); renderMotion(); renderLogo(); renderEditor(); renderVotes();
+    renderSources(); renderMotion(); renderLogo(); renderEditor(); renderVotes();
     applyLang(); route();
     loadLabs();
   }

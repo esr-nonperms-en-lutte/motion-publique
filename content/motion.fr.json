@@ -15,25 +15,25 @@
   "paragraphs": [
     {
       "id": "solidarite",
-      "label": "Solidarité",
+      "label": "Soutien aux jeunes",
       "kind": "body",
       "text": "Nous, doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es de {{structure}}, nous déclarons solidaires du mouvement social lycéen, désormais élargi à l’enseignement supérieur et à la recherche. Nous soutenons les revendications en faveur d'un accès à des conditions d’étude et de travail dignes et équitables à travers l’ensemble du pays. Les lycéen·nes d’aujourd’hui sont les étudiant·es de demain : le droit à l’éducation ne peut ni s’arrêter aux portes de l’université, ni être conditionné par le milieu économique et social, ni par l’établissement d’origine, ni par la nationalité. Ainsi, nous soutenons entre autres, les « 10 mesures d’urgence pour la jeunesse » portées par l’Union syndicale lycéenne, l’Union étudiante, l’UNEF, Solidaires étudiant·es et la FAGE."
     },
     {
       "id": "international",
-      "label": "International",
+      "label": "Montée du fascisme",
       "kind": "body",
       "text": "Nous affirmons notre soutien au mouvement social étendu à l'échelle internationale, rappelant la nécessité d'une solidarité mondiale face à la montée de l'extrême-droite, de la course à l'armement, de la captation des fonds publics par les entreprises privées[^1], au détriment de l'éducation. L'université doit se placer au cœur de la lutte contre les politiques discriminatoires et la préférence nationale. Pour remplir sa fonction sociale et son devoir de service public, elle se doit d'être un lieu ouvert, inclusif et accessible à tous·tes. Nous nous opposons à toutes les mesures qui précarisent et empêchent l'accueil des étudiant·es étranger·es, à commencer par la mise en place raciste et xénophobe de frais d'inscription différenciés via le dispositif \"Bienvenue en France\"."
     },
     {
       "id": "repression",
-      "label": "Répression",
+      "label": "Violence policière et répression en France",
       "kind": "body",
       "text": "Nous dénonçons l’usage de la violence ainsi que la répression policière, judiciaire et administrative qui s'est abattue sur les lycéen·nes, les étudiant·es et leurs enseignant·es, tous·tes mobilisé·es pour demander des tables, des chaises, des sanitaires fonctionnels et de l’eau potable. Nous dénonçons le caractère raciste et classiste de cette répression, s’étant tout d'abord exercée contre les jeunes ultra-marin·es et de banlieue avant de se généraliser à l’ensemble de la mobilisation. Nous dénonçons l’ampleur de cette répression : plus de 10 000 interpellations estimées en l’espace de trois semaines[^2], dont la majorité concerne des mineur·es. Enfin, nous dénonçons l'escalade de la violence dans cette même répression : les interdictions de manifester[^3], l'instauration de couvre-feux[^4], et l'utilisation d'armes de guerre qui mutilent[^5] et tuent[^6]. Cet usage décomplexé de la violence, justifié par les chaînes d'info en continu[^7], intimide celles et ceux qui voudraient s’engager dans la lutte, et révèle la logique autoritariste du gouvernement qui abîme chaque jour davantage notre démocratie."
     },
     {
       "id": "universites",
-      "label": "Présidences d’université",
+      "label": "Répression au sein même de l’université",
       "kind": "body",
       "text": "Nous condamnons la dérive répressive de certaines présidences d'université qui privilégient la violence au dialogue. Nous nous alarmons des fermetures administratives des campus universitaires, qui sont et doivent demeurer des lieux d’échanges et de débat, afin de lutter contre l’isolement des étudiant·es. Nous demandons le respect et le soutien matériel des universités aux mobilisations étudiantes, ainsi que de leur permettre l'accès aux infrastructures essentielles telles que les restaurants universitaires, crèches, services de santé ou bibliothèques universitaires. Il est inadmissible que les présidences d'université permettent ou sollicitent l'intervention des forces de l'ordre sur les campus comme cela a été le cas à la Sorbonne Nouvelle, Sorbonne Université, Nantes Université, Sciences Po Paris et Toulouse - Jean Jaurès."
     },

@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=12">
+<link rel="stylesheet" href="assets/style.css?v=30">
 </head>
 <body>
 <div class="tricolore" aria-hidden="true"></div>
@@ -29,23 +29,18 @@
 </header>
 
 <main class="wrap">
-  <p class="lang-note" id="langNote" hidden></p>
 
   <!-- ===================== LA MOTION ===================== -->
   <section class="view" id="view-motion" data-view="motion">
     <div class="hero">
-      <div class="eyebrow" data-i18n="hero.eyebrow">Modèle de motion · AG d’UMR et d’UFR</div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">Modèle de motion · AG de doctorant·es, de post-doctorant·es, ATER et autres personnels non permanent·es</div>
       <h1 id="motionTitle">Modèle de motion à l’initiative des doctorant·es, post-doctorant·es, ATER et autres personnels non permanent·es</h1>
       <p class="lede" data-i18n="hero.lede"></p>
-      <div class="hero-actions">
-        <a class="btn" href="#mode-emploi" data-i18n="hero.cta">Faire voter cette motion</a>
-        <a class="btn ghost" href="#soutenir" data-i18n="hero.cta2">Soutenir publiquement</a>
+      <div class="hero-stats">
         <span class="stat" data-stat><b id="statLabs">0</b> <span data-i18n="stat.structures"></span></span>
         <span class="stat" data-stat><b id="statVoters">0</b> <span data-i18n="stat.voters"></span></span>
       </div>
     </div>
-
-    <nav class="toc" id="toc" aria-label="Paragraphes de la motion"></nav>
 
     <article class="paper" id="paper">
       <div class="viewing" id="viewing" hidden></div>
@@ -77,30 +72,49 @@
       <div class="legend">
         <span><i class="shape round"></i><span data-i18n="labs.legend.perm"></span></span>
         <span><i class="shape octo"></i><span data-i18n="labs.legend.noperm"></span></span>
-        <span><i class="shape round edge-same"></i><span data-i18n="labs.legend.same"></span></span>
-        <span><i class="shape round edge-edited"></i><span data-i18n="labs.legend.edited"></span></span>
       </div>
       <div id="labWall" class="lab-wall" aria-live="polite"></div>
+    </section>
+
+    <section class="next-steps" aria-labelledby="nextTitle">
+      <h2 id="nextTitle" data-i18n="next.title">Faire voter la motion dans votre structure</h2>
+      <p class="muted" data-i18n="next.lede">Vous êtes doctorant·e, post-doc, ATER, vacataire ou contractuel·le ? Voici comment faire voter cette motion dans votre structure.</p>
+      <div class="cards">
+        <a class="card" href="#mode-emploi">
+          <span class="card-num">1</span>
+          <span class="card-when" data-i18n="next.before">Avant l’AG</span>
+          <span class="card-title" data-i18n="next.beforeTitle">Faire voter la motion</span>
+          <span class="card-text" data-i18n="next.beforeText">Partagez le texte avec les non-permanent·es de votre labo ou UFR et organisez une assemblée générale. Courriel prêt à envoyer et PDF fournis.</span>
+          <span class="card-go" data-i18n="next.beforeGo">Organiser l’AG →</span>
+        </a>
+        <a class="card red" href="#soutenir">
+          <span class="card-num">2</span>
+          <span class="card-when" data-i18n="next.after">Après l’AG</span>
+          <span class="card-title" data-i18n="next.afterTitle">Faire connaître votre vote</span>
+          <span class="card-text" data-i18n="next.afterText">Votre AG a voté la motion ? Ajoutez votre structure à la liste des signataires, avec le résultat du vote et vos éventuels amendements.</span>
+          <span class="card-go" data-i18n="next.afterGo">Déclarer notre vote →</span>
+        </a>
+      </div>
     </section>
   </section>
 
   <!-- ===================== ORIGINE ===================== -->
   <section class="view prose-view" id="view-origine" data-view="origine" hidden>
-    <div class="eyebrow">Sorbonne Université · Paris-Saclay</div>
+    <div class="title-row"><div class="eyebrow">Sorbonne Université · Paris-Saclay</div></div>
     <h1 data-i18n="origin.title">D’où vient ce texte</h1>
     <div id="originText" class="prose"></div>
   </section>
 
   <!-- ===================== MODE D'EMPLOI ===================== -->
   <section class="view prose-view" id="view-mode-emploi" data-view="mode-emploi" hidden>
-    <h1 data-i18n="howto.title">Mode d’emploi</h1>
+    <div class="title-row"><h1 data-i18n="howto.title">Mode d’emploi</h1></div>
     <h2 class="small-h" data-i18n="howto.short">En bref</h2>
     <ol class="steps">
       <li class="step">
         <h3 data-i18n="step1.title"></h3>
         <p data-i18n="step1.body"></p>
         <div class="mail-fields">
-          <label for="mName"><span data-i18n="step1.name"></span><input id="mName" autocomplete="given-name" placeholder="Camille"></label>
+          <label for="mName"><span data-i18n="step1.name"></span><input id="mName" autocomplete="given-name" placeholder="Leïla"></label>
           <label for="mTeam"><span data-i18n="step1.team"></span><input id="mTeam" placeholder="l’équipe"></label>
           <label for="mDeadline"><span data-i18n="step1.deadline"></span><input id="mDeadline" type="date"></label>
         </div>
@@ -108,18 +122,21 @@
           <div class="mail-subject" id="mailSubject"></div>
           <pre id="mailBody"></pre>
         </div>
+        <fieldset class="files">
+          <legend class="small-h" data-i18n="step1.files"></legend>
+          <label class="file" for="attPdf"><input type="checkbox" id="attPdf" data-att="pdf" checked><b>PDF</b><span>motion-fr.pdf</span></label>
+          <label class="file" for="attDocx"><input type="checkbox" id="attDocx" data-att="docx" checked><b>Word</b><span>motion-fr.docx</span></label>
+          <label class="file" for="attTxt"><input type="checkbox" id="attTxt" data-att="txt" checked><b>Texte</b><span>motion-fr.txt</span></label>
+        </fieldset>
         <div class="row">
-          <button class="btn" type="button" id="mailMake" data-i18n="step1.make"></button>
-          <button class="btn ghost" type="button" id="mailShare" data-i18n="step1.share" hidden></button>
+          <button class="btn" type="button" id="mailShare" data-i18n="step1.share" hidden></button>
+          <a class="btn" id="mailMake" href="mailto:" data-i18n="step1.make"></a>
           <button class="btn ghost" type="button" id="mailCopy" data-i18n="step1.copy"></button>
           <span class="toast" id="mailToast" role="status"></span>
         </div>
-        <p class="muted small" data-i18n="step1.attach"></p>
-        <div class="files">
-          <span class="small-h" data-i18n="step1.files"></span>
-          <a class="file" href="downloads/motion-fr.pdf" download><b>PDF</b><span>motion-fr.pdf</span></a>
-          <a class="file" href="downloads/motion-fr.docx" download><b>Word</b><span>motion-fr.docx</span></a>
-          <a class="file" href="downloads/motion-fr.txt" download><b>Texte</b><span>motion-fr.txt</span></a>
+        <div class="row attach-note">
+          <span class="muted small" data-i18n="step1.attach"></span>
+          <button class="linkish" type="button" id="mailFiles" data-i18n="step1.download"></button>
         </div>
       </li>
       <li class="step">
@@ -132,8 +149,6 @@
         <div class="row"><a class="btn" href="#soutenir" data-i18n="step3.go"></a></div>
       </li>
     </ol>
-    <h2 class="small-h" data-i18n="howto.long">La version complète</h2>
-    <div id="howtoText" class="prose"></div>
   </section>
 
   <!-- ===================== SOUTENIR ===================== -->
@@ -177,6 +192,7 @@
           <label for="fCity"><span><span data-i18n="f.city"></span> <em class="req" data-i18n="f.required"></em></span><input id="fCity" maxlength="80" required></label>
           <label for="fCountry"><span><span data-i18n="f.country"></span> <em class="req" data-i18n="f.required"></em></span><input id="fCountry" maxlength="80" value="France" required></label>
           <label for="fTopic"><span><span data-i18n="f.topic"></span> <em class="req" data-i18n="f.required"></em></span><select id="fTopic" required></select></label>
+          <label for="fTopicOther" id="topicOtherWrap" hidden><span><span data-i18n="f.topicOther"></span> <em class="req" data-i18n="f.required"></em></span><input id="fTopicOther" maxlength="80"></label>
           <div class="logo-field">
             <span class="lbl" data-i18n="f.logo"></span>
             <div class="logo-row">
@@ -218,11 +234,6 @@
         </div>
       </fieldset>
 
-      <fieldset class="block">
-        <legend><span class="num">5</span><span data-i18n="s.contact">Pour vous recontacter</span></legend>
-        <label for="fContact" class="narrow"><span data-i18n="f.contact"></span><input id="fContact" type="email" maxlength="160" autocomplete="email"></label>
-        <p class="muted small" data-i18n="f.contact.hint"></p>
-      </fieldset>
 
       <div class="row"><button class="btn big" type="submit" data-i18n="submit.review">Vérifier avant l’envoi</button></div>
     </form>
@@ -232,13 +243,13 @@
   </section>
 </main>
 
-<footer class="wrap foot"><span data-i18n="footer"></span> · <a href="mailto:" id="footMail"></a></footer>
+<footer class="wrap foot"><span class="lang-note" hidden data-i18n="langNote"></span> <span data-i18n="footer"></span> · <a href="mailto:" id="footMail"></a></footer>
 
 <div class="tip" id="tip" hidden></div>
 
-<script src="assets/config.js?v=12"></script>
-<script src="assets/i18n.js?v=12"></script>
-<script src="assets/core.js?v=12"></script>
-<script src="assets/app.js?v=12"></script>
+<script src="assets/config.js?v=30"></script>
+<script src="assets/i18n.js?v=30"></script>
+<script src="assets/core.js?v=30"></script>
+<script src="assets/app.js?v=30"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ Aucun service tiers. Quand une structure valide le formulaire, la page :
 1. télécharge un fichier `soutien-motion-<structure>-<date>.txt` contenant toutes les informations
    (résumé lisible, modifications, motion votée, et le JSON complet entre deux repères) ;
 2. ouvre sa messagerie avec un courriel prêt pour l’adresse de `contactEmail`, objet
-   « Soumission de notre soutien pour la motion – <sigle> » ;
+   « Ajout de soutien – <nom de la structure> » ;
 3. lui demande d’y joindre le fichier .txt et le PDF de la motion votée.
 
 Un site ne peut pas joindre de fichier à un courriel lui-même : c’est la structure qui ajoute la pièce jointe.
@@ -58,7 +58,7 @@ puis ouvrez http://localhost:8765. Ajoutez `?demo=1` pour afficher les structure
 
 ## Sécurité
 
-- Le site ne contacte aucun autre serveur : polices (Syne et Spectral, licence SIL OFL, dans `assets/fonts/`),
+- Le site ne contacte aucun autre serveur : police (Atkinson Hyperlegible Next, licence SIL OFL, dans `assets/fonts/`),
   scripts et images sont hébergés avec lui. Les visiteur·ices ne sont donc pas exposé·es à Google ni à un CDN.
 - Une règle de sécurité (Content-Security-Policy, en tête de `index.html` et `admin.html`) interdit tout script
   qui ne vient pas du site lui-même, et `no-referrer` évite de signaler aux sites des sources d’où vient le lien.
@@ -69,4 +69,4 @@ puis ouvrez http://localhost:8765. Ajoutez `?demo=1` pour afficher les structure
   retirés, longueur limitée), toujours affichés comme du texte (échappés), jamais exécutés.
 - Les logos sont ré-encodés en JPEG 256 px par le navigateur avant l’envoi ; seuls les JPEG/PNG en data URI
   de moins de 220 Ko sont acceptés à l’affichage et par le script de vérification.
-- L’adresse de contact figure dans le courriel et le fichier .txt envoyés aux organisateur·ices, jamais dans le JSON publié.
+- Le formulaire ne demande aucune adresse : vous recevez celle de l’expéditeur avec son courriel, et rien de personnel n’est publié.

@@ -68,6 +68,29 @@
     const a = Core.tokenize(origText), b = Core.tokenize(newText);
     return segments(a, b, lcsOps(a, b, strictKey));
   };
+  /* Résumé compact des modifications d'un paragraphe : seulement les passages modifiés, avec
+     quelques mots de contexte de part et d'autre, reliés par « … ». Rien n'est omis. */
+  Core.diffSnippets = (origText, newText, ctx, around = 5) => {
+    const flat = [];
+    for (const s of Core.diff(origText, newText)) for (const tok of s.toks) if (!isFn(tok)) flat.push({ type: s.type, tok });
+    const n = flat.length, isWord = (x) => x.type === "eq" && !isWs(x.tok);
+    const L = new Array(n).fill(Infinity), R = new Array(n).fill(Infinity);
+    for (let i = 0, d = Infinity; i < n; i++) { if (flat[i].type !== "eq") d = 0; else if (isWord(flat[i])) d++; L[i] = d; }
+    for (let i = n - 1, d = Infinity; i >= 0; i--) { if (flat[i].type !== "eq") d = 0; else if (isWord(flat[i])) d++; R[i] = d; }
+    const keep = flat.map((x, i) => x.type !== "eq" || L[i] <= around || R[i] <= around);
+    let html = "", prevKept = false, open = null;
+    const close = () => { if (open) { html += `</${open}>`; open = null; } };
+    for (let i = 0; i < n; i++) {
+      if (!keep[i]) { if (prevKept) { close(); html += " … "; } prevKept = false; continue; }
+      if (!prevKept && i > 0 && !html) html += "… ";
+      const x = flat[i], tag = x.type === "del" ? "del" : x.type === "ins" ? "ins" : null;
+      if (tag !== open) { close(); if (tag) { html += `<${tag} class="rev">`; open = tag; } }
+      html += Core.renderTokens([x.tok], ctx); prevKept = true;
+    }
+    close();
+    if (!keep[n - 1]) html = html.replace(/ … $/, " …");
+    return html.trim();
+  };
   Core.countChanges = (origText, newText) => Core.diff(origText, newText).filter((s) => s.type !== "eq").reduce((n, s, i, arr) => n + (s.type === "ins" && arr[i - 1]?.type === "del" ? 0 : 1), 0);
 
   /* ---------- Rendu ---------- */
@@ -191,7 +214,8 @@
       const phs = delToks.filter(isPh);
       const insText = ins.join("").trim();
       if (phs.length === 1 && delToks.every((t) => isPh(t) || isWs(t)) && insText) {
-        fills[phs[0].slice(2, -2)] = insText;
+        // « [insérer le nom de l’UMR] » laissé tel quel : ce n'est ni une modification ni une valeur
+        if (!/^\[.*\]$/.test(insText)) fills[phs[0].slice(2, -2)] = insText;
         const lead = ins.length && isWs(ins[0]) ? ins[0] : "", trail = ins.length > 1 && isWs(ins[ins.length - 1]) ? ins[ins.length - 1] : "";
         out.push(lead, phs[0], trail);
       } else {
@@ -215,7 +239,7 @@
       for (const p of fixed) {
         const { re, keys } = templateRegex(p.text);
         const m = line.match(re);
-        if (m) { keys.forEach((key, i) => { const v = m[i + 1].trim(); if (!/^\[.*\]$/.test(v)) fills[key] = v; }); used = true; if (p.kind === "permvote") fills.__perm = true; break; }
+        if (m) { let got = false; keys.forEach((key, i) => { const v = m[i + 1].trim(); if (!/^\[.*\]$/.test(v)) { fills[key] = v; if (key !== "structure") got = true; } }); used = true; if (p.kind === "permvote" && got) fills.__perm = true; break; }
       }
       if (!used && sim(words(line), words(fixed[0].text)) < 0.55) remaining.push(line);
     }

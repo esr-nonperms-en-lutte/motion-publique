@@ -53,9 +53,11 @@ img { max-width: 100%; }
 
 /* ---------- barre du haut ---------- */
 .topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.topbar-in { display: flex; align-items: center; gap: 12px 24px; flex-wrap: wrap; padding-block: 12px; }
-.brand { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; font-size: 16px; margin-right: auto; }
-.tabs { display: flex; flex-wrap: wrap; gap: 4px; }
+.topbar-in { display: flex; align-items: center; gap: 12px 24px; flex-wrap: nowrap; padding-block: 12px; }
+.brand { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; font-size: 16px; margin-right: auto; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tabs { display: flex; flex-wrap: nowrap; gap: 4px; flex: none; }
+.tabs a { white-space: nowrap; }
+.langs { flex: none; }
 .tabs a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 999px; }
 .tabs a:hover { color: var(--fg); background: var(--bleu-soft); }
 .tabs a[aria-current="page"] { color: var(--bleu); background: var(--bleu-soft); }
@@ -64,9 +66,10 @@ img { max-width: 100%; }
 .langs { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .langs button { border: 0; background: transparent; color: var(--muted); font: 600 12px var(--font-ui); letter-spacing: .06em; padding: 6px 10px; cursor: pointer; }
 .langs button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
-@media (max-width: 720px) { .brand { width: 100%; } .topbar { position: static; } }
+@media (max-width: 900px) { .topbar-in { flex-wrap: wrap; } .brand { flex-basis: 100%; } .tabs { flex: 1 1 0; min-width: 0; flex-wrap: wrap; } }
+@media (max-width: 720px) { .topbar { position: static; } }
 
-.lang-note { margin: 20px 0 0; padding: 10px 14px; border-radius: 10px; background: var(--italic-soft); color: var(--italic); font-size: 14px; }
+.lang-note { margin: 0 8px 0 0; display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--italic-soft); color: var(--italic); font-size: 13px; font-weight: 600; }
 
 /* ---------- typographie ---------- */
 .eyebrow, .small-h { font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; font-family: var(--font-display); margin: 0; }
@@ -91,8 +94,8 @@ h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em
 .err:empty { display: none; }
 
 /* ---------- héros ---------- */
-.hero { padding-block: 56px 28px; display: grid; gap: 18px; max-width: 920px; margin-inline: auto; }
-.hero h1 { max-width: 34ch; font-size: clamp(24px, 3vw, 34px); line-height: 1.2; font-weight: 700; }
+.hero { padding-block: 64px 36px; display: grid; gap: 18px; max-width: 920px; margin-inline: auto; justify-items: center; text-align: center; }
+.hero h1 { max-width: 30ch; font-size: clamp(24px, 3vw, 34px); line-height: 1.2; font-weight: 700; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; }
 .stat { font-size: 14px; color: var(--muted); }
 .stat b { color: var(--fg); font-variant-numeric: tabular-nums; font-size: 18px; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; }
@@ -106,11 +109,11 @@ h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em
 .para.vote, .para.permvote { font-family: var(--font-ui); font-size: 15px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
 .para.instruction { font-style: italic; color: var(--italic); background: var(--italic-soft); padding: 12px 16px; border-radius: 10px; font-size: 16px; }
 .para.deleted .para-body { text-decoration: line-through; text-decoration-color: var(--rouge); color: var(--rouge); opacity: .8; }
-.para.added .para-body { color: var(--rouge); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--rouge) 50%, transparent); text-underline-offset: 3px; }
+.para.added .para-body { color: var(--bleu); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--bleu) 50%, transparent); text-underline-offset: 3px; }
 .ph { font-style: italic; color: var(--italic); background: var(--italic-soft); border-radius: 4px; padding: 0 3px; }
 .ph.filled { font-style: normal; color: inherit; background: none; padding: 0; font-weight: 600; }
 del.rev { color: var(--rouge); text-decoration: line-through; text-decoration-thickness: 1.5px; background: var(--rouge-soft); }
-ins.rev { color: var(--rouge); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; background: var(--rouge-soft); }
+ins.rev { color: var(--bleu); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; background: var(--bleu-soft); }
 .fn { font: 600 11px var(--font-ui); vertical-align: super; line-height: 0; border: 0; background: var(--bleu-soft); color: var(--bleu); border-radius: 999px; padding: 2px 5px; margin: 0 1px 0 0; cursor: pointer; }
 .fn:hover, .fn.on { background: var(--bleu); color: var(--bg); }
 .ph-note { font-size: 13px; color: var(--italic); margin: 8px 0 0; }
@@ -247,7 +250,6 @@ form#labForm { display: grid; gap: 22px; padding-bottom: 32px; }
 .tip .t-edit::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #e0444e; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 .sent h3 { font-size: 19px; }
-.send-steps { margin: 0; padding-left: 22px; display: grid; gap: 8px; font-size: 16px; }
 .send-steps b, .addr { font-weight: 600; color: var(--bleu); user-select: all; word-break: break-all; }
 
 /* ---------- sommaire, citations, mur des structures (sous la motion) ---------- */
@@ -266,23 +268,76 @@ form#labForm { display: grid; gap: 22px; padding-bottom: 32px; }
 .labs .group-by { min-width: 240px; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--muted); font-size: 14px; }
 .legend > span { display: inline-flex; align-items: center; gap: 8px; }
-.shape { width: 22px; height: 22px; display: inline-block; background: var(--muted); }
+.shape { width: 22px; height: 22px; display: inline-block; background: var(--bleu); }
 .shape.round { border-radius: 50%; }
 .shape.octo { clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
-.shape.edge-same { background: var(--bleu); }
-.shape.edge-edited { background: var(--rouge); }
 .lab-wall { display: grid; gap: 22px; }
 .lab-group { display: grid; gap: 10px; }
 .logos { display: flex; flex-wrap: wrap; gap: 14px; }
 .lab-item { display: grid; justify-items: center; gap: 6px; width: 84px; text-align: center; }
 .lab-item .name { font-size: 12px; line-height: 1.25; color: var(--muted); font-weight: 600; overflow-wrap: anywhere; }
 .lab-item .ex { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--italic); font-weight: 700; }
-/* La forme dit si les permanent·es ont soutenu la motion (rond) ou non (octogone) ;
-   la couleur du contour dit si le texte a été amendé (rouge) ou non (bleu). */
+/* La forme dit si les permanent·es ont soutenu la motion (rond) ou non (octogone).
+   Au survol, les amendements de la structure s'affichent en couleur dans la motion. */
 .lab { --edge: var(--bleu); width: 64px; height: 64px; padding: 3px; border: 0; background: var(--edge); cursor: pointer; flex: none; border-radius: 50%; }
-.lab.edited { --edge: var(--rouge); }
 .lab.octo { border-radius: 0; clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
 .lab .inner { display: block; width: 100%; height: 100%; background: var(--surface); border-radius: inherit; clip-path: inherit; overflow: hidden; }
 .lab img, .lab svg { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lab.on { outline: 3px solid var(--fg); outline-offset: 3px; }
 .lab-item.on .name { color: var(--fg); }
+.title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.hero .eyebrow { max-width: 60ch; line-height: 1.5; }
+.hero .lede { margin-inline: auto; }
+.hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; }
+.hero-stats:not(:has(.stat:not([hidden]))) { display: none; }
+/* ---------- les deux étapes, en bas de la page ---------- */
+.next-steps { max-width: 1160px; margin: 0 auto 72px; display: grid; gap: 14px; border-top: 1px solid var(--line); padding-top: 40px; }
+.next-steps h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: -0.01em; }
+.next-steps > p { margin: 0 0 6px; max-width: 70ch; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+.card { --c: var(--bleu); --soft: var(--bleu-soft); position: relative; display: grid; gap: 8px; align-content: start; padding: 26px 26px 24px; border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: 16px; background: var(--surface); color: var(--fg); text-decoration: none; transition: border-color .15s, background .15s; }
+.card.red { --c: var(--rouge); --soft: var(--rouge-soft); }
+.card:hover { background: var(--soft); border-color: var(--c); }
+.card-num { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--soft); color: var(--c); font-weight: 800; }
+.card-when { font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--c); }
+.card-title { font-size: 21px; font-weight: 700; line-height: 1.25; }
+.card-text { color: var(--muted); font-size: 16px; }
+.card-go { margin-top: 6px; font-weight: 700; color: var(--c); }
+/* ---------- fiche d'une structure : modifications dépliables ---------- */
+.tip.wide { width: 440px; max-height: calc(100vh - 16px); overflow: auto; }
+.tip .t-more { justify-self: start; margin-top: 4px; border: 0; border-radius: 999px; padding: 6px 12px; background: #e0444e; color: #fff; font: 700 13px var(--font-ui); cursor: pointer; }
+.tip .t-edits { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+.tip .t-edits li { display: grid; gap: 3px; border-left: 3px solid rgba(127, 127, 127, .5); padding-left: 10px; }
+.tip .t-elabel { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; opacity: .75; }
+.tip .t-ebody { font-size: 14px; line-height: 1.5; }
+.tip del.rev { color: inherit; background: rgba(224, 68, 78, .3); text-decoration-color: #e0444e; }
+.tip ins.rev { color: inherit; background: rgba(110, 145, 255, .35); text-decoration-color: #6e91ff; }
+.tip .ph { background: rgba(127, 127, 127, .25); color: inherit; }
+/* ---------- pièces jointes à cocher ---------- */
+fieldset.files { border: 0; padding: 0; margin: 0; }
+fieldset.files legend { padding: 0; margin-bottom: 8px; }
+label.file { position: relative; cursor: pointer; padding-left: 40px; }
+label.file input { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; margin: 0; accent-color: var(--bleu); }
+label.file:has(input:checked) { border-color: var(--bleu); background: var(--bleu-soft); }
+label.file:has(input:not(:checked)) b { color: var(--muted); }
+.attach-note { gap: 6px 10px; }
+/* ---------- dernière étape : trois actions à lancer soi-même ---------- */
+.send-steps { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 12px; }
+.send-steps li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); }
+.send-steps li h3 { font-size: 17px; margin: 4px 0 10px; }
+.send-steps li p { margin: 8px 0 0; }
+.send-steps li.active { border-color: var(--bleu); background: var(--bleu-soft); }
+.step-num { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; background: var(--surface); color: var(--bleu); border: 1px solid var(--line); }
+.send-steps li.done { opacity: .75; }
+.send-steps li.done .step-num { background: var(--ok); border-color: var(--ok); color: var(--surface); font-size: 0; }
+.send-steps li.done .step-num::after { content: "✓"; font-size: 17px; }
+.shortcut { display: grid; gap: 6px; padding: 14px 18px; border: 1px dashed var(--line); border-radius: 14px; }
+.mail-fallback summary { cursor: pointer; font-weight: 600; font-size: 15px; color: var(--muted); }
+.mail-fallback[open] summary { margin-bottom: 10px; }
+.mail-fallback .row { margin-top: 10px; }
+.thanks-box { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 6px; }
+.thanks-box h3 { margin: 0; }
+/* « Paragraphe supprimé » bien visible */
+.del-tag { display: block; width: fit-content; margin: 2px 0 6px; padding: 2px 10px; border-radius: 999px; background: var(--rouge-soft); color: var(--rouge); font-family: var(--font-ui); font-size: 12.5px; font-weight: 700; }
+.tip .del-tag { background: rgba(224, 68, 78, .9); color: #fff; justify-self: start; }
