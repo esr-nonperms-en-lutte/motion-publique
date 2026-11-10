@@ -31,6 +31,15 @@ window.I18N = {
     "sent.shortcutTitle": "Raccourci sur cet appareil",
     "sent.shortcutNote": "Le menu de partage joint directement le fichier. Il faudra saisir l’adresse :",
     "sent.copyAddr": "Copier l’adresse",
+    "labs.addPerm": "Ajouter le vote des permanent·es",
+    "s.perm.later": "Les permanent·es n’ont pas encore voté ? Vous pourrez ajouter leur vote plus tard en cliquant sur le logo de votre structure, sur la page d’accueil.",
+    "add.title": "Ajouter le vote des permanent·es de", "add.titleShort": "Ajouter le vote des permanent·es",
+    "add.lede": "Le vote des non-permanent·es de cette structure est déjà en ligne. Indiquez ici le vote de soutien des permanent·es : nous l’ajouterons à sa fiche après vérification.",
+    "add.current": "Déjà en ligne", "add.section": "Le vote des permanent·es", "add.date": "Date du vote",
+    "add.preview": "Paragraphe ajouté à la motion", "add.cancel": "Annuler",
+    "add.noDate": "Indiquez la date du vote des permanent·es.",
+    "add.notFound": "Cette structure est introuvable. Elle a peut-être été retirée du site.",
+    "add.s3": "Ajoutez au courriel le fichier téléchargé à l’étape 1, ainsi que le procès-verbal du vote des permanent·es, puis envoyez.",
     "next.title": "Faire voter la motion dans votre structure",
     "next.lede": "Vous êtes doctorant·e, post-doc, ATER, vacataire ou contractuel·le ? Voici comment faire voter cette motion dans votre structure.",
     "next.before": "Avant l’AG", "next.beforeTitle": "Faire voter la motion",
@@ -200,6 +209,12 @@ window.I18N = {
     "sent.s2Title": "Open the email", "sent.s2Btn": "Open my mail app", "sent.s2Note": "A ready-made email opens, addressed to",
     "sent.s3Title": "Attach and send", "sent.s3Text": "Attach the file downloaded in step 1 and the PDF of your voted motion, then send.",
     "sent.shortcutTitle": "Shortcut on this device", "sent.shortcutNote": "The share menu attaches the file directly. You will need to type the address:", "sent.copyAddr": "Copy the address",
+    "labs.addPerm": "Add the permanent staff vote", "s.perm.later": "Permanent staff have not voted yet? You can add their vote later by clicking your structure’s logo on the home page.",
+    "add.title": "Add the permanent staff vote of", "add.titleShort": "Add the permanent staff vote",
+    "add.lede": "The non-permanent staff vote of this structure is already online. Enter the permanent staff’s vote of support here: we will add it to its card after checking.",
+    "add.current": "Already online", "add.section": "The permanent staff vote", "add.date": "Date of the vote", "add.preview": "Paragraph added to the motion", "add.cancel": "Cancel",
+    "add.noDate": "Enter the date of the permanent staff vote.", "add.notFound": "This structure could not be found. It may have been removed from the site.",
+    "add.s3": "Attach the file downloaded in step 1 and the minutes of the permanent staff vote, then send.",
     "next.title": "Get the motion voted in your structure", "next.lede": "Are you a PhD student, postdoc, ATER, hourly lecturer or contract staff? Here is how to get this motion voted in your structure.",
     "next.before": "Before the assembly", "next.beforeTitle": "Get the motion voted", "next.beforeText": "Share the text with the non-permanent staff of your lab or faculty and organise a general assembly. Ready-to-send email and PDF provided.", "next.beforeGo": "Organise the assembly →",
     "next.after": "After the assembly", "next.afterTitle": "Make your vote known", "next.afterText": "Did your assembly vote the motion? Add your structure to the list of signatories, with the vote result and any amendments.", "next.afterGo": "Declare our vote →",
@@ -277,6 +292,12 @@ window.I18N = {
     "sent.s2Title": "Abrir el correo", "sent.s2Btn": "Abrir mi correo", "sent.s2Note": "Se abre un mensaje listo, dirigido a",
     "sent.s3Title": "Adjuntar y enviar", "sent.s3Text": "Adjunte el archivo descargado en el paso 1 y el PDF de su moción votada, y envíe.",
     "sent.shortcutTitle": "Atajo en este dispositivo", "sent.shortcutNote": "El menú de compartir adjunta el archivo directamente. Tendrá que escribir la dirección:", "sent.copyAddr": "Copiar la dirección",
+    "labs.addPerm": "Añadir la votación del personal permanente", "s.perm.later": "¿El personal permanente aún no ha votado? Podrán añadir su votación más tarde haciendo clic en el logo de su estructura, en la página de inicio.",
+    "add.title": "Añadir la votación del personal permanente de", "add.titleShort": "Añadir la votación del personal permanente",
+    "add.lede": "La votación del personal no permanente de esta estructura ya está en línea. Indiquen aquí la votación de apoyo del personal permanente: la añadiremos a su ficha tras verificarla.",
+    "add.current": "Ya en línea", "add.section": "La votación del personal permanente", "add.date": "Fecha de la votación", "add.preview": "Párrafo añadido a la moción", "add.cancel": "Cancelar",
+    "add.noDate": "Indiquen la fecha de la votación del personal permanente.", "add.notFound": "No se encontró esta estructura. Puede que se haya retirado del sitio.",
+    "add.s3": "Adjunten el archivo descargado en el paso 1 y el acta de la votación del personal permanente, y envíen.",
     "next.title": "Hacer votar la moción en su estructura", "next.lede": "¿Es usted doctorando, posdoc, ATER, profesor por horas o personal contratado? Así puede hacer votar esta moción en su estructura.",
     "next.before": "Antes de la asamblea", "next.beforeTitle": "Hacer votar la moción", "next.beforeText": "Comparta el texto con el personal no permanente de su laboratorio o facultad y organice una asamblea general. Correo listo para enviar y PDF incluidos.", "next.beforeGo": "Organizar la asamblea →",
     "next.after": "Después de la asamblea", "next.afterTitle": "Dar a conocer su voto", "next.afterText": "¿Su asamblea votó la moción? Añada su estructura a la lista de firmantes, con el resultado de la votación y sus posibles enmiendas.", "next.afterGo": "Declarar nuestro voto →",
@@ -360,6 +381,7 @@ window.LONG = {
     mail: "Bonjour à toutes et à tous,\n\nComme vous l’avez sans doute vu, le mouvement lycéen s’étend depuis quelques semaines à l’enseignement supérieur et à la recherche. Un groupe de doctorant·es et de post-docs de Sorbonne Université a rédigé un modèle de motion à faire voter par les personnels non permanents de chaque labo, UMR ou UFR. {{joins}}\n\nLe texte, ses sources et les motions déjà votées ailleurs sont en ligne : {{site}}\n\nJe propose qu’on organise une AG extraordinaire de tou·tes les non-permanent·es de {{team}} (doctorant·es, post-docs, ATER, vacataires, contractuel·les, ingé·es et technicien·nes en CDD…) pour en discuter, l’amender si besoin, et la voter si on s’y retrouve. Une heure devrait suffire. Pouvez-vous me dire vos disponibilités d’ici {{deadline}} ?\n\nPrenez le temps de lire le texte avant la réunion. Toutes les remarques sont bienvenues, y compris si vous n’êtes pas d’accord : c’est justement le but de l’AG.\n\nÀ très vite,\n{{name}}",
     defaults: { team: "l’équipe", deadline: "la fin de la semaine", name: "[Votre prénom]", datePrefix: "le " },
     attach: { pdf: "en PDF", docx: "en Word", txt: "en texte brut", pre: "Je vous le joins ", and: " et " },
+    submitPerm: "Bonjour,\n\nLes permanent·es de {{name}} ont voté le {{date}} pour appuyer la motion votée par les non-permanent·es ({{pour}} pour, {{contre}} contre, {{abst}} abstention(s)). Nous souhaitons ajouter ce vote à notre fiche sur le site.\n\nVous trouverez en pièce jointe :\n- le fichier {{file}}, avec notre fiche complète mise à jour ;\n- le procès-verbal du vote des permanent·es.\n\nBien cordialement,",
     submit: "Bonjour,\n\nLes non-permanent·es de {{name}} ont voté la motion en AG le {{date}} ({{pour}} pour, {{contre}} contre, {{abst}} abstention(s), soit {{pct}} % pour) et souhaitent la soutenir publiquement sur le site.\n\nVous trouverez en pièce jointe :\n- le fichier {{file}}, avec toutes les informations du formulaire ;\n- le PDF de la motion votée.\n\nBien cordialement,"
   },
   en: {
@@ -373,6 +395,7 @@ window.LONG = {
     mail: "Hello everyone,\n\nAs you have probably seen, the high school students’ movement has been spreading to higher education and research over the past few weeks. A group of PhD students and postdocs at Sorbonne University has drafted a model motion to be voted on by the non-permanent staff of every lab, research unit or faculty. {{joins}}\n\nThe text, its sources and the motions already voted elsewhere are online: {{site}}\n\nI suggest we organise an extraordinary general assembly of all the non-permanent staff of {{team}} (PhD students, postdocs, ATERs, hourly lecturers, fixed-term engineers and technicians…) to discuss it, amend it if needed, and vote on it if we agree with it. An hour should be enough. Could you let me know when you are available by {{deadline}}?\n\nPlease take the time to read the text before the meeting. All comments are welcome, including if you disagree: that is exactly what the assembly is for.\n\nSee you soon,\n{{name}}",
     defaults: { team: "the team", deadline: "the end of the week", name: "[Your first name]", datePrefix: "" },
     attach: { pdf: "a PDF", docx: "a Word document", txt: "a plain-text file", pre: "I’m attaching it as ", and: " and " },
+    submitPerm: "Hello,\n\nThe permanent staff of {{name}} voted on {{date}} to endorse the motion adopted by the non-permanent staff ({{pour}} in favour, {{contre}} against, {{abst}} abstention(s)). We would like to add this vote to our card on the website.\n\nPlease find attached:\n- the file {{file}}, with our complete updated card;\n- the minutes of the permanent staff vote.\n\nBest regards,",
     submit: "Hello,\n\nThe non-permanent staff of {{name}} voted the motion at a general assembly on {{date}} ({{pour}} in favour, {{contre}} against, {{abst}} abstention(s), i.e. {{pct}}% in favour) and wish to support it publicly on the website.\n\nPlease find attached:\n- the file {{file}}, with all the information from the form;\n- the PDF of the motion as voted.\n\nBest regards,"
   },
   es: {
@@ -392,6 +415,7 @@ window.LONG = {
     mail: "Hola a todas y todos:\n\nComo seguramente habéis visto, el movimiento de los estudiantes de secundaria se extiende desde hace unas semanas a la enseñanza superior y la investigación. Un grupo de doctorandas, doctorandos y posdocs de Sorbonne Université ha redactado un modelo de moción para que lo vote el personal no permanente de cada laboratorio, unidad de investigación o facultad. {{joins}}\n\nEl texto, sus fuentes y las mociones ya votadas en otros lugares están en línea: {{site}}\n\nPropongo que organicemos una asamblea general extraordinaria de todo el personal no permanente de {{team}} (doctorandos, posdocs, ATER, profesorado por horas, personal técnico y de ingeniería con contrato temporal…) para debatirla, enmendarla si hace falta y votarla si estamos de acuerdo. Una hora debería bastar. ¿Podéis indicarme vuestra disponibilidad antes del {{deadline}}?\n\nTomaos el tiempo de leer el texto antes de la reunión. Todos los comentarios son bienvenidos, también si no estáis de acuerdo: para eso sirve la asamblea.\n\nHasta pronto,\n{{name}}",
     defaults: { team: "el equipo", deadline: "fin de semana", name: "[Tu nombre]", datePrefix: "" },
     attach: { pdf: "en PDF", docx: "en Word", txt: "en texto plano", pre: "Os lo adjunto ", and: " y " },
+    submitPerm: "Hola:\n\nEl personal permanente de {{name}} votó el {{date}} para apoyar la moción aprobada por el personal no permanente ({{pour}} a favor, {{contre}} en contra, {{abst}} abstención(es)). Queremos añadir esta votación a nuestra ficha en el sitio.\n\nEncontraréis adjuntos:\n- el archivo {{file}}, con nuestra ficha completa actualizada;\n- el acta de la votación del personal permanente.\n\nUn saludo,",
     submit: "Hola:\n\nEl personal no permanente de {{name}} votó la moción en asamblea el {{date}} ({{pour}} a favor, {{contre}} en contra, {{abst}} abstención(es), es decir, un {{pct}} % a favor) y desea apoyarla públicamente en el sitio.\n\nEncontraréis adjuntos:\n- el archivo {{file}}, con toda la información del formulario;\n- el PDF de la moción votada.\n\nUn saludo,"
   }
 };

@@ -13,7 +13,7 @@ motion = json.loads((ROOT / "content/motion.fr.json").read_text(encoding="utf-8"
 known = {p["id"] for p in motion["paragraphs"]}
 LOGO = re.compile(r"^data:image/(jpeg|png);base64,[A-Za-z0-9+/=]+$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-ALLOWED_TOP = {"schema", "example", "id", "submitted_at", "structure", "logo", "ag", "permanents", "motion"}
+ALLOWED_TOP = {"schema", "example", "addendum", "id", "submitted_at", "structure", "logo", "ag", "permanents", "motion"}
 
 def check(path):
     errs = []
@@ -40,6 +40,7 @@ def check(path):
     if not isinstance(d.get("example", False), bool): errs.append("example doit valoir true ou false")
     pm = d.get("permanents") or {}
     if not isinstance(pm.get("supported", False), bool): errs.append("permanents.supported invalide")
+    if pm.get("date") and not DATE.match(str(pm["date"])): errs.append("permanents.date invalide")
     if (d.get("motion") or {}).get("lang", "fr") not in ("fr", "en", "es"): errs.append("motion.lang invalide")
     for e in (d.get("motion") or {}).get("edits", []):
         st, pid = e.get("status"), e.get("id", "")

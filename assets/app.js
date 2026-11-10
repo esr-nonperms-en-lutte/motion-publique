@@ -51,11 +51,13 @@
   const VIEWS = ["motion", "origine", "mode-emploi", "soutenir"];
   function route() {
     const h = location.hash.slice(1);
-    const v = VIEWS.includes(h) ? h : "motion";
+    const addId = /^permanents-[a-z0-9-]+$/.test(h) ? h.slice("permanents-".length) : null;
+    const v = addId ? "permanents" : VIEWS.includes(h) ? h : "motion";
+    if (addId) openAddendum(addId);
     document.querySelectorAll(".view").forEach((s) => (s.hidden = s.dataset.view !== v));
     document.querySelectorAll("[data-tab]").forEach((a) => (a.dataset.tab === v ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
     hideTip(true);
-    if (VIEWS.includes(h)) window.scrollTo({ top: 0 });
+    if (VIEWS.includes(h) || addId) window.scrollTo({ top: 0 });
   }
   window.addEventListener("hashchange", route);
 
@@ -178,7 +180,8 @@
   function labTip(L) {
     const [p, a, c] = C.pct(L.ag.pour, L.ag.abstention, L.ag.contre), s = L.structure;
     const where = [s.department, s.institution].filter(Boolean).join(" · "), place = [s.city, s.country].filter(Boolean).join(", ");
-    const perm = L.permanents.supported ? (() => { const q = C.pct(L.permanents.pour, L.permanents.abstention, L.permanents.contre); return `${esc(t("labs.perm.yes"))}${L.permanents.pour ? ` (${q[0]} % ${esc(t("labs.for").toLowerCase())})` : ""}`; })() : esc(t("labs.perm.no"));
+    const perm = L.permanents.supported ? (() => { const q = C.pct(L.permanents.pour, L.permanents.abstention, L.permanents.contre); return `${esc(t("labs.perm.yes"))}${L.permanents.pour ? ` (${q[0]} % ${esc(t("labs.for").toLowerCase())})` : ""}${L.permanents.date ? ` · ${esc(fmtDate(L.permanents.date))}` : ""}`; })()
+      : `${esc(t("labs.perm.no"))}</span><a class="t-add" href="#permanents-${esc(L.id)}">${esc(t("labs.addPerm"))} →</a><span hidden>`;
     return `${L.example ? `<span class="t-pub">${esc(t("labs.example"))}</span>` : ""}<b>${esc(s.acronym ? s.acronym + " · " : "")}${esc(s.name)}</b>${where ? `<span class="t-sub">${esc(where)}</span>` : ""}<span class="t-sub">${esc(place)}${s.topic ? " · " + esc(topicLabel(s.topic)) : ""}</span>
       <span>${esc(t("labs.agOn"))} ${esc(fmtDate(L.ag.date))}</span>
       <div class="votebar"><i class="v-pour" style="width:${p}%"></i><i class="v-abs" style="width:${a}%"></i><i class="v-contre" style="width:${c}%"></i></div>
@@ -238,6 +241,7 @@
     S.labs.forEach((L) => (L._edits = C.editCount(C.applyEdits(motionFor(L), L.motion.edits))));
     S.labs.sort((a, b) => (b.ag.date || "").localeCompare(a.ag.date || ""));
     S.labsState = "ok"; renderLabs();
+    if (/^#permanents-/.test(location.hash)) route();
   }
 
   /* ================= Courriel à l'équipe ================= */
@@ -598,11 +602,11 @@
     if (scroll) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.focus({ preventScroll: true }); }
   }
 
-  function plainText(d) {
+  function plainText(d, M = EM()) {
     const s = d.structure, [p, a, c] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
-    const paras = C.applyEdits(EM(), d.motion.edits);
+    const paras = C.applyEdits(M, d.motion.edits);
     const vals = labValues(d);
-    const fillPh = (txt) => txt.replace(/\{\{(\w+)\}\}/g, (m, k) => (vals[k] !== undefined && vals[k] !== "" ? String(vals[k]) : EM().placeholders[k] || m)).replace(/\[\^(\d+)\]/g, "[$1]");
+    const fillPh = (txt) => txt.replace(/\{\{(\w+)\}\}/g, (m, k) => (vals[k] !== undefined && vals[k] !== "" ? String(vals[k]) : M.placeholders[k] || m)).replace(/\[\^(\d+)\]/g, "[$1]");
     const diffPlain = (o, n) => C.diff(o, n).map((g) => { const x = fillPh(g.toks.join("")); return g.type === "eq" ? x : g.type === "del" ? `[-${x}-]` : `{+${x}+}`; }).join("");
     const changes = paras.filter((q) => q.kind !== "instruction" && q.status !== "same").map((q) =>
       `• ${q.label || "Paragraphe ajouté"} (${q.status === "modified" ? "modifié" : q.status === "deleted" ? "supprimé" : "ajouté"})\n${q.status === "modified" ? diffPlain(q.orig, q.text) : fillPh(q.status === "deleted" ? q.orig : q.text)}`);
@@ -612,7 +616,7 @@
       `Établissement : ${s.institution}${s.department ? " · " + s.department : ""}`,
       `Lieu : ${s.city}, ${s.country} · Thématique : ${s.topic}`,
       `AG des non-permanent·es du ${frDate(d.ag.date)} : ${d.ag.pour} pour (${p} %), ${d.ag.contre} contre (${c} %), ${d.ag.abstention} abstention(s) (${a} %)`,
-      `Permanent·es : ${d.permanents.supported ? `soutien voté (${d.permanents.pour} pour, ${d.permanents.contre} contre, ${d.permanents.abstention} abstention(s))` : "pas de vote"}`,
+      `Permanent·es : ${d.permanents.supported ? `soutien voté${d.permanents.date ? " le " + frDate(d.permanents.date) : ""} (${d.permanents.pour} pour, ${d.permanents.contre} contre, ${d.permanents.abstention} abstention(s))` : "pas de vote"}`,
       `Logo : ${d.logo ? "fourni (dans le JSON)" : "non fourni"}`,
       "",
       `=== Modifications (${changes.length}) — [-supprimé-] {+ajouté+} ===`,
@@ -623,6 +627,61 @@
       "",
       `Fichier à déposer après vérification : labs/${d.id}.json (copier le JSON ci-dessous)`
     ].join("\n");
+  }
+
+  /* ================= Ajout du vote des permanent·es ================= */
+  /* Pour une structure déjà en ligne : on reprend sa fiche telle quelle, on y ajoute le vote des
+     permanent·es, et on envoie la fiche complète mise à jour (même nom de fichier dans labs/). */
+  function openAddendum(id) {
+    const box = $("permBox"); $("permSent").hidden = true; box.hidden = false;
+    if (S.labsState !== "ok") { box.innerHTML = `<p class="muted">${esc(t("labs.loading"))}</p>`; return; }
+    const L = S.labs.find((x) => x.id === id);
+    if (!L) { $("permTitle").textContent = t("add.titleShort"); box.innerHTML = `<p class="err">${esc(t("add.notFound"))}</p><a class="btn ghost" href="#motion">${esc(t("motion.back"))}</a>`; return; }
+    const s = L.structure, M = motionFor(L), [p, a, c] = C.pct(L.ag.pour, L.ag.abstention, L.ag.contre);
+    $("permTitle").textContent = `${t("add.title")} ${s.name}`;
+    const changed = C.applyEdits(M, L.motion.edits).filter((q) => q.kind !== "instruction" && q.status !== "same").map((q) => q.label || t("paste.added"));
+    box.innerHTML = `<div class="block">
+        <span class="small-h">${esc(t("add.current"))}</span>
+        <div class="summary-card"><span class="logo-prev">${logoHTML(L)}</span>
+          <div class="meta"><b>${esc(s.name)}${s.acronym && s.acronym !== s.name ? " (" + esc(s.acronym) + ")" : ""}</b>${esc([s.department, s.institution, s.city, s.country].filter(Boolean).join(" · "))}<br>
+          ${esc(t("labs.agOn"))} ${esc(fmtDate(L.ag.date))} · ${esc(t("labs.for"))} ${p} % · ${esc(t("labs.abst"))} ${a} % · ${esc(t("labs.against"))} ${c} %<br>
+          ${changed.length ? `${changed.length} ${esc(t("labs.changes"))} : ${esc(changed.join(", "))}` : esc(t("motion.noEdits"))}</div></div>
+      </div>
+      <fieldset class="block">
+        <legend><span class="num">4</span><span>${esc(t("add.section"))}</span></legend>
+        <div class="grid4">
+          <label for="aPermDate"><span>${esc(t("add.date"))} <em class="req">${esc(t("f.required"))}</em></span><input id="aPermDate" type="date"></label>
+          <label for="aPermPour"><span>${esc(t("f.for"))}</span><input id="aPermPour" type="number" min="0" inputmode="numeric"></label>
+          <label for="aPermContre"><span>${esc(t("f.against"))}</span><input id="aPermContre" type="number" min="0" inputmode="numeric"></label>
+          <label for="aPermAbst"><span>${esc(t("f.abst"))}</span><input id="aPermAbst" type="number" min="0" inputmode="numeric"></label>
+        </div>
+        <span class="small-h">${esc(t("add.preview"))}</span>
+        <div class="motion-text"><div class="para permvote" id="aPermPreview"></div></div>
+        <p class="err" id="aPermErr" role="alert"></p>
+        <div class="row"><button type="button" class="btn big" id="aPermSend">${esc(t("submit.send"))}</button><a class="btn ghost big" href="#motion">${esc(t("add.cancel"))}</a></div>
+        <p class="muted small" style="margin:0">${esc(t("submit.what"))}</p>
+      </fieldset>`;
+    const permPara = M.paragraphs.find((q) => q.kind === "permvote");
+    const vals = () => ({ structure: s.name, perm_pour: $("aPermPour").value, perm_contre: $("aPermContre").value, perm_abst: $("aPermAbst").value });
+    const preview = () => { $("aPermPreview").innerHTML = `<div class="para-body">${C.renderText(permPara.text, ctx(vals(), M))}</div>`; };
+    box.querySelectorAll("input").forEach((i) => i.addEventListener("input", preview)); preview();
+    $("aPermSend").onclick = () => {
+      const date = $("aPermDate").value, pour = C.int($("aPermPour").value), contre = C.int($("aPermContre").value), abst = C.int($("aPermAbst").value);
+      const err = !/^\d{4}-\d{2}-\d{2}$/.test(date) ? t("add.noDate") : !pour ? t("warn.noFor") : "";
+      $("aPermErr").textContent = err; if (err) return;
+      const d = JSON.parse(JSON.stringify(L)); Object.keys(d).forEach((k) => { if (k.startsWith("_")) delete d[k]; });
+      d.permanents = { supported: true, pour, contre, abstention: abst, date };
+      d.addendum = { type: "permanents", submitted_at: new Date().toISOString() };
+      const fileName = `ajout-permanents-${d.id}.txt`;
+      const head = [`Ajout du vote des permanent·es : ${s.name}`, `Fichier à remplacer après vérification : labs/${d.id}.json`,
+        `Vote des permanent·es du ${frDate(date)} : ${pour} pour, ${contre} contre, ${abst} abstention(s)`, "", "=== Fiche complète mise à jour ===", ""].join("\n");
+      const file = `${head}${plainText(d, M)}\n\n${JSON_START}\n${JSON.stringify(d, null, 2)}\n${JSON_END}\n`;
+      const subject = `Ajout du vote des permanent·es – ${s.name}`;
+      const mv = { name: s.name, date: fmtDate(date), pour, contre, abst, file: fileName };
+      const body = longText().submitPerm.replace(/\{\{(\w+)\}\}/g, (m0, k) => (k in mv ? String(mv[k]) : m0));
+      send(d, { el: "permSent", hide: "permBox", fileName, file, s3: t("add.s3"),
+        mail: { subject, body, href: `mailto:${CFG.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` } });
+    };
   }
 
   function download(name, text, type) {
@@ -645,13 +704,14 @@
 
   /* Après « Valider et passer à l'envoi » : rien ne se déclenche tout seul. La page affiche trois
      étapes numérotées, chacune lancée par un bouton, qui se cochent au fur et à mesure. */
-  function send(d) {
-    const fileName = `soutien-motion-${d.id}.txt`;
-    const file = submissionFile(d), mail = submissionMail(d, fileName);
+  function send(d, o = {}) {
+    const fileName = o.fileName || `soutien-motion-${d.id}.txt`;
+    const file = o.file || submissionFile(d), mail = o.mail || submissionMail(d, fileName);
+    ["sent", "permSent"].forEach((id) => { if ($(id)) { $(id).innerHTML = ""; $(id).hidden = true; } });
     let canShare = false;
     try { canShare = !!(navigator.canShare && navigator.canShare({ files: [new File([file], fileName, { type: "text/plain" })] })); } catch (e) { /* partage indisponible */ }
     const addr = `<span class="addr">${esc(CFG.contactEmail)}</span>`;
-    const el = $("sent"); $("review").hidden = true; el.hidden = false;
+    const el = $(o.el || "sent"); $(o.hide || "review").hidden = true; el.hidden = false;
     el.innerHTML = `<h2>${esc(t("sent.readyTitle"))}</h2>
       <p class="muted" style="margin:0">${esc(t("sent.readyLede"))}</p>
       <ol class="send-steps">
@@ -670,7 +730,7 @@
         <li id="sendStep3">
           <span class="step-num">3</span>
           <div><h3>${esc(t("sent.s3Title"))}</h3>
-            <p class="small" style="margin:0">${esc(t("sent.s3Text"))}</p></div>
+            <p class="small" style="margin:0">${esc(o.s3 || t("sent.s3Text"))}</p></div>
         </li>
       </ol>
       ${canShare ? `<div class="shortcut"><b>${esc(t("sent.shortcutTitle"))}</b>

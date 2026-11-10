@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=38">
+<link rel="stylesheet" href="assets/style.css?v=39">
 </head>
 <body>
 <div class="tricolore" aria-hidden="true"></div>
@@ -223,6 +223,7 @@
       <fieldset class="block">
         <legend><span class="num">4</span><span data-i18n="s.perm">Le soutien des permanent·es</span></legend>
         <label class="check" for="fPerm"><input id="fPerm" type="checkbox"><span data-i18n="f.perm"></span></label>
+        <p class="muted small" data-i18n="s.perm.later"></p>
         <div id="permFields" hidden>
           <div class="grid4">
             <label for="fPermPour"><span data-i18n="f.for"></span><input id="fPermPour" type="number" min="0" inputmode="numeric"></label>
@@ -241,15 +242,24 @@
     <div id="review" class="review" hidden tabindex="-1"></div>
     <div id="sent" class="sent" hidden tabindex="-1"></div>
   </section>
+  <!-- ===================== AJOUT DU VOTE DES PERMANENT·ES ===================== -->
+  <section class="view" id="view-permanents" data-view="permanents" hidden>
+    <div class="form-head">
+      <h1 id="permTitle"></h1>
+      <p class="lede" data-i18n="add.lede"></p>
+    </div>
+    <div id="permBox" class="perm-box"></div>
+    <div id="permSent" class="sent" hidden tabindex="-1"></div>
+  </section>
 </main>
 
 <footer class="wrap foot"><span class="lang-note" hidden data-i18n="langNote"></span> <span data-i18n="footer"></span> · <a href="mailto:" id="footMail"></a></footer>
 
 <div class="tip" id="tip" hidden></div>
 
-<script src="assets/config.js?v=38"></script>
-<script src="assets/i18n.js?v=38"></script>
-<script src="assets/core.js?v=38"></script>
-<script src="assets/app.js?v=38"></script>
+<script src="assets/config.js?v=39"></script>
+<script src="assets/i18n.js?v=39"></script>
+<script src="assets/core.js?v=39"></script>
+<script src="assets/app.js?v=39"></script>
 </body>
 </html>
