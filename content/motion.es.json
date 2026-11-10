@@ -1,0 +1,130 @@
+{
+  "version": "2026-11-10-es",
+  "lang": "es",
+  "title": "Modelo de moción a partir de la iniciativa de doctorandes, post-doctorantes, \"ATER\" y otro personal no permanente, a votar durante las AG de \"UMR\" y \"UFR\"",
+  "placeholders": {
+    "structure": "[insertar el nombre de la UMR]",
+    "date": "[insertar fecha]",
+    "pour": "[número]",
+    "contre": "[número]",
+    "abst": "[número]",
+    "perm_pour": "[número]",
+    "perm_contre": "[número]",
+    "perm_abst": "[número]"
+  },
+  "paragraphs": [
+    {
+      "id": "solidarite",
+      "label": "Apoyo a la juventud",
+      "kind": "body",
+      "text": "Nos, doctorandes, post doctorantes, ATER y otro personal no permanente de {{structure}} declaramos solidaridad al movimiento social de los alumnos de secundaria, ya ampliado a la enseñanza superior y a la investigación. Apoyamos las reivindicaciones a favor de un acceso a condiciones de estudio y trabajo dignas e igualitarias en todo el país. Los alumnos de secundaria de hoy son los estudiantes universitarios de mañana. El derecho a la educación no puede, ni frenarse en las puertas de la universidad, ni ser condicionado por el origen socioeconómico, ni por la escuela de procedencia, ni por la nacionalidad. De esta manera, sostenemos entre otras reivindicaciones las \"10 mesures d’urgence pour la jeunesse\" (10 medidas de urgencia para la juventud) llevadas adelante por la \"Union syndicale lycéene\" (Unión sindical de los alumnos secundarios), la \"Union étudiante\" (Union estudiantil), la \"UNEF\", \"Solidaires étudiant·es\" y la \"FAGE\"."
+    },
+    {
+      "id": "international",
+      "label": "Auge del fascismo",
+      "kind": "body",
+      "text": "Afirmamos también nuestro apoyo al movimiento social llevado a la escala internacional, recordando la necesidad de una solidaridad mundial frente al auge de la extrema derecha, de la carrera armamentista y de la captación de fondos públicos para empresas privadas[^1], en detrimento de la educación. La universidad debe estar en el centro de la lucha contra las políticas discriminatorias y la preferencia nacional. Para cumplir su función social y su deber de servicio público, debe de ser un espacio abierto, inclusivo y accesible a todes. Nos posicionamos en contra de todas las medidas que precaricen e impidan la recepción de los estudiantes extranjeres, empezando por la implementación racista y xenófoba de matrículas diferenciales mediante el dispositivo \"Bienvenue en France\" (Bienvenidos a Francia)."
+    },
+    {
+      "id": "repression",
+      "label": "Violencia policial y represión en Francia",
+      "kind": "body",
+      "text": "Denunciamos tanto el uso de violencia como la represión policial, judicial y administrativa que azotaron a les alumnes de secundario, de la universidad y todes les que se movilizaron para reclamar mesas, sillas, sanitarios funcionales y agua potable. Denunciamos el carácter racista y clasista de esta represión, que se ejerció primero en contra de les jóvenes de ultramar y de los barrios populares periféricos, antes de generalizarse al conjunto de la movilización. Denunciamos la magnitud de esta represión : se estiman más de 8 000 detenciones en el plazo de tres semanas[^2], la mayoría contra menores. Finalmente, denunciamos la intensificación de la violencia en el marco de esta represión : las prohibiciones de manifestar[^3], la instauración de un toque de queda[^4], el uso de armas de guerra que mutilan[^5] y matan[^6]. Este uso desaforado de la violencia, justificado por los noticieros contínuos[^7] intimida a quienes quisieran implicarse en la lucha, y revela la lógica autoritaria de un gobierno que deteriora cada día más nuestra democracia."
+    },
+    {
+      "id": "universites",
+      "label": "Represión dentro de la propia universidad",
+      "kind": "body",
+      "text": "Condenamos la deriva represiva y la hipocresía de ciertas presidencias universitarias que colaboran con las fuerzas del orden para reprimir a les estudiantes mobilizades, mientras fingen apoyar sus reivindicaciones, privilegiando así la violencia al diálogo. Nos alarmamos de los cierres administrativos de los campus universitarios que son y deben seguir siendo lugares de intercambio y de debate para poder luchar contra el aislamiento de los estudiantes. Exigimos respeto y apoyo material a las movilizaciones estudiantiles de parte de las universidades y que también éstas les permitan el acceso a la infraestructura esencial como los restaurantes universitarios, las guarderías, los servicios de salud o las bibliotecas. Es inadmisible que las presidencias universitarias permitan o soliciten la intervención de las fuerzas del orden en los campus como sucedió en Sorbonne Nouvelle, Sorbonne Université, Nantes Université, Sciences Po Paris y Toulouse - Jean Jaurès."
+    },
+    {
+      "id": "financement",
+      "label": "Infrafinanciación y precariedad",
+      "kind": "body",
+      "text": "Este movimiento resalta la falta crónica de financiamiento de los servicios públicos y de la enseñanza secundaria y superior. Los recortes presupuestarios estructurales degradan considerablemente las condiciones de enseñanza e investigación : grupos de clases prácticas (TD) sobrecargados, un recurso cada vez mayor a los contractuales temporales para cubrir las necesidades docentes, una competencia creciente para las becas doctorales, los contratos de los postdocs y de los ATER, la falta de puestos de funcionarios, la falta de personal administrativo, etc. Nuestras condiciones de trabajo son las condiciones de la creación del saber científico : un laboratorio que pierde regularmente su personal contractual, pierde también sus competencias, su memoria colectiva y sus capacidades de supervisión académica. Nuestras condiciones de trabajo son las condiciones de les estudiantes : une docente contratado que no sabe si su contrato será renovado, no puede implicarse en la continuidad pedagógica de una formación. La precarización del personal y la degradación de las condiciones de estudio no son dos problemas independientes, son dos consecuencias de una misma falta de financiación estructural de la universidad pública. Rechazamos una universidad que selecciona y discrimina por falta de plazas, que deteriora la calidad de su enseñanza y las condiciones de trabajo de sus investigadores por falta de personal y que compensa su falta de medios a través de la precarización de quiénes trabajan en ella. La creación de 250 000 plazas para les estudiantes en la universidad implica un esfuerzo masivo de contratación de les no permanentes en un plan plurianual de creación de puestos permanentes."
+    },
+    {
+      "id": "vote",
+      "label": "Votación",
+      "kind": "vote",
+      "text": "Esta moción ha sido aprobada por mayoría en la Asamblea General del personal no permanente reunido el {{date}}, votos a favor {{pour}}, en contra {{contre}}, abstenciones {{abst}}."
+    },
+    {
+      "id": "consigne",
+      "label": "Instrucciones",
+      "kind": "instruction",
+      "text": "Les sugerimos hacer votar la moción de apoyo por parte del personal permanente de su estructura. No es obligatorio ni necesario, pero puede ser la ocasión de lanzar debates políticos sobre el movimiento actual con elles. Si deciden hacerlo, les sugerimos que presenten la moción tal y como fue votada, sin que puedan enmendarla. Pueden indicar el resultado de su votación a continuación."
+    },
+    {
+      "id": "permanents",
+      "label": "Apoyo del personal permanente",
+      "kind": "permvote",
+      "text": "Les permanentes de {{structure}} han votado en su mayoría para apoyar esta moción. votos a favor {{perm_pour}}, en contra {{perm_contre}}, abstenciones {{perm_abst}}."
+    }
+  ],
+  "sources": [
+    {
+      "n": 1,
+      "publisher": "Le Monde",
+      "date": "2025-01-09",
+      "title": "La face sombre du crédit d’impôt recherche",
+      "url": "https://www.lemonde.fr/economie/article/2025/01/09/la-face-sombre-du-credit-d-impot-recherche_6488932_3234.html",
+      "about": "Captación de fondos públicos por empresas privadas",
+      "anchor": "captación de fondos públicos para empresas privadas"
+    },
+    {
+      "n": 2,
+      "publisher": "Le Parisien",
+      "date": "2026-10-14",
+      "title": "Colère lycéenne : près de 8 000 personnes interpellées et 2 735 poursuivies",
+      "url": "https://www.leparisien.fr/societe/colere-lyceenne-pres-de-8-000-personnes-interpellees-et-2-735-poursuivies-14-10-2026-BKNBWCOSAJBZHANHXLFK6BJY4M.php",
+      "about": "Más de 8 000 detenciones en tres semanas",
+      "anchor": "se estiman más de 8 000 detenciones en el plazo de tres semanas"
+    },
+    {
+      "n": 3,
+      "publisher": "Le Monde",
+      "date": "2026-10-23",
+      "title": "Les interdictions de manifester pleuvent sur toute la France, au risque de malmener l’État de droit",
+      "url": "https://www.lemonde.fr/politique/article/2026/10/23/les-interdictions-de-manifester-pleuvent-sur-toute-la-france-au-risque-de-malmener-l-etat-de-droit_6798944_823448.html",
+      "about": "Prohibiciones de manifestarse",
+      "anchor": "las prohibiciones de manifestar"
+    },
+    {
+      "n": 4,
+      "publisher": "Le Monde",
+      "date": "2026-10-28",
+      "title": "À Paris, la justice suspend le couvre-feu pour les mineurs non accompagnés",
+      "url": "https://www.lemonde.fr/societe/article/2026/10/28/paris-la-justice-suspend-le-couvre-feu-pour-les-mineurs-non-accompagnes_6801677_3224.html",
+      "about": "Toques de queda",
+      "anchor": "la instauración de un toque de queda"
+    },
+    {
+      "n": 5,
+      "publisher": "Amnesty International France",
+      "date": "",
+      "title": "Maintien de l’ordre : ces armes dangereuses utilisées en manifestation",
+      "url": "https://www.amnesty.fr/actualites/maintien-de-l-ordre-ces-armes-dangereuses-utilisees-en-manifestation/",
+      "about": "Armas que mutilan",
+      "anchor": "armas de guerra que mutilan"
+    },
+    {
+      "n": 6,
+      "publisher": "Le Monde",
+      "date": "2026-10-27",
+      "title": "Mort d’un manifestant le 17 octobre à Paris : l’autopsie conclut à une défaillance cardiorespiratoire aiguë, la famille dénonce l’usage de gaz lacrymogène",
+      "url": "https://www.lemonde.fr/societe/article/2026/10/27/mort-d-un-manifestant-le-17-octobre-a-paris-l-autopsie-conclut-a-une-defaillance-cardiorespiratoire-aigue-la-famille-denonce-l-usage-de-gaz-lacrymogene_6801348_3224.html",
+      "about": "Armas que matan",
+      "anchor": "matan"
+    },
+    {
+      "n": 7,
+      "publisher": "Bon Pote",
+      "date": "",
+      "title": "« Vous condamnez les violences ? » Comment le journalisme de préfecture asphyxie le mouvement lycéen",
+      "url": "https://bonpote.com/vous-condamnez-les-violences-comment-le-journalisme-de-prefecture-asphyxie-le-mouvement-lyceen/",
+      "about": "Violencia justificada por los canales de noticias continuas",
+      "anchor": "justificado por los noticieros contínuos"
+    }
+  ]
+}

@@ -335,7 +335,7 @@ window.I18N = {
     "sent.step3": "Adjunte también el PDF de la moción votada y envíe.", "sent.reopen": "Volver a abrir el correo", "sent.redownload": "Descargar de nuevo el archivo", "sent.share": "Preparar el correo con el archivo adjunto",
     "sent.to": "Para:", "sent.subject": "Asunto:", "sent.noMail": "¿No se abre su correo? Aquí está el mensaje para copiar.", "sent.copyMail": "Copiar el correo",
     "copied": "Copiado.", "copyFail": "No se pudo copiar: el texto está seleccionado, pulse Cmd/Ctrl + C.", "sending": "Enviando…",
-    "langNote": "Traducción próximamente: los textos se muestran en el original francés.",
+    "langNote": "",
     "footer": "Sitio del personal no permanente de la enseñanza superior y la investigación. Las estructuras se añaden a mano tras verificación.",
     "topics": ["Matemáticas", "Informática", "Física", "Química", "Ciencias de la Tierra y del universo", "Biología", "Salud y medicina", "Ecología y medio ambiente", "Ingeniería", "Economía y gestión", "Derecho y ciencia política", "Sociología y antropología", "Historia y geografía", "Letras y lenguas", "Filosofía", "Artes", "Psicología y educación", "Interdisciplinar", "Otra"]
   }
@@ -377,11 +377,17 @@ window.LONG = {
   },
   es: {
     origin: [
-      "Este texto fue redactado por un grupo de doctorandas, doctorandos y posdoctorandos de Sorbonne Université (SU), siguiendo el modelo de mociones ya adoptadas en algunos laboratorios de SU y de Paris-Saclay.",
-      "El objetivo es ofrecer un modelo de moción único que pueda votarse en todas partes, y reunir en un mismo sitio web todas las mociones y votaciones que surjan de él.",
-      "Esperamos que esta moción permita a todo el personal no permanente de la enseñanza superior y la investigación reunirse, debatir y unirse, tanto en cada estructura como en el conjunto del sector."
+      "Este texto ha sido redactado por un grupo de doctorandes y postdoctorantes de \"Sorbonne Université\" (SU), siguiendo el modelo de mociones ya adoptadas en algunos laboratorios de SU y Paris Saclay.",
+      "El objetivo es ofrecer un modelo de moción unificado que podrá someterse a votación por todas partes, y así reunir en un mismo sitio web todas las mociones y votaciones que surgirán.",
+      "Esperamos que esta moción permitirá a todo el personal no permanente de la Enseñanza Superior y la Investigación (ESR en francés) de juntarse, de conversar y unirse, tanto a la escala de cada estructura como a la de toda la \"ESR\"."
     ],
-    howto: [],
+    howto: [
+      "Este texto es un modelo de moción que ha de votarse en una Asamblea General (AG) extraordinaria del personal no permanente (doctorandes, post-doctorantes, \"ATER\", empleados temporales -\"vacataires\"-, contractuales, etc.) en cualquier laboratorio, UMR, UFR o estructura vinculada a la Enseñanza Superior y la Investigación (ESR).",
+      "Esta moción puede modificarse para adaptarla lo mejor posible a cada estructura y puede ser enmendada si necesario. No obstante, para poder garantizar cierta uniformidad y trazabilidad entre todas las mociones, les rogamos limitar las modificaciones a lo estricto y necesario para que ésta pueda ser votada, y de identificar cada modificación realizada en rojo.",
+      "No se olviden de retirar todas las secciones en itálica y de agregar el logo de su estructura.",
+      "Les sugerimos votar además una moción de apoyo por parte de los permanentes de su estructura (véase el final del documento) y de transmitir el documento final en formato PDF a la dirección {{email}} para que podamos juntar todas las mociones en nuestra página web {{site}}.",
+      "Si tienen preguntas, o si necesitan ayuda, no duden en contactarnos directamente a través del sitio. Versiones traducidas en otros idiomas también están disponibles en el sitio si fuere necesario."
+    ],
     mailSubject: "Moción del personal no permanente: propuesta de asamblea general extraordinaria",
     mail: "Hola a todas y todos:\n\nComo seguramente habéis visto, el movimiento de los estudiantes de secundaria se extiende desde hace unas semanas a la enseñanza superior y la investigación. Un grupo de doctorandas, doctorandos y posdocs de Sorbonne Université ha redactado un modelo de moción para que lo vote el personal no permanente de cada laboratorio, unidad de investigación o facultad. {{joins}}\n\nEl texto, sus fuentes y las mociones ya votadas en otros lugares están en línea: {{site}}\n\nPropongo que organicemos una asamblea general extraordinaria de todo el personal no permanente de {{team}} (doctorandos, posdocs, ATER, profesorado por horas, personal técnico y de ingeniería con contrato temporal…) para debatirla, enmendarla si hace falta y votarla si estamos de acuerdo. Una hora debería bastar. ¿Podéis indicarme vuestra disponibilidad antes del {{deadline}}?\n\nTomaos el tiempo de leer el texto antes de la reunión. Todos los comentarios son bienvenidos, también si no estáis de acuerdo: para eso sirve la asamblea.\n\nHasta pronto,\n{{name}}",
     defaults: { team: "el equipo", deadline: "fin de semana", name: "[Tu nombre]", datePrefix: "" },

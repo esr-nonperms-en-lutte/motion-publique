@@ -46,7 +46,7 @@ def build(lang):
     # Word et PDF via pandoc (consignes en italique, sources en notes de bas de page)
     body = [f"*{md(p['text'])}*" if p["kind"] == "instruction" else md(p["text"]) for p in m["paragraphs"]]
     notes = [f"[^{s['n']}]: {md_escape(s['publisher'])}, « {md_escape(s['title'])} ». <{s['url']}>" for s in m["sources"]]
-    meta = ["---", f"title: \"{m['title']}\"", f"lang: {lang}", "mainfont: \"Times New Roman\"", "geometry: margin=2.4cm",
+    meta = ["---", "title: " + json.dumps(m["title"], ensure_ascii=False), f"lang: {lang}", "mainfont: \"Times New Roman\"", "geometry: margin=2.4cm",
             "fontsize: 11pt", "linestretch: 1.2", "colorlinks: true", "---", ""]
     src = OUT / f"_motion-{lang}.md"
     src.write_text("\n".join(meta) + "\n\n".join(body) + "\n\n" + "\n".join(notes) + "\n", encoding="utf-8")
