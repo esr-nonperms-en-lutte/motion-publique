@@ -106,7 +106,7 @@ window.I18N = {
     "s.edit.notIncluded": "Non inclus : les permanent·es n’ont pas voté",
     "s.edit.instruction": "Paragraphe d’instructions, à supprimer avant envoi",
     "s.edit.removeInstruction": "Supprimer ce paragraphe d’instructions",
-    "s.edit.count": "modification(s)",
+    "s.edit.langKept": "version modifiée :", "lang.fr": "français", "lang.en": "anglais", "lang.es": "espagnol", "s.edit.count": "modification(s)",
     "paste.title": "Coller votre version",
     "paste.body": "Collez ici le texte voté en AG, par exemple depuis Word ou un PDF. Nous le remettons en forme, le comparons au texte commun et vous montrons les différences trouvées.",
     "paste.compare": "Comparer au texte commun",
@@ -232,7 +232,7 @@ window.I18N = {
     "s.edit.modify": "Edit", "s.edit.done": "Done", "s.edit.revert": "Restore original", "s.edit.delete": "Delete paragraph", "s.edit.restore": "Restore paragraph",
     "s.edit.insert": "Insert a paragraph after", "s.edit.newPara": "New paragraph", "s.edit.auto": "Filled in from the form",
     "s.edit.notIncluded": "Not included: permanent staff did not vote", "s.edit.instruction": "Instruction paragraph, to delete before sending",
-    "s.edit.removeInstruction": "Delete this instruction paragraph", "s.edit.count": "edit(s)",
+    "s.edit.removeInstruction": "Delete this instruction paragraph", "s.edit.langKept": "version being edited:", "lang.fr": "French", "lang.en": "English", "lang.es": "Spanish", "s.edit.count": "edit(s)",
     "paste.title": "Paste your version",
     "paste.body": "Paste the text voted in your assembly, for example from Word or a PDF. We reformat it, compare it with the common text and show you the differences we found.",
     "paste.compare": "Compare with the common text", "paste.cancel": "Cancel", "paste.question": "Are these the changes you made?",
@@ -258,7 +258,7 @@ window.I18N = {
     "sent.step3": "Also attach the PDF of the motion as voted, then send.", "sent.reopen": "Reopen the email", "sent.redownload": "Download the file again", "sent.share": "Prepare the email with the file attached",
     "sent.to": "To:", "sent.subject": "Subject:", "sent.noMail": "Your mail app does not open? Here is the email to copy.", "sent.copyMail": "Copy the email",
     "copied": "Copied.", "copyFail": "Could not copy: the text is selected, press Cmd/Ctrl + C.", "sending": "Sending…",
-    "langNote": "Translation in progress: some texts are still shown in the original French.",
+    "langNote": "",
     "footer": "Website of non-permanent higher-education and research staff. Structures are added by hand after checking.",
     "topics": ["Mathematics", "Computer science", "Physics", "Chemistry", "Earth and space sciences", "Biology", "Health and medicine", "Ecology and environment", "Engineering", "Economics and management", "Law and political science", "Sociology and anthropology", "History and geography", "Literature and languages", "Philosophy", "Arts", "Psychology and education", "Interdisciplinary", "Other"]
   },
@@ -309,7 +309,7 @@ window.I18N = {
     "s.edit.modify": "Modificar", "s.edit.done": "Terminar", "s.edit.revert": "Restablecer el original", "s.edit.delete": "Eliminar el párrafo", "s.edit.restore": "Restablecer el párrafo",
     "s.edit.insert": "Insertar un párrafo después", "s.edit.newPara": "Nuevo párrafo", "s.edit.auto": "Rellenado desde el formulario",
     "s.edit.notIncluded": "No incluido: el personal permanente no votó", "s.edit.instruction": "Párrafo de instrucciones, a eliminar antes del envío",
-    "s.edit.removeInstruction": "Eliminar este párrafo de instrucciones", "s.edit.count": "modificación(es)",
+    "s.edit.removeInstruction": "Eliminar este párrafo de instrucciones", "s.edit.langKept": "versión modificada:", "lang.fr": "francés", "lang.en": "inglés", "lang.es": "español", "s.edit.count": "modificación(es)",
     "paste.title": "Pegar su versión",
     "paste.body": "Pegue aquí el texto votado en asamblea, por ejemplo desde Word o un PDF. Lo reformateamos, lo comparamos con el texto común y le mostramos las diferencias.",
     "paste.compare": "Comparar con el texto común", "paste.cancel": "Cancelar", "paste.question": "¿Son estos los cambios que hicieron?",
@@ -357,6 +357,35 @@ window.LONG = {
       "Si vous avez des questions, ou si vous avez besoin d’aide, n’hésitez pas à nous contacter directement via le site. Des versions traduites dans d’autres langues sont disponibles sur notre site au besoin."
     ],
     mailSubject: "Motion des non-permanent·es : proposition d’AG extraordinaire",
-    mail: "Bonjour à toutes et à tous,\n\nComme vous l’avez sans doute vu, le mouvement lycéen s’étend depuis quelques semaines à l’enseignement supérieur et à la recherche. Un groupe de doctorant·es et de post-docs de Sorbonne Université a rédigé un modèle de motion à faire voter par les personnels non permanents de chaque labo, UMR ou UFR. {{joins}}\n\nLe texte, ses sources et les motions déjà votées ailleurs sont en ligne : {{site}}\n\nJe propose qu’on organise une AG extraordinaire de tou·tes les non-permanent·es de {{team}} (doctorant·es, post-docs, ATER, vacataires, contractuel·les, ingé·es et technicien·nes en CDD…) pour en discuter, l’amender si besoin, et la voter si on s’y retrouve. Une heure devrait suffire. Pouvez-vous me dire vos disponibilités d’ici {{deadline}} ?\n\nPrenez le temps de lire le texte avant la réunion. Toutes les remarques sont bienvenues, y compris si vous n’êtes pas d’accord : c’est justement le but de l’AG.\n\nÀ très vite,\n{{name}}"
+    mail: "Bonjour à toutes et à tous,\n\nComme vous l’avez sans doute vu, le mouvement lycéen s’étend depuis quelques semaines à l’enseignement supérieur et à la recherche. Un groupe de doctorant·es et de post-docs de Sorbonne Université a rédigé un modèle de motion à faire voter par les personnels non permanents de chaque labo, UMR ou UFR. {{joins}}\n\nLe texte, ses sources et les motions déjà votées ailleurs sont en ligne : {{site}}\n\nJe propose qu’on organise une AG extraordinaire de tou·tes les non-permanent·es de {{team}} (doctorant·es, post-docs, ATER, vacataires, contractuel·les, ingé·es et technicien·nes en CDD…) pour en discuter, l’amender si besoin, et la voter si on s’y retrouve. Une heure devrait suffire. Pouvez-vous me dire vos disponibilités d’ici {{deadline}} ?\n\nPrenez le temps de lire le texte avant la réunion. Toutes les remarques sont bienvenues, y compris si vous n’êtes pas d’accord : c’est justement le but de l’AG.\n\nÀ très vite,\n{{name}}",
+    defaults: { team: "l’équipe", deadline: "la fin de la semaine", name: "[Votre prénom]", datePrefix: "le " },
+    attach: { pdf: "en PDF", docx: "en Word", txt: "en texte brut", pre: "Je vous le joins ", and: " et " },
+    submit: "Bonjour,\n\nLes non-permanent·es de {{name}} ont voté la motion en AG le {{date}} ({{pour}} pour, {{contre}} contre, {{abst}} abstention(s), soit {{pct}} % pour) et souhaitent la soutenir publiquement sur le site.\n\nVous trouverez en pièce jointe :\n- le fichier {{file}}, avec toutes les informations du formulaire ;\n- le PDF de la motion votée.\n\nBien cordialement,"
+  },
+  en: {
+    origin: [
+      "This text was written by a group of PhD students and postdoctoral researchers at Sorbonne University (SU), based on motions already adopted in some laboratories at SU and Paris-Saclay.",
+      "The aim is to provide a single model motion that can be voted on everywhere, and to gather on one website all the motions and votes that come out of it.",
+      "We hope this motion will allow all non-permanent staff in higher education and research to come together, discuss and unite, both within each structure and across the whole sector."
+    ],
+    howto: [],
+    mailSubject: "Non-permanent staff motion: proposal for an extraordinary general assembly",
+    mail: "Hello everyone,\n\nAs you have probably seen, the high school students’ movement has been spreading to higher education and research over the past few weeks. A group of PhD students and postdocs at Sorbonne University has drafted a model motion to be voted on by the non-permanent staff of every lab, research unit or faculty. {{joins}}\n\nThe text, its sources and the motions already voted elsewhere are online: {{site}}\n\nI suggest we organise an extraordinary general assembly of all the non-permanent staff of {{team}} (PhD students, postdocs, ATERs, hourly lecturers, fixed-term engineers and technicians…) to discuss it, amend it if needed, and vote on it if we agree with it. An hour should be enough. Could you let me know when you are available by {{deadline}}?\n\nPlease take the time to read the text before the meeting. All comments are welcome, including if you disagree: that is exactly what the assembly is for.\n\nSee you soon,\n{{name}}",
+    defaults: { team: "the team", deadline: "the end of the week", name: "[Your first name]", datePrefix: "" },
+    attach: { pdf: "a PDF", docx: "a Word document", txt: "a plain-text file", pre: "I’m attaching it as ", and: " and " },
+    submit: "Hello,\n\nThe non-permanent staff of {{name}} voted the motion at a general assembly on {{date}} ({{pour}} in favour, {{contre}} against, {{abst}} abstention(s), i.e. {{pct}}% in favour) and wish to support it publicly on the website.\n\nPlease find attached:\n- the file {{file}}, with all the information from the form;\n- the PDF of the motion as voted.\n\nBest regards,"
+  },
+  es: {
+    origin: [
+      "Este texto fue redactado por un grupo de doctorandas, doctorandos y posdoctorandos de Sorbonne Université (SU), siguiendo el modelo de mociones ya adoptadas en algunos laboratorios de SU y de Paris-Saclay.",
+      "El objetivo es ofrecer un modelo de moción único que pueda votarse en todas partes, y reunir en un mismo sitio web todas las mociones y votaciones que surjan de él.",
+      "Esperamos que esta moción permita a todo el personal no permanente de la enseñanza superior y la investigación reunirse, debatir y unirse, tanto en cada estructura como en el conjunto del sector."
+    ],
+    howto: [],
+    mailSubject: "Moción del personal no permanente: propuesta de asamblea general extraordinaria",
+    mail: "Hola a todas y todos:\n\nComo seguramente habéis visto, el movimiento de los estudiantes de secundaria se extiende desde hace unas semanas a la enseñanza superior y la investigación. Un grupo de doctorandas, doctorandos y posdocs de Sorbonne Université ha redactado un modelo de moción para que lo vote el personal no permanente de cada laboratorio, unidad de investigación o facultad. {{joins}}\n\nEl texto, sus fuentes y las mociones ya votadas en otros lugares están en línea: {{site}}\n\nPropongo que organicemos una asamblea general extraordinaria de todo el personal no permanente de {{team}} (doctorandos, posdocs, ATER, profesorado por horas, personal técnico y de ingeniería con contrato temporal…) para debatirla, enmendarla si hace falta y votarla si estamos de acuerdo. Una hora debería bastar. ¿Podéis indicarme vuestra disponibilidad antes del {{deadline}}?\n\nTomaos el tiempo de leer el texto antes de la reunión. Todos los comentarios son bienvenidos, también si no estáis de acuerdo: para eso sirve la asamblea.\n\nHasta pronto,\n{{name}}",
+    defaults: { team: "el equipo", deadline: "fin de semana", name: "[Tu nombre]", datePrefix: "" },
+    attach: { pdf: "en PDF", docx: "en Word", txt: "en texto plano", pre: "Os lo adjunto ", and: " y " },
+    submit: "Hola:\n\nEl personal no permanente de {{name}} votó la moción en asamblea el {{date}} ({{pour}} a favor, {{contre}} en contra, {{abst}} abstención(es), es decir, un {{pct}} % a favor) y desea apoyarla públicamente en el sitio.\n\nEncontraréis adjuntos:\n- el archivo {{file}}, con toda la información del formulario;\n- el PDF de la moción votada.\n\nUn saludo,"
   }
 };

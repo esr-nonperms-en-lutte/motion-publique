@@ -19,6 +19,7 @@
   /* ================= Langue ================= */
   function applyLang() {
     document.documentElement.lang = S.lang;
+    document.title = t("brand");
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === S.lang)));
     document.querySelectorAll(".lang-note").forEach((el) => (el.hidden = !t("langNote")));
@@ -31,13 +32,14 @@
     sel.innerHTML = `<option value="">${esc(t("f.topic.choose"))}</option>` + opts.map((o) => `<option value="${esc(o.fr)}">${esc(o.label)}</option>`).join("");
     sel.value = cur;
     renderLong(); renderMail(); renderLabs(); renderVotes(); updateEditCount();
-    if (S.motion) { renderMotion(); renderSources(); renderFileNames(); }
+    if (S.motion) { renderMotion(); renderSources(); renderFileNames(); syncEditLang(); }
     if (!$("review").hidden) review();
   }
   document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => { S.lang = b.dataset.lang; store.set("motion-lang", S.lang); applyLang(); }));
 
   function renderLong() {
-    const L = window.LONG.fr; // seul le français est rédigé pour l'instant
+    const L = longText();
+    $("mTeam").placeholder = L.defaults.team;
     const site = siteUrl();
     const fill = (s) => esc(s).replace(/\{\{email\}\}/g, `<span class="addr">${esc(CFG.contactEmail)}</span>`)
       .replace(/\s?\{\{site\}\}/g, site ? ` <a href="${esc(site)}">${esc(site.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a>` : "");
@@ -68,6 +70,11 @@
   /* Motion affichée : celle de la langue choisie si elle existe (content/motion.<langue>.json),
      sinon le français. Les amendements des structures restent rédigés sur le texte français. */
   function dm() { return (S.motions && S.motions[S.lang]) || S.motion; }
+  /* Motion utilisée par le formulaire « Soutenir » : celle de la langue affichée au moment où l'on
+     commence à la modifier. Une fois des modifications faites, elle ne change plus de langue. */
+  function EM() { return S.editMotion || S.motion; }
+  /* Motion dans laquelle une structure a rédigé ses modifications. */
+  function motionFor(L) { return (S.motions && S.motions[L.motion.lang]) || S.motion; }
   function fileLang() { return S.motions && S.motions[S.lang] ? S.lang : "fr"; }
 
   /* Rendu d'une liste de paragraphes (texte commun, version d'une structure, ou éditeur en lecture). */
@@ -89,8 +96,8 @@
 
   function renderMotion() {
     const lab = S.viewLab;
-    const m = lab ? S.motion : dm();
-    const paras = lab ? C.applyEdits(S.motion, lab.motion.edits) : C.baseParagraphs(m);
+    const m = lab ? motionFor(lab) : dm();
+    const paras = lab ? C.applyEdits(m, lab.motion.edits) : C.baseParagraphs(m);
     $("motionBody").innerHTML = parasHTML(paras, ctx(lab ? labValues(lab) : {}, m), { hideInstruction: !!lab, hidePerm: lab && !lab.permanents.supported, cite: true, ids: true, motion: m });
     $("motionTitle").textContent = m.title;
     renderViewing();
@@ -180,8 +187,8 @@
   }
   /* Liste dépliable de toutes les modifications, au plus court. */
   function editsBlock(L) {
-    const cx = ctx(labValues(L)), label = `${t("labs.showEdits")} (${L._edits})`;
-    const items = C.applyEdits(S.motion, L.motion.edits).filter((p) => p.kind !== "instruction" && p.status !== "same").map((p) => {
+    const cx = ctx(labValues(L), motionFor(L)), label = `${t("labs.showEdits")} (${L._edits})`;
+    const items = C.applyEdits(motionFor(L), L.motion.edits).filter((p) => p.kind !== "instruction" && p.status !== "same").map((p) => {
       const head = `<span class="t-elabel">${esc(p.status === "added" ? t("paste.added") : p.label)}</span>${p.status === "deleted" ? `<span class="del-tag">${esc(t("paste.deleted"))}</span>` : ""}`;
       const body = p.status === "added" ? `<ins class="rev">${C.renderText(p.text.replace(/\[\^\d+\]/g, ""), cx)}</ins>`
         : p.status === "deleted" ? "" : C.diffSnippets(p.orig, p.text, cx);
@@ -228,20 +235,22 @@
     const out = await Promise.all(files.map(async (u) => { try { const r = await fetch(u, { cache: "no-cache" }); return r.ok ? r.json() : null; } catch (e) { return null; } }));
     S.labs = out.map((raw) => raw && C.validateLab(raw, S.motion).lab).filter(Boolean);
     const seen = new Set(); S.labs = S.labs.filter((L) => (seen.has(L.id) ? false : seen.add(L.id)));
-    S.labs.forEach((L) => (L._edits = C.editCount(C.applyEdits(S.motion, L.motion.edits))));
+    S.labs.forEach((L) => (L._edits = C.editCount(C.applyEdits(motionFor(L), L.motion.edits))));
     S.labs.sort((a, b) => (b.ag.date || "").localeCompare(a.ag.date || ""));
     S.labsState = "ok"; renderLabs();
   }
 
   /* ================= Courriel à l'équipe ================= */
+  /* Textes longs (origine, courriels) dans la langue affichée, sinon en français. */
+  function longText() { return window.LONG[S.lang] || window.LONG.fr; }
   function mailText() {
-    const L = window.LONG.fr;
-    const team = C.cleanLine($("mTeam").value, 80) || "l’équipe";
-    const deadline = $("mDeadline").value ? "le " + frDate($("mDeadline").value) : "la fin de la semaine";
-    const name = C.cleanLine($("mName").value, 60) || "[Votre prénom]";
+    const L = longText(), D = L.defaults, A = L.attach;
+    const team = C.cleanLine($("mTeam").value, 80) || D.team;
+    const deadline = $("mDeadline").value ? D.datePrefix + fmtDate($("mDeadline").value) : D.deadline;
+    const name = C.cleanLine($("mName").value, 60) || D.name;
     const site = siteUrl();
-    const fmts = chosenFiles().map((f) => "en " + f.label);
-    const joins = fmts.length ? ` Je vous le joins ${fmts.length > 1 ? fmts.slice(0, -1).join(", ") + " et " + fmts[fmts.length - 1] : fmts[0]}.` : "";
+    const fmts = chosenFiles().map((f) => A[f.key]);
+    const joins = fmts.length ? ` ${A.pre}${fmts.length > 1 ? fmts.slice(0, -1).join(", ") + A.and + fmts[fmts.length - 1] : fmts[0]}.` : "";
     let body = L.mail.replace("{{team}}", team).replace("{{deadline}}", deadline).replace("{{name}}", name).replace(/ ?\{\{joins\}\}/, joins);
     body = site ? body.replace("{{site}}", site) : body.replace(/[^\n]*\{\{site\}\}[^\n]*\n\n/, "");
     return { subject: L.mailSubject, body };
@@ -311,7 +320,7 @@
   function renderEditor() {
     const ta = document.querySelector("#editor textarea");
     const keep = ta && document.activeElement === ta ? { id: ta.dataset.id, s: ta.selectionStart, e: ta.selectionEnd } : null;
-    const cx = ctx(formValues()), perm = $("fPerm").checked;
+    const cx = ctx(formValues(), EM()), perm = $("fPerm").checked;
     $("editor").innerHTML = S.paras.map((p) => {
       const label = p.label ? `<span class="para-label">${esc(p.label)}</span>` : "";
       if (p.kind === "instruction") {
@@ -330,7 +339,7 @@
           ${p.status === "deleted" ? `<button type="button" class="linkish" data-act="restore">${esc(t("s.edit.restore"))}</button>` : `<button type="button" class="linkish red" data-act="delete">${esc(t("s.edit.delete"))}</button>`}
           ${p.status !== "deleted" ? `<button type="button" class="linkish" data-act="insert">${esc(t("s.edit.insert"))}</button>` : ""}
           ${n ? `<span class="count">${n} ${esc(t("s.edit.count"))}</span>` : ""}</div>` : "";
-      const area = editing ? `<textarea data-id="${p.id}" aria-label="${esc(p.label || t("s.edit.newPara"))}" maxlength="6000">${esc(C.toEditable(p.text, S.motion))}</textarea>` : "";
+      const area = editing ? `<textarea data-id="${p.id}" aria-label="${esc(p.label || t("s.edit.newPara"))}" maxlength="6000">${esc(C.toEditable(p.text, EM()))}</textarea>` : "";
       return `<div class="para body ${p.status}${editing ? " editing" : ""}" data-id="${p.id}">${label}<div class="para-body">${paraBody(p, cx)}</div>${area}${tools}</div>`;
     }).join("");
     const nta = document.querySelector("#editor textarea");
@@ -341,7 +350,8 @@
   function updateEditCount() {
     if (!S.paras.length) return;
     const n = C.editCount(S.paras);
-    $("editCount").innerHTML = n ? `<b>${n}</b> ${esc(t("s.edit.count"))}` : esc(t("summary.noEdits"));
+    const other = EM() !== dm() ? ` · ${esc(t("s.edit.langKept"))} ${esc(t("lang." + (EM().lang || "fr")))}` : "";
+    $("editCount").innerHTML = (n ? `<b>${n}</b> ${esc(t("s.edit.count"))}` : esc(t("summary.noEdits"))) + other;
     document.querySelectorAll(".seg-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === (S.mode === "same" && n ? "edit" : S.mode))));
   }
   $("editor").addEventListener("click", (e) => {
@@ -360,10 +370,10 @@
   $("editor").addEventListener("input", (e) => {
     const ta = e.target.closest("textarea"); if (!ta) return;
     const p = S.paras.find((x) => x.id === ta.dataset.id); if (!p) return;
-    p.text = C.fromEditable(ta.value, S.motion);
+    p.text = C.fromEditable(ta.value, EM());
     if (p.status !== "added") p.status = p.text === p.orig ? "same" : "modified";
     const node = ta.closest(".para");
-    node.querySelector(".para-body").innerHTML = paraBody(p, ctx(formValues()));
+    node.querySelector(".para-body").innerHTML = paraBody(p, ctx(formValues(), EM()));
     node.className = `para body ${p.status} editing`;
     const n = p.status === "modified" ? C.countChanges(p.orig, p.text) : 0;
     let cnt = node.querySelector(".count");
@@ -387,9 +397,16 @@
     if (m === "paste") { $("pasteResult").hidden = true; $("pasteBox").focus(); }
     renderEditor(); saveDraft();
   }
+  /* Changement de langue : si rien n'a encore été modifié, le formulaire passe à la motion de la
+     nouvelle langue ; sinon il garde la version en cours de modification et le signale. */
+  function syncEditLang() {
+    const untouched = C.editCount(S.paras) === 0 && !S.paras.some((p) => p.status === "added") && !S.editingId;
+    if (untouched && EM() !== dm()) { S.editMotion = dm(); S.paras = freshParas(true); renderEditor(); saveDraft(); }
+    updateEditCount();
+  }
   function freshParas(keepInstructionState) {
     const old = S.paras.find((p) => p.kind === "instruction");
-    const ps = C.baseParagraphs(S.motion);
+    const ps = C.baseParagraphs(EM());
     if (keepInstructionState && old && old.status === "deleted") ps.find((p) => p.kind === "instruction").status = "deleted";
     return ps;
   }
@@ -400,10 +417,10 @@
     const raw = $("pasteBox").value;
     $("pasteErr").textContent = raw.trim() ? "" : t("paste.empty");
     if (!raw.trim()) return;
-    const res = C.comparePasted(raw, S.motion);
+    const res = C.comparePasted(raw, EM());
     S.pasteData = res;
-    const preview = C.applyEdits(S.motion, res.paragraphs.filter((p) => p.status !== "same"));
-    const cx = ctx(Object.assign(formValues(), cleanFills(res.fills)));
+    const preview = C.applyEdits(EM(), res.paragraphs.filter((p) => p.status !== "same"));
+    const cx = ctx(Object.assign(formValues(), cleanFills(res.fills)), EM());
     const changed = preview.filter((p) => p.status !== "same" && p.kind !== "instruction");
     const instr = res.paragraphs.find((p) => p.id === "consigne");
     const det = describeFills(res.fills);
@@ -436,7 +453,7 @@
   function applyPaste(openEditors, instr) {
     const res = S.pasteData; if (!res) return;
     const keepInstr = instr && instr.status !== "deleted";
-    S.paras = C.applyEdits(S.motion, res.paragraphs.filter((p) => p.status !== "same"));
+    S.paras = C.applyEdits(EM(), res.paragraphs.filter((p) => p.status !== "same"));
     const ins = S.paras.find((p) => p.kind === "instruction"); if (ins && !keepInstr) ins.status = "deleted";
     const f = res.fills, setIf = (id, v) => { if (v !== undefined && v !== "" && !$(id).value) $(id).value = v; };
     setIf("fName", f.structure && C.cleanLine(f.structure, 160));
@@ -511,18 +528,21 @@
     clearTimeout(draftTimer);
     draftTimer = setTimeout(() => {
       const f = {}; FIELDS.forEach((id) => (f[id] = $(id).value)); f.fPerm = $("fPerm").checked;
-      store.set("motion-draft", { v: S.motion.version, f, logo: S.logo, mode: S.mode, edits: C.editsFromState(S.paras) });
+      store.set("motion-draft", { v: EM().version, lang: EM().lang || "fr", f, logo: S.logo, mode: S.mode, edits: C.editsFromState(S.paras) });
     }, 300);
   }
   function loadDraft() {
     const d = store.get("motion-draft");
-    if (!d || d.v !== S.motion.version) return;
+    if (!d) return;
+    const dmot = (S.motions && S.motions[d.lang]) || S.motion;
+    if (d.v !== dmot.version) return;
+    S.editMotion = dmot;
     FIELDS.forEach((id) => { if (d.f && typeof d.f[id] === "string") $(id).value = d.f[id]; });
     $("fPerm").checked = !!(d.f && d.f.fPerm); $("permFields").hidden = !$("fPerm").checked;
     syncTopicOther();
     if (typeof d.logo === "string" && /^data:image\/jpeg;base64,/.test(d.logo)) S.logo = d.logo;
-    const v = C.validateLab({ structure: { name: "x" }, ag: { pour: 1 }, motion: { edits: d.edits || [] } }, S.motion).lab;
-    if (v) { S.paras = C.applyEdits(S.motion, v.motion.edits); }
+    const v = C.validateLab({ structure: { name: "x" }, ag: { pour: 1 }, motion: { edits: d.edits || [] } }, EM()).lab;
+    if (v) { S.paras = C.applyEdits(EM(), v.motion.edits); }
     S.mode = d.mode === "edit" ? "edit" : "same";
   }
 
@@ -537,7 +557,7 @@
       logo: S.logo,
       ag: { date: /^\d{4}-\d{2}-\d{2}$/.test($("fDate").value) ? $("fDate").value : "", pour: C.int($("fPour").value), contre: C.int($("fContre").value), abstention: C.int($("fAbst").value) },
       permanents: { supported: $("fPerm").checked, pour: $("fPerm").checked ? C.int($("fPermPour").value) : 0, contre: $("fPerm").checked ? C.int($("fPermContre").value) : 0, abstention: $("fPerm").checked ? C.int($("fPermAbst").value) : 0 },
-      motion: { base_version: S.motion.version, edits: C.editsFromState(S.paras).filter((e) => e.id !== "consigne") }
+      motion: { lang: EM().lang || "fr", base_version: EM().version, edits: C.editsFromState(S.paras).filter((e) => e.id !== "consigne") }
     };
   }
   $("labForm").addEventListener("submit", (e) => { e.preventDefault(); review(); });
@@ -554,7 +574,7 @@
     if (instr && instr.status !== "deleted") warns.push({ text: t("warn.instruction"), act: "instr", label: t("s.edit.removeInstruction") });
     if (d.permanents.supported && !(d.permanents.pour + d.permanents.contre + d.permanents.abstention)) warns.push({ text: t("warn.permMissing"), act: "perm", label: t("submit.back") });
     const edited = S.paras.filter((p) => (p.status === "modified" || p.status === "added" || p.status === "deleted") && p.kind !== "instruction");
-    const cx = ctx(formValues());
+    const cx = ctx(formValues(), EM());
     const [p, a, c] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
     const blocked = missing.length > 0 || warns.some((w) => w.act === "instr");
     const el = $("review"); el.hidden = false; $("sent").hidden = true;
@@ -580,9 +600,9 @@
 
   function plainText(d) {
     const s = d.structure, [p, a, c] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
-    const paras = C.applyEdits(S.motion, d.motion.edits);
+    const paras = C.applyEdits(EM(), d.motion.edits);
     const vals = labValues(d);
-    const fillPh = (txt) => txt.replace(/\{\{(\w+)\}\}/g, (m, k) => (vals[k] !== undefined && vals[k] !== "" ? String(vals[k]) : S.motion.placeholders[k] || m)).replace(/\[\^(\d+)\]/g, "[$1]");
+    const fillPh = (txt) => txt.replace(/\{\{(\w+)\}\}/g, (m, k) => (vals[k] !== undefined && vals[k] !== "" ? String(vals[k]) : EM().placeholders[k] || m)).replace(/\[\^(\d+)\]/g, "[$1]");
     const diffPlain = (o, n) => C.diff(o, n).map((g) => { const x = fillPh(g.toks.join("")); return g.type === "eq" ? x : g.type === "del" ? `[-${x}-]` : `{+${x}+}`; }).join("");
     const changes = paras.filter((q) => q.kind !== "instruction" && q.status !== "same").map((q) =>
       `• ${q.label || "Paragraphe ajouté"} (${q.status === "modified" ? "modifié" : q.status === "deleted" ? "supprimé" : "ajouté"})\n${q.status === "modified" ? diffPlain(q.orig, q.text) : fillPh(q.status === "deleted" ? q.orig : q.text)}`);
@@ -618,14 +638,8 @@
   function submissionMail(d, fileName) {
     const s = d.structure, [p] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
     const subject = `Ajout de soutien – ${s.name}`;
-    const body = [
-      "Bonjour,", "",
-      `Les non-permanent·es de ${s.name}${s.acronym && s.acronym !== s.name ? " (" + s.acronym + ")" : ""} ont voté la motion en AG le ${frDate(d.ag.date)} (${d.ag.pour} pour, ${d.ag.contre} contre, ${d.ag.abstention} abstention(s), soit ${p} % pour) et souhaitent la soutenir publiquement sur le site.`, "",
-      "Vous trouverez en pièce jointe :",
-      `- le fichier ${fileName}, avec toutes les informations du formulaire ;`,
-      "- le PDF de la motion votée.", "",
-      "Bien cordialement,"
-    ].join("\n");
+    const vals = { name: s.name + (s.acronym && s.acronym !== s.name ? " (" + s.acronym + ")" : ""), date: fmtDate(d.ag.date), pour: d.ag.pour, contre: d.ag.contre, abst: d.ag.abstention, pct: p, file: fileName };
+    const body = longText().submit.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vals ? String(vals[k]) : m));
     return { subject, body, href: `mailto:${CFG.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` };
   }
 
@@ -696,11 +710,11 @@
   async function init() {
     S.lang = ["fr", "en", "es"].includes(store.get("motion-lang")) ? store.get("motion-lang") : "fr";
     const g = store.get("motion-group"); if (g) $("groupBy").value = g;
-    try { S.motion = await (await fetch("content/motion.fr.json")).json(); }
+    try { S.motion = await (await fetch("content/motion.fr.json", { cache: "no-cache" })).json(); }
     catch (e) { $("motionBody").innerHTML = `<p class="err">Le texte de la motion n’a pas pu être chargé (content/motion.fr.json).</p>`; return; }
     S.motions = { fr: S.motion };
-    await Promise.all(["en", "es"].map(async (l) => { try { const r = await fetch(`content/motion.${l}.json`); if (r.ok) S.motions[l] = await r.json(); } catch (e) { /* pas encore traduite */ } }));
-    S.paras = C.baseParagraphs(S.motion); S.mode = "same";
+    await Promise.all(["en", "es"].map(async (l) => { try { const r = await fetch(`content/motion.${l}.json`, { cache: "no-cache" }); if (r.ok) S.motions[l] = await r.json(); } catch (e) { /* pas encore traduite */ } }));
+    S.editMotion = dm(); S.paras = C.baseParagraphs(EM()); S.mode = "same";
     loadDraft();
     renderSources(); renderMotion(); renderLogo(); renderEditor(); renderVotes();
     applyLang(); route();

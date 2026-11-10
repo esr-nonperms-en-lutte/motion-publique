@@ -40,6 +40,7 @@ def check(path):
     if not isinstance(d.get("example", False), bool): errs.append("example doit valoir true ou false")
     pm = d.get("permanents") or {}
     if not isinstance(pm.get("supported", False), bool): errs.append("permanents.supported invalide")
+    if (d.get("motion") or {}).get("lang", "fr") not in ("fr", "en", "es"): errs.append("motion.lang invalide")
     for e in (d.get("motion") or {}).get("edits", []):
         st, pid = e.get("status"), e.get("id", "")
         if st in ("modified", "deleted") and pid not in known: errs.append(f"paragraphe inconnu : {pid}")

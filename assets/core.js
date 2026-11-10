@@ -288,7 +288,7 @@
       logo: typeof raw.logo === "string" && LOGO.test(raw.logo) && raw.logo.length < 300000 ? raw.logo : "",
       ag: { date: /^\d{4}-\d{2}-\d{2}$/.test(ag.date || "") ? ag.date : "", pour: Core.int(ag.pour), contre: Core.int(ag.contre), abstention: Core.int(ag.abstention) },
       permanents: { supported: pm.supported === true, pour: Core.int(pm.pour), contre: Core.int(pm.contre), abstention: Core.int(pm.abstention) },
-      motion: { base_version: Core.cleanLine(raw.motion && raw.motion.base_version, 40), edits: [] }
+      motion: { lang: ["fr", "en", "es"].includes(raw.motion && raw.motion.lang) ? raw.motion.lang : "fr", base_version: Core.cleanLine(raw.motion && raw.motion.base_version, 40), edits: [] }
     };
     if (!lab.structure.name) errors.push("Nom de structure manquant.");
     if (!lab.structure.city) errors.push("Ville manquante.");
