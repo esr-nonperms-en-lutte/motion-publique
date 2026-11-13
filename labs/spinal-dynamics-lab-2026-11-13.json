@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "example": false,
+  "id": "spinal-dynamics-lab-2026-11-13",
+  "submitted_at": "2026-11-13T13:31:52.786Z",
+  "structure": {
+    "name": "Spinal Dynamics Lab",
+    "acronym": "",
+    "institution": "Institut de Psychiatrie et Neurosciences de Paris (IPNP)",
+    "department": "",
+    "city": "Paris",
+    "country": "France",
+    "topic": "Biologie"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-13",
+    "pour": 5,
+    "contre": 0,
+    "abstention": 0
+  },
+  "permanents": {
+    "supported": true,
+    "pour": 1,
+    "contre": 0,
+    "abstention": 0,
+    "date": ""
+  },
+  "motion": {
+    "lang": "en",
+    "base_version": "2026-11-09-en",
+    "edits": [
+      {
+        "id": "solidarite",
+        "status": "modified",
+        "text": "We, PhD students, postdoctoral researchers, research engineers and master's students of {{structure}}, declare our solidarity with the high school students' protest movement, which has now spread to higher education and research. We support the demands for access to decent and equitable learning and working conditions throughout the country. Today's high school students are tomorrow's university students: the right to education must not end at the university gates, nor should it depend on socioeconomic background, school of origin, or nationality. We therefore support, among other demands, the «10 Emergency Measures for Young People » put forward by the Union syndicale lycéenne, Union étudiante, UNEF, Solidaires étudiant·es, and FAGE."
+      }
+    ]
+  }
+}
