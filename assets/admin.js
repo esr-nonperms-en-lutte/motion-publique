@@ -10,7 +10,7 @@
     const { lab, errors } = C.validateLab(raw, frMotion);
     const motion = lab ? (motions[lab.motion.lang] || frMotion) : frMotion;
     if (!lab) { out.innerHTML = `<ul class="checklist">${errors.map((e) => `<li>${C.esc(e)}</li>`).join("")}</ul>`; return; }
-    const paras = C.applyEdits(motion, lab.motion.edits), n = C.editCount(paras), s = lab.structure;
+    const paras = C.jointParas(C.applyEdits(motion, lab.motion.edits), motion, lab.ag.joint), n = C.editCount(paras), s = lab.structure;
     const [p, a, c] = C.pct(lab.ag.pour, lab.ag.abstention, lab.ag.contre);
     const vals = { structure: s.name, date: frDate(lab.ag.date), pour: lab.ag.pour, contre: lab.ag.contre, abst: lab.ag.abstention, perm_pour: lab.permanents.pour, perm_contre: lab.permanents.contre, perm_abst: lab.permanents.abstention };
     const cx = { values: vals, placeholders: motion.placeholders, sources: motion.sources };
@@ -33,9 +33,9 @@
       ${raw.motion && raw.motion.base_version !== motion.version ? `<p class="err">Basé sur la version « ${C.esc(raw.motion.base_version || "?")} » du texte (version actuelle : ${C.esc(motion.version)}).</p>` : ""}
       <div class="summary-card" style="margin-top:12px"><span class="logo-prev" style="border-color:${n ? "var(--rouge)" : "var(--bleu)"};${n ? "border-style:dashed" : ""}">${lab.logo ? `<img src="${C.esc(lab.logo)}" alt="">` : C.catSVG(s.acronym || s.name)}</span>
         <div class="meta"><b>${C.esc(s.name)}${s.acronym ? " (" + C.esc(s.acronym) + ")" : ""}</b>${C.esc([s.institution, s.department, s.city, s.country, s.topic].filter(Boolean).join(" · "))}<br>
-        AG du ${C.esc(frDate(lab.ag.date))} : ${lab.ag.pour} pour (${p} %), ${lab.ag.contre} contre (${c} %), ${lab.ag.abstention} abst. (${a} %)<br>
+        ${lab.ag.joint ? "<b style=\"display:inline\">AG commune, tous statuts confondus</b>," : "AG des non-permanent·es"} du ${C.esc(frDate(lab.ag.date))} : ${lab.ag.pour} pour (${p} %), ${lab.ag.contre} contre (${c} %), ${lab.ag.abstention} abst. (${a} %)<br>
         Langue de la motion votée : ${C.esc({ fr: "français", en: "anglais", es: "espagnol" }[lab.motion.lang])}<br>
-        Permanent·es : ${lab.permanents.supported ? `soutien${lab.permanents.date ? " du " + C.esc(frDate(lab.permanents.date)) : ""} (${lab.permanents.pour} / ${lab.permanents.contre} / ${lab.permanents.abstention})` : "pas de vote"} · <b style="display:inline;color:var(--rouge)">${n}</b> modification(s)</div></div>
+        Permanent·es : ${lab.ag.joint ? "ont voté dans l’AG commune" : lab.permanents.supported ? `soutien${lab.permanents.date ? " du " + C.esc(frDate(lab.permanents.date)) : ""} (${lab.permanents.pour} / ${lab.permanents.contre} / ${lab.permanents.abstention})` : "pas de vote"} · <b style="display:inline;color:var(--rouge)">${n}</b> modification(s)</div></div>
       ${update}
       <div class="row"><button type="button" class="btn" id="dl">Télécharger ${C.esc(name)}</button><span class="muted small">${update ? "à mettre à la place de l’ancien fichier dans" : "à déposer dans"} <code>labs/</code> du dépôt</span></div>
       <article class="paper motion-text" style="margin-top:8px">${body}</article>`;
