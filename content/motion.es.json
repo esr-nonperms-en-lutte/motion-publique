@@ -47,7 +47,8 @@
       "id": "vote",
       "label": "Votación",
       "kind": "vote",
-      "text": "Esta moción ha sido aprobada por mayoría en la Asamblea General del personal no permanente reunido el {{date}}, votos a favor {{pour}}, en contra {{contre}}, abstenciones {{abst}}."
+      "text": "Esta moción ha sido aprobada por mayoría en la Asamblea General del personal no permanente reunido el {{date}}, votos a favor {{pour}}, en contra {{contre}}, abstenciones {{abst}}.",
+      "text_joint": "Esta moción ha sido aprobada por mayoría en la Asamblea General conjunta del personal permanente y no permanente, de todas las categorías, reunida el {{date}}, votos a favor {{pour}}, en contra {{contre}}, abstenciones {{abst}}."
     },
     {
       "id": "consigne",

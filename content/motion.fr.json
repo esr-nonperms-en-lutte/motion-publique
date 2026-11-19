@@ -47,7 +47,8 @@
       "id": "vote",
       "label": "Vote",
       "kind": "vote",
-      "text": "Cette motion a été votée à la majorité en Assemblée Générale du personnel non-permanent réunie le {{date}} ({{pour}} Pour, {{contre}} Contre, {{abst}} Abstention)."
+      "text": "Cette motion a été votée à la majorité en Assemblée Générale du personnel non-permanent réunie le {{date}} ({{pour}} Pour, {{contre}} Contre, {{abst}} Abstention).",
+      "text_joint": "Cette motion a été votée à la majorité en Assemblée Générale commune des personnels permanents et non-permanents, tous statuts confondus, réunie le {{date}} ({{pour}} Pour, {{contre}} Contre, {{abst}} Abstention)."
     },
     {
       "id": "consigne",

@@ -47,7 +47,8 @@
       "id": "vote",
       "label": "Vote",
       "kind": "vote",
-      "text": "This motion was adopted by a majority vote at the General Assembly of non-permanent staff held on {{date}} ({{pour}} in favour, {{contre}} against, {{abst}} abstentions)."
+      "text": "This motion was adopted by a majority vote at the General Assembly of non-permanent staff held on {{date}} ({{pour}} in favour, {{contre}} against, {{abst}} abstentions).",
+      "text_joint": "This motion was adopted by a majority vote at a joint General Assembly of permanent and non-permanent staff, all statuses combined, held on {{date}} ({{pour}} in favour, {{contre}} against, {{abst}} abstentions)."
     },
     {
       "id": "consigne",
