@@ -48,7 +48,7 @@
   }
 
   /* ================= Onglets ================= */
-  const VIEWS = ["motion", "origine", "mode-emploi", "soutenir"];
+  const VIEWS = ["motion", "origine", "mode-emploi", "recensement", "soutenir"];
   function route() {
     const h = location.hash.slice(1);
     const addId = /^permanents-[a-z0-9-]+$/.test(h) ? h.slice("permanents-".length) : null;
@@ -143,11 +143,13 @@
   function openLabTip(btn, pinned) { clearTimeout(hideTimer); const L = labOf(btn); if (!L) return; showTip(btn, labTip(L), pinned); tip.classList.add("interactive"); }
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(".tip")) { clearTimeout(hideTimer); return; }
+    const cl = e.target.closest("#censusWall .lab"); if (cl) return censusShow(cl.dataset.id, false);
     if (tipPinned) return;
     const fn = e.target.closest(".fn, .cite"); if (fn) return showTip(fn, sourceTip(fn.dataset.fn));
     const lab = e.target.closest(".lab"); if (lab && tipAnchor !== lab) openLabTip(lab, false); else if (lab) clearTimeout(hideTimer);
   });
   document.addEventListener("mouseout", (e) => {
+    if (e.target.closest("#censusWall, .census-card")) return;
     const el = e.target.closest(".fn, .cite, .lab, .tip"); if (!el || el.contains(e.relatedTarget)) return;
     if (el.matches(".lab, .tip")) {
       if (e.relatedTarget && (e.relatedTarget.closest(".tip") || e.relatedTarget === tipAnchor || (tipAnchor && tipAnchor.contains(e.relatedTarget)))) return;
@@ -155,7 +157,7 @@
     }
     hideTip();
   });
-  document.addEventListener("focusin", (e) => { const fn = e.target.closest(".fn, .cite"); if (fn && !tipPinned) showTip(fn, sourceTip(fn.dataset.fn)); const lab = e.target.closest(".lab"); if (lab && !tipPinned) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); } });
+  document.addEventListener("focusin", (e) => { const cl = e.target.closest("#censusWall .lab"); if (cl) return censusShow(cl.dataset.id, false); const fn = e.target.closest(".fn, .cite"); if (fn && !tipPinned) showTip(fn, sourceTip(fn.dataset.fn)); const lab = e.target.closest(".lab"); if (lab && !tipPinned) { const L = S.labs.find((x) => x.id === lab.dataset.id); if (L) showTip(lab, labTip(L)); } });
   document.addEventListener("focusout", (e) => { if (e.target.closest(".fn, .cite, .lab")) hideTip(); });
   document.addEventListener("click", (e) => {
     const fn = e.target.closest(".fn, .cite");
@@ -167,6 +169,7 @@
       more.textContent = open ? t("labs.hideEdits") : more.dataset.label;
       tip.classList.toggle("wide", open); tipPinned = true; placeTip(tipAnchor); return;
     }
+    const cl = e.target.closest("#censusWall .lab"); if (cl) { hideTip(true); censusShow(cl.dataset.id, true); return; }
     const lab = e.target.closest(".lab");
     if (lab) { const was = tipPinned && tipAnchor === lab; hideTip(true); if (!was) openLabTip(lab, true); return; }
     if (!e.target.closest(".tip")) hideTip(true);
@@ -177,7 +180,7 @@
   /* ================= Structures ================= */
   function logoHTML(lab) { return lab.logo ? `<img src="${esc(lab.logo)}" alt="">` : C.catSVG(lab.structure.acronym || lab.structure.name); }
   function topicLabel(fr) { const i = window.I18N.fr.topics.indexOf(fr); return i >= 0 ? (t("topics")[i] || fr) : fr; }
-  function labTip(L) {
+  function labTip(L, census = false) {
     const [p, a, c] = C.pct(L.ag.pour, L.ag.abstention, L.ag.contre), s = L.structure;
     const where = [s.department, s.institution].filter(Boolean).join(" · "), place = [s.city, s.country].filter(Boolean).join(", ");
     const perm = L.ag.joint ? esc(t("labs.perm.joint")) : L.permanents.supported ? (() => { const q = C.pct(L.permanents.pour, L.permanents.abstention, L.permanents.contre); return `${esc(t("labs.perm.yes"))}${L.permanents.pour ? ` (${q[0]} % ${esc(t("labs.for").toLowerCase())})` : ""}${L.permanents.date ? ` · ${esc(fmtDate(L.permanents.date))}` : ""}`; })()
@@ -186,7 +189,7 @@
       <span>${esc(t(L.ag.joint ? "labs.agJointOn" : "labs.agOn"))} ${esc(fmtDate(L.ag.date))}</span>
       <div class="votebar"><i class="v-pour" style="width:${p}%"></i><i class="v-abs" style="width:${a}%"></i><i class="v-contre" style="width:${c}%"></i></div>
       <div class="t-nums"><span>${esc(t("labs.for"))} ${p} %</span><span>${esc(t("labs.abst"))} ${a} %</span><span>${esc(t("labs.against"))} ${c} %</span></div>
-      <span class="t-sub">${perm}</span>${L._edits ? editsBlock(L) : `<span class="t-sub">${esc(t("motion.noEdits"))}</span>`}`;
+      <span class="t-sub">${perm}</span>${census ? `<span class="t-sub">${L._edits ? `${L._edits} ${esc(t("labs.changes"))}` : esc(t("motion.noEdits"))}</span>` : L._edits ? editsBlock(L) : `<span class="t-sub">${esc(t("motion.noEdits"))}</span>`}`;
   }
   /* Liste dépliable de toutes les modifications, au plus court. */
   function editsBlock(L) {
@@ -199,24 +202,59 @@
     }).join("");
     return `<button type="button" class="t-more" data-show-edits data-label="${esc(label)}" aria-expanded="false">${esc(label)}</button><ul class="t-edits" hidden>${items}</ul>`;
   }
-  function renderLabs() {
-    const wall = $("labWall"); if (!wall) return;
-    if (S.labsState === "loading") { wall.innerHTML = `<p class="empty">${esc(t("labs.loading"))}</p>`; return; }
-    if (S.labsState === "error" && !S.labs.length) { wall.innerHTML = `<p class="empty">${esc(t("labs.loadError"))}</p>`; return; }
-    if (!S.labs.length) { wall.innerHTML = `<p class="empty">${esc(t("labs.empty"))}</p><a class="btn ghost" href="#soutenir">${esc(t("step3.go"))}</a>`; return; }
-    const key = $("groupBy").value;
+  function wallHTML(key, selected) {
+    if (S.labsState === "loading") return `<p class="empty">${esc(t("labs.loading"))}</p>`;
+    if (S.labsState === "error" && !S.labs.length) return `<p class="empty">${esc(t("labs.loadError"))}</p>`;
+    if (!S.labs.length) return `<p class="empty">${esc(t("labs.empty"))}</p><a class="btn ghost" href="#soutenir">${esc(t("step3.go"))}</a>`;
     const groups = new Map();
     for (const L of S.labs) { const g = key === "none" ? "" : (L.structure[key] || t("labs.unknown")); if (!groups.has(g)) groups.set(g, []); groups.get(g).push(L); }
     const sorted = [...groups.entries()].sort((x, y) => y[1].length - x[1].length || x[0].localeCompare(y[0]));
-    wall.innerHTML = sorted.map(([g, list]) => `<div class="lab-group">${key !== "none" ? `<h4>${esc(key === "topic" ? topicLabel(g) : g)}<span>${list.length}</span></h4>` : ""}<div class="logos">${list.map((L) => {
-      const on = S.viewLab === L;
-      return `<div class="lab-item${on ? " on" : ""}"><button type="button" class="lab${L.permanents.supported ? "" : " octo"}${on ? " on" : ""}" data-id="${esc(L.id)}" aria-label="${esc(L.structure.name)}"><span class="inner">${logoHTML(L)}</span></button><span class="name">${esc(L.structure.acronym || L.structure.name)}</span>${L.example ? `<span class="ex">${esc(t("labs.exampleShort"))}</span>` : ""}</div>`;
+    return sorted.map(([g, list]) => `<div class="lab-group">${key !== "none" ? `<h4>${esc(key === "topic" ? topicLabel(g) : g)}<span>${list.length}</span></h4>` : ""}<div class="logos">${list.map((L) => {
+      const on = selected === L.id;
+      return `<div class="lab-item${on ? " on" : ""}"><button type="button" class="lab${L.permanents.supported ? "" : " octo"}${on ? " on" : ""}" data-id="${esc(L.id)}" aria-label="${esc(L.structure.name)}"${on ? ' aria-pressed="true"' : ""}><span class="inner">${logoHTML(L)}</span></button><span class="name">${esc(L.structure.acronym || L.structure.name)}</span>${L.example ? `<span class="ex">${esc(t("labs.exampleShort"))}</span>` : ""}</div>`;
     }).join("")}</div></div>`).join("");
+  }
+  function renderLabs() {
+    if ($("labWall")) $("labWall").innerHTML = wallHTML($("groupBy").value, S.viewLab && S.viewLab.id);
+    renderCensusWall();
     const real = S.labs.filter((L) => !L.example);
     $("statLabs").textContent = real.length;
     $("statVoters").textContent = real.reduce((n, L) => n + L.ag.pour, 0).toLocaleString("fr-FR");
     document.querySelectorAll("[data-stat]").forEach((el) => (el.hidden = !real.length));
   }
+
+  /* ================= Recensement : toutes les motions ================= */
+  /* Survol d'un logo : sa motion complète et son vote s'affichent dans le cadre ; un clic la garde affichée. */
+  S.census = { id: null, pinned: false, diff: false };
+  function renderCensusWall() {
+    if (!$("censusWall")) return;
+    $("censusWall").innerHTML = wallHTML($("groupBy2").value, S.census.pinned ? S.census.id : null);
+    renderCensus();
+  }
+  function renderCensus() {
+    const el = $("censusFrame"), L = S.labs.find((x) => x.id === S.census.id);
+    if (!L) { el.innerHTML = `<p class="census-empty muted">${esc(t(S.labs.length ? "census.pick" : "labs.empty"))}</p>`; return; }
+    const m = motionFor(L);
+    let paras = C.jointParas(C.applyEdits(m, L.motion.edits), m, L.ag.joint);
+    if (!S.census.diff) paras = paras.filter((p) => p.status !== "deleted").map((p) => ({ ...p, kind: p.kind === "added" ? "body" : p.kind, status: "same" }));
+    el.innerHTML = `<div class="census-head">
+        <span class="census-logo${L.permanents.supported ? "" : " octo"}">${logoHTML(L)}</span>
+        <div class="tip census-card">${labTip(L, true)}</div>
+      </div>
+      <div class="census-tools">
+        ${S.census.pinned ? `<span class="census-pin">${esc(t("census.pinned"))}</span><button type="button" class="linkish" data-census-unpin>${esc(t("census.unpin"))}</button>` : ""}
+        ${L._edits ? `<label class="check" for="censusDiff"><input id="censusDiff" type="checkbox"${S.census.diff ? " checked" : ""}><span>${esc(t("census.diff"))}</span></label>` : ""}
+      </div>
+      <div class="motion-text">${parasHTML(paras, ctx(labValues(L), m), { hideInstruction: true, hidePerm: !L.permanents.supported, cite: true, motion: m })}</div>`;
+    const cb = $("censusDiff"); if (cb) cb.onchange = () => { S.census.diff = cb.checked; renderCensus(); };
+    const up = el.querySelector("[data-census-unpin]"); if (up) up.onclick = () => { S.census.pinned = false; renderCensusWall(); };
+  }
+  function censusShow(id, pin) {
+    if (pin) { const same = S.census.pinned && S.census.id === id; S.census.pinned = !same; S.census.id = id; renderCensusWall(); return; }
+    if (S.census.pinned || S.census.id === id) return;
+    S.census.id = id; renderCensus();
+  }
+  $("groupBy2").addEventListener("change", () => { store.set("census-group", $("groupBy2").value); renderCensusWall(); });
   $("groupBy").addEventListener("change", () => { store.set("motion-group", $("groupBy").value); renderLabs(); });
 
   async function loadLabs() {
@@ -781,6 +819,7 @@
   async function init() {
     S.lang = ["fr", "en", "es"].includes(store.get("motion-lang")) ? store.get("motion-lang") : "fr";
     const g = store.get("motion-group"); if (g) $("groupBy").value = g;
+    const g2 = store.get("census-group"); if (g2) $("groupBy2").value = g2;
     try { S.motion = await (await fetch("content/motion.fr.json", { cache: "no-cache" })).json(); }
     catch (e) { $("motionBody").innerHTML = `<p class="err">Le texte de la motion n’a pas pu être chargé (content/motion.fr.json).</p>`; return; }
     S.motions = { fr: S.motion };

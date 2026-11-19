@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=40">
+<link rel="stylesheet" href="assets/style.css?v=41">
 </head>
 <body>
 <div class="tricolore" aria-hidden="true"></div>
@@ -20,6 +20,7 @@
       <a href="#motion" data-tab="motion" data-i18n="tab.motion">La motion</a>
       <a href="#origine" data-tab="origine" data-i18n="tab.origin">D’où vient ce texte</a>
       <a href="#mode-emploi" data-tab="mode-emploi" data-i18n="tab.howto">Mode d’emploi</a>
+      <a href="#recensement" data-tab="recensement" data-i18n="tab.census">Recensement</a>
       <a href="#soutenir" data-tab="soutenir" class="tab-cta" data-i18n="tab.support">Soutenir</a>
     </nav>
     <div class="langs" role="group" aria-label="Langue">
@@ -99,6 +100,38 @@
   </section>
 
   <!-- ===================== ORIGINE ===================== -->
+  <!-- ===================== RECENSEMENT ===================== -->
+  <section class="view" id="view-recensement" data-view="recensement" hidden>
+    <div class="hero">
+      <h1 data-i18n="census.title">Recensement de toutes les motions</h1>
+      <p class="lede muted" data-i18n="census.lede"></p>
+    </div>
+    <section class="labs" aria-labelledby="censusLabsTitle">
+      <div class="labs-head">
+        <div>
+          <h2 id="censusLabsTitle" data-i18n="census.labsTitle"></h2>
+          <p class="muted" data-i18n="census.hint"></p>
+        </div>
+        <label class="group-by" for="groupBy2"><span data-i18n="labs.groupBy">Regrouper par</span>
+          <select id="groupBy2">
+            <option value="none" data-i18n="labs.group.none"></option>
+            <option value="institution" data-i18n="labs.group.institution"></option>
+            <option value="topic" data-i18n="labs.group.topic"></option>
+            <option value="country" data-i18n="labs.group.country"></option>
+            <option value="city" data-i18n="labs.group.city"></option>
+            <option value="department" data-i18n="labs.group.department"></option>
+          </select>
+        </label>
+      </div>
+      <div class="legend">
+        <span><i class="shape round"></i><span data-i18n="labs.legend.perm"></span></span>
+        <span><i class="shape octo"></i><span data-i18n="labs.legend.noperm"></span></span>
+      </div>
+      <div id="censusWall" class="lab-wall" aria-live="polite"></div>
+    </section>
+    <article class="paper census-frame" id="censusFrame" aria-live="polite"></article>
+  </section>
+
   <section class="view prose-view" id="view-origine" data-view="origine" hidden>
     <div class="title-row"><div class="eyebrow">Sorbonne Université · Paris-Saclay</div></div>
     <h1 data-i18n="origin.title">D’où vient ce texte</h1>
@@ -265,9 +298,9 @@
 
 <div class="tip" id="tip" hidden></div>
 
-<script src="assets/config.js?v=40"></script>
-<script src="assets/i18n.js?v=40"></script>
-<script src="assets/core.js?v=40"></script>
-<script src="assets/app.js?v=40"></script>
+<script src="assets/config.js?v=41"></script>
+<script src="assets/i18n.js?v=41"></script>
+<script src="assets/core.js?v=41"></script>
+<script src="assets/app.js?v=41"></script>
 </body>
 </html>
