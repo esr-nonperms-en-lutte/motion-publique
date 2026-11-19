@@ -99,7 +99,7 @@
   function renderMotion() {
     const lab = S.viewLab;
     const m = lab ? motionFor(lab) : dm();
-    const paras = lab ? C.applyEdits(m, lab.motion.edits) : C.baseParagraphs(m);
+    const paras = lab ? C.jointParas(C.applyEdits(m, lab.motion.edits), m, lab.ag.joint) : C.baseParagraphs(m);
     $("motionBody").innerHTML = parasHTML(paras, ctx(lab ? labValues(lab) : {}, m), { hideInstruction: !!lab, hidePerm: lab && !lab.permanents.supported, cite: true, ids: true, motion: m });
     $("motionTitle").textContent = m.title;
     renderViewing();
@@ -180,10 +180,10 @@
   function labTip(L) {
     const [p, a, c] = C.pct(L.ag.pour, L.ag.abstention, L.ag.contre), s = L.structure;
     const where = [s.department, s.institution].filter(Boolean).join(" · "), place = [s.city, s.country].filter(Boolean).join(", ");
-    const perm = L.permanents.supported ? (() => { const q = C.pct(L.permanents.pour, L.permanents.abstention, L.permanents.contre); return `${esc(t("labs.perm.yes"))}${L.permanents.pour ? ` (${q[0]} % ${esc(t("labs.for").toLowerCase())})` : ""}${L.permanents.date ? ` · ${esc(fmtDate(L.permanents.date))}` : ""}`; })()
+    const perm = L.ag.joint ? esc(t("labs.perm.joint")) : L.permanents.supported ? (() => { const q = C.pct(L.permanents.pour, L.permanents.abstention, L.permanents.contre); return `${esc(t("labs.perm.yes"))}${L.permanents.pour ? ` (${q[0]} % ${esc(t("labs.for").toLowerCase())})` : ""}${L.permanents.date ? ` · ${esc(fmtDate(L.permanents.date))}` : ""}`; })()
       : `${esc(t("labs.perm.no"))}</span><a class="t-add" href="#permanents-${esc(L.id)}">${esc(t("labs.addPerm"))} →</a><span hidden>`;
     return `${L.example ? `<span class="t-pub">${esc(t("labs.example"))}</span>` : ""}<b>${esc(s.acronym ? s.acronym + " · " : "")}${esc(s.name)}</b>${where ? `<span class="t-sub">${esc(where)}</span>` : ""}<span class="t-sub">${esc(place)}${s.topic ? " · " + esc(topicLabel(s.topic)) : ""}</span>
-      <span>${esc(t("labs.agOn"))} ${esc(fmtDate(L.ag.date))}</span>
+      <span>${esc(t(L.ag.joint ? "labs.agJointOn" : "labs.agOn"))} ${esc(fmtDate(L.ag.date))}</span>
       <div class="votebar"><i class="v-pour" style="width:${p}%"></i><i class="v-abs" style="width:${a}%"></i><i class="v-contre" style="width:${c}%"></i></div>
       <div class="t-nums"><span>${esc(t("labs.for"))} ${p} %</span><span>${esc(t("labs.abst"))} ${a} %</span><span>${esc(t("labs.against"))} ${c} %</span></div>
       <span class="t-sub">${perm}</span>${L._edits ? editsBlock(L) : `<span class="t-sub">${esc(t("motion.noEdits"))}</span>`}`;
@@ -325,7 +325,7 @@
     const ta = document.querySelector("#editor textarea");
     const keep = ta && document.activeElement === ta ? { id: ta.dataset.id, s: ta.selectionStart, e: ta.selectionEnd } : null;
     const cx = ctx(formValues(), EM()), perm = $("fPerm").checked;
-    $("editor").innerHTML = S.paras.map((p) => {
+    $("editor").innerHTML = C.jointParas(S.paras, EM(), isJoint()).map((p) => {
       const label = p.label ? `<span class="para-label">${esc(p.label)}</span>` : "";
       if (p.kind === "instruction") {
         if (p.status === "deleted") return `<div class="para instruction deleted" data-id="${p.id}"><span class="para-label">${esc(t("s.edit.instruction"))}</span><div class="para-tools"><button type="button" class="linkish" data-act="restore">${esc(t("s.edit.restore"))}</button></div></div>`;
@@ -500,6 +500,10 @@
      « Valider » se débloque sans avoir à cliquer de nouveau sur « Vérifier avant l'envoi ». */
   function refreshReview() { if (!$("review").hidden) review(false); }
   $("fPerm").addEventListener("change", () => { $("permFields").hidden = !$("fPerm").checked; renderEditor(); saveDraft(); refreshReview(); });
+  /* AG commune (tous statuts confondus) ou AG des non-permanent·es : la partie 4 ne sert que dans le second cas. */
+  function isJoint() { return $("fAgJoint").checked; }
+  function syncAgType() { const j = isJoint(); $("permJointNote").hidden = !j; $("permSeparate").hidden = j; }
+  ["fAgNonPerm", "fAgJoint"].forEach((id) => $(id).addEventListener("change", () => { syncAgType(); renderEditor(); saveDraft(); refreshReview(); }));
 
   /* Logo : ré-encodé en JPEG 256 px par le navigateur, ce qui neutralise tout contenu caché. */
   function renderLogo() {
@@ -531,7 +535,7 @@
   function saveDraft() {
     clearTimeout(draftTimer);
     draftTimer = setTimeout(() => {
-      const f = {}; FIELDS.forEach((id) => (f[id] = $(id).value)); f.fPerm = $("fPerm").checked;
+      const f = {}; FIELDS.forEach((id) => (f[id] = $(id).value)); f.fPerm = $("fPerm").checked; f.fAgJoint = isJoint();
       store.set("motion-draft", { v: EM().version, lang: EM().lang || "fr", f, logo: S.logo, mode: S.mode, edits: C.editsFromState(S.paras) });
     }, 300);
   }
@@ -543,6 +547,7 @@
     S.editMotion = dmot;
     FIELDS.forEach((id) => { if (d.f && typeof d.f[id] === "string") $(id).value = d.f[id]; });
     $("fPerm").checked = !!(d.f && d.f.fPerm); $("permFields").hidden = !$("fPerm").checked;
+    $(d.f && d.f.fAgJoint ? "fAgJoint" : "fAgNonPerm").checked = true; syncAgType();
     syncTopicOther();
     if (typeof d.logo === "string" && /^data:image\/jpeg;base64,/.test(d.logo)) S.logo = d.logo;
     const v = C.validateLab({ structure: { name: "x" }, ag: { pour: 1 }, motion: { edits: d.edits || [] } }, EM()).lab;
@@ -564,10 +569,16 @@
       motion: { lang: EM().lang || "fr", base_version: EM().version, edits: C.editsFromState(S.paras).filter((e) => e.id !== "consigne") }
     };
   }
+  /* AG commune : le même vote vaut pour tous les statuts. */
+  function collectAll() {
+    const d = collect();
+    if (isJoint()) { d.ag.joint = true; d.permanents = { supported: true, joint: true, pour: d.ag.pour, contre: d.ag.contre, abstention: d.ag.abstention, date: d.ag.date }; }
+    return d;
+  }
   $("labForm").addEventListener("submit", (e) => { e.preventDefault(); review(); });
   function review(scroll = true) {
     if (scroll || S.editingId === null) { S.editingId = null; renderEditor(); }
-    const d = collect();
+    const d = collectAll();
     const missing = [];
     const need = [["fName", "f.name"], ["fInstitution", "f.institution"], ["fCity", "f.city"], ["fCountry", "f.country"], ["fTopic", "f.topic"], ["fDate", "f.date"]];
     if (isOtherTopic()) need.push(["fTopicOther", "f.topicOther"]);
@@ -587,7 +598,7 @@
       ${warns.length ? `<div><span class="small-h">${esc(t("submit.warnings"))}</span><ul class="checklist warn">${warns.map((w) => `<li>${esc(w.text)} <button type="button" class="linkish" data-fix="${w.act}">${esc(w.label)}</button></li>`).join("")}</ul></div>` : ""}
       ${!missing.length && !warns.length ? `<p class="toast">${esc(t("submit.ready"))}</p>` : ""}
       <div class="summary-card"><span class="logo-prev">${S.logo ? `<img src="${esc(S.logo)}" alt="">` : C.catSVG(d.structure.acronym || d.structure.name || "?")}</span>
-        <div class="meta"><b>${esc(d.structure.name || "—")}</b>${esc([d.structure.institution, d.structure.city, d.structure.country].filter(Boolean).join(" · "))}<br>${esc(t("labs.agOn"))} ${esc(fmtDate(d.ag.date) || "—")} · ${esc(t("labs.for"))} ${p} % · ${esc(t("labs.abst"))} ${a} % · ${esc(t("labs.against"))} ${c} %</div></div>
+        <div class="meta"><b>${esc(d.structure.name || "—")}</b>${esc([d.structure.institution, d.structure.city, d.structure.country].filter(Boolean).join(" · "))}<br>${esc(t(d.ag.joint ? "labs.agJointOn" : "labs.agOn"))} ${esc(fmtDate(d.ag.date) || "—")} · ${esc(t("labs.for"))} ${p} % · ${esc(t("labs.abst"))} ${a} % · ${esc(t("labs.against"))} ${c} %</div></div>
       <div><span class="small-h">${esc(t("summary.edits"))}</span>
         ${edited.length ? edited.map((q) => `<div class="paste-item" style="margin-top:10px"><span class="para-label">${esc(q.label || t("paste.added"))}</span>${q.status === "deleted" ? `<span class="del-tag">${esc(t("paste.deleted"))}</span>` : ""}${q.status === "added" ? `<ins class="rev">${C.renderText(q.text, cx)}</ins>` : q.status === "deleted" ? `<del class="rev">${C.renderText(q.orig, cx)}</del>` : C.renderDiff(q.orig, q.text, cx)}</div>`).join("") : `<p class="muted" style="margin:6px 0 0">${esc(t("summary.noEdits"))}</p>`}</div>
       <div class="row"><button type="button" class="btn big" id="sendBtn" ${blocked ? "disabled" : ""}>${esc(t("submit.send"))}</button><button type="button" class="btn ghost big" id="backBtn">${esc(t("submit.back"))}</button></div>
@@ -604,7 +615,7 @@
 
   function plainText(d, M = EM()) {
     const s = d.structure, [p, a, c] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
-    const paras = C.applyEdits(M, d.motion.edits);
+    const paras = C.jointParas(C.applyEdits(M, d.motion.edits), M, d.ag.joint);
     const vals = labValues(d);
     const fillPh = (txt) => txt.replace(/\{\{(\w+)\}\}/g, (m, k) => (vals[k] !== undefined && vals[k] !== "" ? String(vals[k]) : M.placeholders[k] || m)).replace(/\[\^(\d+)\]/g, "[$1]");
     const diffPlain = (o, n) => C.diff(o, n).map((g) => { const x = fillPh(g.toks.join("")); return g.type === "eq" ? x : g.type === "del" ? `[-${x}-]` : `{+${x}+}`; }).join("");
@@ -615,8 +626,8 @@
       `Nouvelle structure signataire : ${s.name}${s.acronym && s.acronym !== s.name ? " (" + s.acronym + ")" : ""}`,
       `Établissement : ${s.institution}${s.department ? " · " + s.department : ""}`,
       `Lieu : ${s.city}, ${s.country} · Thématique : ${s.topic}`,
-      `AG des non-permanent·es du ${frDate(d.ag.date)} : ${d.ag.pour} pour (${p} %), ${d.ag.contre} contre (${c} %), ${d.ag.abstention} abstention(s) (${a} %)`,
-      `Permanent·es : ${d.permanents.supported ? `soutien voté${d.permanents.date ? " le " + frDate(d.permanents.date) : ""} (${d.permanents.pour} pour, ${d.permanents.contre} contre, ${d.permanents.abstention} abstention(s))` : "pas de vote"}`,
+      `${d.ag.joint ? "AG commune, tous statuts confondus," : "AG des non-permanent·es"} du ${frDate(d.ag.date)} : ${d.ag.pour} pour (${p} %), ${d.ag.contre} contre (${c} %), ${d.ag.abstention} abstention(s) (${a} %)`,
+      `Permanent·es : ${d.ag.joint ? "ont voté dans l’AG commune ci-dessus" : d.permanents.supported ? `soutien voté${d.permanents.date ? " le " + frDate(d.permanents.date) : ""} (${d.permanents.pour} pour, ${d.permanents.contre} contre, ${d.permanents.abstention} abstention(s))` : "pas de vote"}`,
       `Logo : ${d.logo ? "fourni (dans le JSON)" : "non fourni"}`,
       "",
       `=== Modifications (${changes.length}) — [-supprimé-] {+ajouté+} ===`,
@@ -698,7 +709,7 @@
     const s = d.structure, [p] = C.pct(d.ag.pour, d.ag.abstention, d.ag.contre);
     const subject = `Ajout de soutien – ${s.name}`;
     const vals = { name: s.name + (s.acronym && s.acronym !== s.name ? " (" + s.acronym + ")" : ""), date: fmtDate(d.ag.date), pour: d.ag.pour, contre: d.ag.contre, abst: d.ag.abstention, pct: p, file: fileName };
-    const body = longText().submit.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vals ? String(vals[k]) : m));
+    const body = (d.ag.joint && longText().submitJoint ? longText().submitJoint : longText().submit).replace(/\{\{(\w+)\}\}/g, (m, k) => (k in vals ? String(vals[k]) : m));
     return { subject, body, href: `mailto:${CFG.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` };
   }
 
