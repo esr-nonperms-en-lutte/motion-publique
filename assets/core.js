@@ -290,6 +290,11 @@
       permanents: { supported: pm.supported === true, pour: Core.int(pm.pour), contre: Core.int(pm.contre), abstention: Core.int(pm.abstention), date: /^\d{4}-\d{2}-\d{2}$/.test(pm.date || "") ? pm.date : "" },
       motion: { lang: ["fr", "en", "es"].includes(raw.motion && raw.motion.lang) ? raw.motion.lang : "fr", base_version: Core.cleanLine(raw.motion && raw.motion.base_version, 40), edits: [] }
     };
+    /* AG commune, tous statuts confondus : un seul vote, qui vaut aussi soutien des permanent·es. */
+    if (ag.joint === true) {
+      lab.ag.joint = true;
+      lab.permanents = { supported: true, joint: true, pour: lab.ag.pour, contre: lab.ag.contre, abstention: lab.ag.abstention, date: lab.ag.date };
+    }
     if (!lab.structure.name) errors.push("Nom de structure manquant.");
     if (!lab.structure.city) errors.push("Ville manquante.");
     if (!lab.ag.pour) errors.push("Aucune voix pour.");
@@ -304,6 +309,13 @@
       else errors.push(`Modification ignorée : « ${id} ».`);
     }
     return { lab: lab.structure.name ? lab : null, errors };
+  };
+
+  /* Version « AG commune » des paragraphes : phrase de vote adaptée, pas de phrase séparée des permanent·es. */
+  Core.jointParas = (paras, motion, joint) => {
+    if (!joint) return paras;
+    const v = motion.paragraphs.find((p) => p.kind === "vote"), tj = v && v.text_joint;
+    return paras.filter((p) => p.kind !== "permvote").map((p) => (p.kind === "vote" && tj ? { ...p, text: tj, orig: tj } : p));
   };
 
   /* ---------- Logo de secours : un chat, déterministe ---------- */
