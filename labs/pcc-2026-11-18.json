@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "example": false,
+  "id": "pcc-2026-11-18",
+  "submitted_at": "2026-11-18T16:56:21.672Z",
+  "structure": {
+    "name": "Physique des Cellules et Cancer",
+    "acronym": "PCC",
+    "institution": "Sorbonne Université et Institut Curie",
+    "department": "",
+    "city": "Paris",
+    "country": "France",
+    "topic": "Physique"
+  },
+  "logo": "",
+  "ag": {
+    "date": "2026-11-18",
+    "pour": 56,
+    "contre": 2,
+    "abstention": 3,
+    "joint": true
+  },
+  "permanents": {
+    "supported": true,
+    "joint": true,
+    "pour": 56,
+    "contre": 2,
+    "abstention": 3,
+    "date": "2026-11-18"
+  },
+  "motion": {
+    "lang": "fr",
+    "base_version": "2026-11-09-fr",
+    "edits": [
+      {
+        "id": "solidarite",
+        "status": "deleted"
+      },
+      {
+        "id": "international",
+        "status": "deleted"
+      },
+      {
+        "id": "repression",
+        "status": "deleted"
+      },
+      {
+        "id": "ajout-1",
+        "status": "added",
+        "after": "repression",
+        "text": "Public statement of the Physics of Cells and Cancer unit in support of the high school and university student protest and for the defense of public education and research"
+      },
+      {
+        "id": "ajout-2",
+        "status": "added",
+        "after": "repression",
+        "text": "[FRENCH BELOW]"
+      },
+      {
+        "id": "ajout-3",
+        "status": "added",
+        "after": "repression",
+        "text": "This statement is largely inspired by similar initiatives that took place in other units, notably at the Laboratoire Jean Perrin (LJP), at the Institut des Systèmes Intelligents et de Robotique (ISIR) and at the Institut Jean Le Rond d’Alembert (∂’Alembert). Along with this effort and to increase our collective impact, we encourage other research units to gather in general assemblies and support similar initiatives."
+      },
+      {
+        "id": "ajout-4",
+        "status": "added",
+        "after": "repression",
+        "text": "The Physics of Cells and Cancer (PCC) research unit expresses its solidarity and support with the high school and university student movement."
+      },
+      {
+        "id": "ajout-5",
+        "status": "added",
+        "after": "repression",
+        "text": "The members of the research unit come from a wide variety of countries. We emphasize the importance of diversity and condemn the racist and discriminatory rhetoric that permeates public and political discourse nowadays."
+      },
+      {
+        "id": "ajout-6",
+        "status": "added",
+        "after": "repression",
+        "text": "Irrespective of our origin, we were all once students. Our studies allowed us to achieve a career in scientific research and to continue, today, the pursuit of knowledge. For this reason, we strongly defend the fundamental right to education for all students who likewise aspire to grow and learn."
+      },
+      {
+        "id": "ajout-7",
+        "status": "added",
+        "after": "repression",
+        "text": "We therefore support their legitimate demands in the face of the widespread deterioration of their learning conditions and the insufficient resources allocated to education. Current funding policies disproportionately support institutions and programs deemed “excellent,” creating an inequality in the access to resources for students. Altogether, this poor funding has led to deeply flawed admission and selection procedures, which induce anxiety and are contradictory with the equal access to higher education that France should promote."
+      },
+      {
+        "id": "ajout-8",
+        "status": "added",
+        "after": "repression",
+        "text": "We deplore the fact that these demands have gone unheard and have been met with such brutality. In particular, we are horrified to see legal means being misused in order to stifle dissent. The use of anti-terrorism laws against activists, the excessive number of arrests and prosecutions - mostly targeting minors - and, more generally, the normalization of violence used against peaceful protesters are all authoritarian excesses that unacceptably endanger our democracy. We are deeply concerned about the violations of fundamental freedoms, particularly the right of demonstrating. Academic freedom and research independence—rights that we, as researchers, have a special responsibility to defend—have likewise been threatened. All these attacks have led international experts now considering France to be a “flawed democracy”."
+      },
+      {
+        "id": "ajout-9",
+        "status": "added",
+        "after": "repression",
+        "text": "We are concerned about the administrative closures of university campuses, which are —and should remain— places for exchange and debate, and which also house essential infrastructure such as CROUS canteens, daycare centers, health services, and university libraries. We call for the students’ votes to be respected and urge university administrations to find solutions that allow for student mobilization. We strongly condemn university administrations who called for the intervention of law enforcement on university campuses."
+      },
+      {
+        "id": "ajout-10",
+        "status": "added",
+        "after": "repression",
+        "text": "We are not oblivious to the current budgetary constraints. However, underinvestment in research and education carries major long-term economic and societal costs, which is why we call for massive and immediate investment in public education, higher education, and research, in particular an increase of the student enrollment and an improvement of the working conditions for both students and staff members. None of these issues will be solved without opening a national debate on the future structure of higher education and research."
+      },
+      {
+        "id": "ajout-11",
+        "status": "added",
+        "after": "repression",
+        "text": "We encourage everyone to get informed about the demands of the on-going national movement, and, if they align so with their own concerns, demonstrate their support by any way possible to them, for example by demonstrating, striking, relaying information and engaging in public or private discussion."
+      },
+      {
+        "id": "ajout-12",
+        "status": "added",
+        "after": "repression",
+        "text": "========"
+      },
+      {
+        "id": "ajout-13",
+        "status": "added",
+        "after": "repression",
+        "text": "Motion du Laboratoire Physique des Cellules et Cancer en soutien aux mobilisations lycéennes et étudiantes et pour la défense du service public d’enseignement et de recherche"
+      },
+      {
+        "id": "ajout-14",
+        "status": "added",
+        "after": "repression",
+        "text": "Cette motion s’inspire d’initiatives similaires qui ont pris place dans d’autres unités, notamment au Laboratoire Jean Perrin (LJP), à l’Institut des Systèmes Intelligents et de Robotique (ISIR) et à l’Institut Jean Le Rond d’Alembert (∂’Alembert). Dans la logique de ces initiatives et afin de renforcer notre impact collectif, nous encourageons les autres unités de recherche à se réunir en assemblées générales et à soutenir des actions similaires."
+      },
+      {
+        "id": "ajout-15",
+        "status": "added",
+        "after": "repression",
+        "text": "L’unité de recherche Physique des Cellules et Cancer (PCC) exprime sa solidarité et son soutien au mouvement lycéen et étudiant."
+      },
+      {
+        "id": "ajout-16",
+        "status": "added",
+        "after": "repression",
+        "text": "Les membres de l'unité de recherche proviennent d'un grand nombre de pays. Nous soulignons l'importance de la diversité et condamnons les discours racistes et discriminatoires qui imprègnent aujourd'hui le débat public et politique. Quelle que soit notre origine, nous avons tous.tes été étudiant.es un jour. Nos études nous ont permis de faire carrière dans la recherche scientifique et de continuer, aujourd’hui, dans notre quête du savoir. C’est pourquoi nous défendons avec force le droit fondamental à l’éducation pour tous.tes les étudiant.es qui aspirent également à s’épanouir et à apprendre."
+      },
+      {
+        "id": "ajout-17",
+        "status": "added",
+        "after": "repression",
+        "text": "Nous soutenons donc leurs revendications légitimes face à la détérioration généralisée de leurs conditions d’enseignement et à l’insuffisance des ressources qui leur sont allouées. Les politiques de financement actuelles favorisent de manière disproportionnée les établissements et les programmes jugés « excellents », sans tenir suffisamment compte des inégalités d’accès aux ressources. Dans l’ensemble, ce financement insuffisant a conduit à l’instauration de procédures d’admission et de sélection profondément défaillantes, qui sont source d’angoisse et vont à l’encontre de l’égalité d’accès à l’enseignement supérieur que la France doit promouvoir."
+      },
+      {
+        "id": "ajout-18",
+        "status": "added",
+        "after": "repression",
+        "text": "Nous déplorons que ces revendications soient restées sans écho et aient été accueillies avec une telle brutalité. Nous sommes particulièrement consternés de voir les moyens juridiques détournés pour étouffer la dissidence. Le recours aux lois antiterroristes contre des militants, le nombre excessif d’arrestations et de poursuites judiciaires – visant principalement des mineurs – et, plus généralement, la banalisation de la violence à l’encontre de manifestants pacifiques constituent autant d’excès autoritaires qui mettent en péril notre démocratie de manière inacceptable. Nous sommes profondément préoccupés par les violations des libertés fondamentales, en particulier le droit de manifester. La liberté académique et l'indépendance de la recherche – des droits que nous avons, en tant que chercheurs, une responsabilité particulière à défendre – ont également été menacées. Toutes ces attaques ont conduit les experts internationaux à désormais considérer la France comme une « démocratie défaillante »."
+      },
+      {
+        "id": "universites",
+        "status": "modified",
+        "text": "Nous sommes préoccupés par les fermetures administratives des campus universitaires, qui sont — et doivent rester — des lieux d’échange et de débat, et qui abritent également des infrastructures essentielles telles que les restaurants universitaires du CROUS, les crèches, les services de santé et les bibliothèques universitaires. Nous demandons que le vote des étudiant.es soit respecté et exhortons les administrations universitaires à trouver des solutions permettant la mobilisation étudiante. Nous condamnons fermement les administrations universitaires qui ont fait intervenir les forces de l’ordre sur des campus universitaires."
+      },
+      {
+        "id": "financement",
+        "status": "deleted"
+      },
+      {
+        "id": "ajout-19",
+        "status": "added",
+        "after": "consigne",
+        "text": "Nous sommes conscients des contraintes budgétaires actuelles. Cependant, le sous-investissement dans la recherche et l’éducation entraîne des coûts économiques et sociétaux considérables à long terme ; c’est pourquoi nous appelons à un investissement massif et immédiat dans l’enseignement public, l’enseignement supérieur et la recherche, notamment par une augmentation des effectifs étudiants et une amélioration des conditions de travail tant pour les étudiant.es que pour le personnel. Aucun de ces problèmes ne pourra être résolu sans l’ouverture d’un débat national sur la structure future de l’enseignement supérieur et de la recherche."
+      },
+      {
+        "id": "ajout-20",
+        "status": "added",
+        "after": "consigne",
+        "text": "Nous encourageons chacun.e à s'informer sur les revendications du mouvement national en cours et, si celles-ci correspondent à leurs propres préoccupations, à manifester leur soutien par tous les moyens à leur disposition, par exemple en manifestant, en faisant grève, en relayant l'information et en participant à des discussions, en public ou dans la sphère privée."
+      }
+    ]
+  }
+}
