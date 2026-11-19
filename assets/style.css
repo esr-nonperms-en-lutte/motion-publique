@@ -345,3 +345,4 @@ label.file:has(input:not(:checked)) b { color: var(--muted); }
 .perm-box { display: grid; gap: 22px; padding-bottom: 48px; }
 .tip .t-add { justify-self: start; margin-top: 2px; padding: 6px 12px; border-radius: 999px; background: rgba(110, 145, 255, .9); color: #fff; font-weight: 700; font-size: 13px; text-decoration: none; }
 .tip .t-add:hover { filter: brightness(1.08); }
+.ag-type { display: grid; gap: 8px; margin-bottom: 16px; }
