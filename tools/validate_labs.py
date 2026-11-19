@@ -37,8 +37,11 @@ def check(path):
     for k in ("pour", "contre", "abstention"):
         if not isinstance(ag.get(k), int) or ag[k] < 0: errs.append(f"ag.{k} invalide")
     if isinstance(ag.get("pour"), int) and ag["pour"] <= ag.get("contre", 0): errs.append("la motion n'a pas la majorité")
+    if not isinstance(ag.get("joint", False), bool): errs.append("ag.joint doit valoir true ou false")
+    if ag.get("joint") is True and not (d.get("permanents") or {}).get("supported"): errs.append("AG commune : permanents.supported doit valoir true")
     if not isinstance(d.get("example", False), bool): errs.append("example doit valoir true ou false")
     pm = d.get("permanents") or {}
+    if not isinstance(pm.get("joint", False), bool): errs.append("permanents.joint invalide")
     if not isinstance(pm.get("supported", False), bool): errs.append("permanents.supported invalide")
     if pm.get("date") and not DATE.match(str(pm["date"])): errs.append("permanents.date invalide")
     if (d.get("motion") or {}).get("lang", "fr") not in ("fr", "en", "es"): errs.append("motion.lang invalide")
