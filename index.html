@@ -9,7 +9,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/atkinson-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=39">
+<link rel="stylesheet" href="assets/style.css?v=40">
 </head>
 <body>
 <div class="tricolore" aria-hidden="true"></div>
@@ -209,7 +209,12 @@
       </fieldset>
 
       <fieldset class="block">
-        <legend><span class="num">3</span><span data-i18n="s.vote">Le vote des non-permanent·es</span></legend>
+        <legend><span class="num">3</span><span data-i18n="s.vote">Le vote de l’assemblée générale</span></legend>
+        <div class="ag-type" role="radiogroup" aria-labelledby="agTypeQ">
+          <p class="small-h" id="agTypeQ" data-i18n="f.agType"></p>
+          <label class="check" for="fAgNonPerm"><input id="fAgNonPerm" type="radio" name="agType" value="nonperm" checked><span data-i18n="f.agType.nonperm"></span></label>
+          <label class="check" for="fAgJoint"><input id="fAgJoint" type="radio" name="agType" value="joint"><span data-i18n="f.agType.joint"></span></label>
+        </div>
         <div class="grid4">
           <label for="fDate"><span><span data-i18n="f.date"></span> <em class="req" data-i18n="f.required"></em></span><input id="fDate" type="date" required></label>
           <label for="fPour"><span data-i18n="f.for"></span><input id="fPour" type="number" min="0" inputmode="numeric"></label>
@@ -222,6 +227,8 @@
 
       <fieldset class="block">
         <legend><span class="num">4</span><span data-i18n="s.perm">Le soutien des permanent·es</span></legend>
+        <p class="muted" id="permJointNote" style="margin:0" data-i18n="s.perm.joint" hidden></p>
+        <div id="permSeparate">
         <label class="check" for="fPerm"><input id="fPerm" type="checkbox"><span data-i18n="f.perm"></span></label>
         <p class="muted small" data-i18n="s.perm.later"></p>
         <div id="permFields" hidden>
@@ -232,6 +239,7 @@
           </div>
           <div class="votebar" id="permBar"><i class="v-pour"></i><i class="v-abs"></i><i class="v-contre"></i></div>
           <div class="vote-legend" id="permLegend"></div>
+        </div>
         </div>
       </fieldset>
 
@@ -257,9 +265,9 @@
 
 <div class="tip" id="tip" hidden></div>
 
-<script src="assets/config.js?v=39"></script>
-<script src="assets/i18n.js?v=39"></script>
-<script src="assets/core.js?v=39"></script>
-<script src="assets/app.js?v=39"></script>
+<script src="assets/config.js?v=40"></script>
+<script src="assets/i18n.js?v=40"></script>
+<script src="assets/core.js?v=40"></script>
+<script src="assets/app.js?v=40"></script>
 </body>
 </html>
